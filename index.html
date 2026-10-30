@@ -1,0 +1,892 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="description" content="Every word of the Quran with its root, its form and its meaning in Indonesian and English.">
+<meta name="theme-color" content="#FBF8F3">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Quran Oyen">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/splash-1320x2868.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/splash-1290x2796.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/splash-1284x2778.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/splash-1242x2688.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="icons/splash-828x1792.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/splash-1206x2622.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/splash-1179x2556.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/splash-1170x2532.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/splash-1125x2436.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="icons/splash-750x1334.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 360px) and (device-height: 780px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/splash-1080x2340.png">
+<link rel="preload" href="vendor/fonts-amiri-quran-v19/amiri-quran-arabic.woff2" as="font" type="font/woff2" crossorigin>
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Quran Oyen</title>
+<style>
+  /* Amiri Quran (Google Fonts v19), our own copy under the SIL Open Font License 1.1: vendor/fonts-amiri-quran-v19/OFL.txt.
+     The Arabic file is preloaded by the page's head (deploy/wrap.py). */
+  @font-face {
+    font-family: 'Amiri Quran'; font-style: normal; font-weight: 400; font-display: swap;
+    src: url(vendor/fonts-amiri-quran-v19/amiri-quran-arabic.woff2) format('woff2');
+    unicode-range: U+0600-06FF, U+0750-077F, U+0870-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC7, U+10EC9-10EEE, U+10EF0-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+  }
+  @font-face {
+    font-family: 'Amiri Quran'; font-style: normal; font-weight: 400; font-display: swap;
+    src: url(vendor/fonts-amiri-quran-v19/amiri-quran-latin.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+</style>
+<style>
+  /* Quran Oyen. A surah opens into one tall paper sheet of word tiles, right to left, where everything that moves
+     (line breaks, tiles, the word card, the root's glow, the ayat below) is computed by Handwired networks
+     (layout.js). The parts around the page (the bars, the home, the sheets) wear Oyen's colours and the phone's own
+     font; the page you read stays quiet paper in Amiri Quran, and Oyen never appears on it. */
+  :root {
+    --app: #fbf8f3; --panel: #f3eee6; --panel-2: #e8e0d4; --sheet: #fffdf8; --paper: var(--app); --desk: var(--app);
+    --ink: #1c1a17; --ink-2: #57514a; --ink-3: #776f66;
+    --rule: #e7dfd3; --rule-strong: #d6ccbe; --hair: rgb(60 42 22 / 0.12); --edge: rgb(60 42 22 / 0.13); --wash: rgb(60 42 22 / 0.06);
+    --oyen: #f0892e; --oyen-ink: #a24a10; --oyen-soft: #fff3e6; --pill: #1d1b19;
+    --copper: #e07a24; --copper-ink: var(--oyen-ink); --copper-line: rgb(224 122 36 / 0.5); --copper-wash: rgb(240 137 46 / 0.13); --copper-glow: rgb(240 137 46 / 0.28);
+    --indigo: #33589e; --red: #c62f25;
+    --shadow-ink: 60 42 22;
+    --quran: "Amiri Quran", "Amiri", "Noto Naskh Arabic", "Geeza Pro", "Traditional Arabic", serif;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    --sat: env(safe-area-inset-top, 0px); --sab: env(safe-area-inset-bottom, 0px);
+    --spring: cubic-bezier(0.32, 0.72, 0, 1);
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--app); overscroll-behavior-y: contain; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body { margin: 0; color: var(--ink); font: 400 15px/24px var(--sans); -webkit-font-smoothing: antialiased; min-height: 100%; background: var(--app); padding-inline: 16px; overscroll-behavior-y: contain; }
+  /* Every tap answers on touch-down (app.js adds the touch listener iOS needs for :active), and nothing waits for a
+     double-tap zoom. */
+  button, a, input, .tile { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+  a { color: var(--copper-ink); text-underline-offset: 3px; }
+  button { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--copper-line); outline-offset: 2px; }
+  ::selection { background: color-mix(in srgb, var(--copper) 22%, transparent); }
+  .label { font: 600 11px/16px var(--sans); letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-3); }
+
+  /* The bar along the top: back, where you are, search and Aa. On a phone it slides away while you read down and
+     comes back as soon as you scroll up. */
+  #bar { position: fixed; z-index: 50; top: 0; left: 0; right: 0; padding: var(--sat) 16px 0; background: var(--app); border-bottom: 1px solid var(--hair); transition: transform 280ms var(--spring), opacity 180ms; }
+  #bar.away { transform: translateY(-100%); }
+  /* Behind the clock and the notch (the installed app), a strip of the page's ground stays put when the bar slides away. */
+  body::before { content: ""; position: fixed; z-index: 51; top: 0; left: 0; right: 0; height: var(--sat); background: var(--app); pointer-events: none; }
+  .bar-row { height: 52px; display: flex; align-items: center; gap: 12px; max-width: 1080px; margin: 0 auto; }
+  #back { display: inline-flex; align-items: center; gap: 6px; border: 0; background: none; padding: 6px 4px 6px 0; cursor: pointer; font: 600 16px/20px var(--sans); color: var(--oyen-ink); white-space: nowrap; }
+  #back .chev { width: 11px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+  .brand { font: 700 17px/22px var(--sans); letter-spacing: -0.01em; white-space: nowrap; }
+  .where { min-width: 0; flex: 1; display: flex; align-items: baseline; gap: 8px; overflow: hidden; white-space: nowrap; color: var(--ink-3); font: 400 13px/20px var(--sans); }
+  .where b { font: 600 15px/20px var(--sans); color: var(--ink); min-width: 0; overflow: hidden; text-overflow: ellipsis; flex: none; max-width: 70%; }
+  .where span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+  .bar-aa { flex: none; border: 0; background: var(--panel); border-radius: 999px; min-width: 40px; height: 34px; padding: 0 12px; font: 650 15px/1 var(--sans); color: var(--ink); cursor: pointer; }
+  #back:active, .bar-aa:active, .bar-search:active, .round-btn:active, .btn:active, .pill:active { transform: scale(0.96); }
+  .bar-progress { position: absolute; left: 0; bottom: -1px; height: 2px; width: 100%; background: var(--oyen); transform: scaleX(0); transform-origin: 0 0; pointer-events: none; }
+  .seg { display: inline-flex; flex: none; background: var(--wash); border-radius: 999px; padding: 2px; gap: 2px; }
+  .seg button { border: 0; background: none; border-radius: 999px; padding: 4px 10px; font: 600 12px/18px var(--sans); color: var(--ink-3); cursor: pointer; }
+  .seg button[aria-pressed="true"] { background: #fff; color: var(--ink); box-shadow: 0 1px 3px rgb(var(--shadow-ink) / 0.16); }
+  .seg button:disabled { opacity: 0.4; cursor: default; }
+
+  /* The page's :root already keeps clear of the notch and the home bar (deploy/wrap.py), so main only clears the bar. */
+  main { max-width: 1080px; margin: 0 auto; padding-block: 76px 96px; }
+
+  /* The home: a large title, Oyen's greeting with your last reading, search, the surahs read most, and every surah. */
+  .home-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; max-width: 720px; margin: 0 auto; padding: 0 4px; }
+  .home-head h1 { margin: 0; font: 700 34px/41px var(--sans); letter-spacing: -0.022em; text-wrap: balance; }
+  .home-sub { max-width: 720px; margin: 2px auto 14px; padding: 0 4px; color: var(--ink-3); font: 400 15px/20px var(--sans); }
+  @media (min-width: 760px) { #home-aa { display: none; } }
+  .round-btn { flex: none; width: 38px; height: 38px; margin-bottom: 2px; border-radius: 50%; border: 0; background: var(--panel); font: 650 15px/1 var(--sans); color: var(--ink); cursor: pointer; }
+  .intro { max-width: 720px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .intro p { margin: 0; color: var(--ink-2); text-wrap: pretty; }
+  .intro .basmala { text-align: center; font: 400 clamp(26px, 5vw, 34px)/1.9 var(--quran); color: var(--ink); direction: rtl; }
+  .greet { display: grid; grid-template-columns: 68px minmax(0, 1fr); gap: 2px 12px; align-items: center; border-radius: 20px; background: var(--oyen-soft); padding: 14px 16px 14px 12px; box-shadow: inset 0 0 0 1px rgb(240 137 46 / 0.2); }
+  .greet-face { grid-row: 1 / span 3; width: 68px; height: 68px; }
+  .greet-face svg, .face svg { display: block; width: 100%; height: 100%; }
+  .greet-hi { font: 600 13px/18px var(--sans); color: var(--oyen-ink); }
+  .greet-what { font: 700 19px/24px var(--sans); letter-spacing: -0.01em; overflow-wrap: normal; hyphens: none; }
+  .greet-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px 10px; }
+  .greet-pos { font: 400 14px/20px var(--sans); color: var(--ink-2); }
+  .btn { border: 0; border-radius: 999px; background: var(--oyen); color: #171717; font: 650 15px/20px var(--sans); padding: 9px 16px; white-space: nowrap; cursor: pointer; }
+  .btn:disabled { opacity: 0.5; cursor: default; }
+  .home-h { margin: 6px 0 -4px; font: 700 20px/25px var(--sans); letter-spacing: -0.012em; display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .home-h small { font: 400 14px/20px var(--sans); color: var(--ink-3); letter-spacing: 0; }
+  .chips { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin: 0 -16px; padding: 2px 16px 4px; scroll-snap-type: x proximity; overscroll-behavior-x: contain; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip { flex: none; scroll-snap-align: start; display: grid; gap: 1px; text-align: left; border: 1px solid var(--hair); background: var(--sheet); border-radius: 14px; padding: 8px 14px 9px; cursor: pointer; }
+  .chip b { font: 600 15px/20px var(--sans); }
+  .chip span { font: 400 12px/16px var(--sans); color: var(--ink-3); }
+  .feature { width: 100%; display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 1px 12px; align-items: center; text-align: left; border: 1px solid var(--hair); border-radius: 18px; background: var(--sheet); padding: 12px 14px; cursor: pointer; }
+  .feature .ic { grid-row: 1 / span 2; width: 44px; height: 44px; border-radius: 12px; background: var(--oyen-soft); color: var(--oyen-ink); display: grid; place-items: center; font: 700 22px/1 var(--sans); }
+  .feature b { font: 600 16px/21px var(--sans); }
+  .feature .sub { grid-column: 2; font: 400 13px/18px var(--sans); color: var(--ink-3); }
+  .feature i { grid-row: 1 / span 2; grid-column: 3; font-style: normal; font-size: 22px; color: var(--ink-3); }
+  .feature:active, .chip:active, .surah:active, .row.link:active { background: var(--panel); }
+  .list-h { max-width: 720px; margin: 26px auto 8px; padding: 0 4px; }
+  /* Every surah: one grouped list with hairlines, which is lighter to draw than 114 cards with shadows. */
+  #surahs { list-style: none; margin: 0 auto; padding: 0; max-width: 720px; border: 1px solid var(--hair); border-radius: 18px; background: var(--sheet); overflow: hidden; }
+  #surahs li { position: relative; content-visibility: auto; contain-intrinsic-size: auto 62px; }
+  #surahs li + li::before { content: ""; position: absolute; z-index: 1; top: 0; left: 64px; right: 0; border-top: 1px solid var(--hair); }
+  #surahs li.loading { content-visibility: visible; }
+  .surah { width: 100%; display: grid; grid-template-columns: 36px minmax(0, 1fr) auto; grid-template-rows: auto auto; gap: 1px 12px; align-items: center; text-align: left; border: 0; background: transparent; padding: 11px 16px 11px 14px; cursor: pointer; }
+  @media (hover: hover) { .surah:hover { background: color-mix(in srgb, var(--oyen) 5%, var(--sheet)); } }
+  .surah .num { grid-row: 1 / span 2; width: 36px; height: 36px; border-radius: 11px; display: grid; place-items: center; background: var(--oyen-soft); color: var(--oyen-ink); font: 650 14px/1 var(--sans); font-variant-numeric: tabular-nums; }
+  .surah .latin { font: 600 16px/21px var(--sans); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .surah .meta { grid-column: 2; font: 400 13px/18px var(--sans); color: var(--ink-3); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .surah .ar { grid-row: 1 / span 2; grid-column: 3; font: 400 23px/1.6 var(--quran); direction: rtl; color: var(--ink); }
+  @media (min-width: 900px) {
+    #surahs { max-width: 1080px; display: grid; grid-template-columns: 1fr 1fr; }
+    .list-h { max-width: 1080px; }
+  }
+
+  /* The sheet that zooms from a surah to the page. */
+  #zoom { position: fixed; z-index: 40; left: 0; top: 0; border: 1px solid var(--edge); border-radius: 12px; background: var(--sheet); pointer-events: none; box-shadow: 0 2px 4px rgb(var(--shadow-ink) / 0.1), 0 28px 64px -16px rgb(var(--shadow-ink) / 0.38); transform-origin: 0 0; }
+
+  /* A surah: one sheet of paper. */
+  .sheet { position: relative; max-width: 820px; margin: 0 auto; border: 1px solid var(--edge); border-radius: 12px; background: var(--sheet); box-shadow: 0 2px 4px rgb(var(--shadow-ink) / 0.1), 0 28px 64px -16px rgb(var(--shadow-ink) / 0.3); }
+  .sheet-head { padding: 28px 24px 8px; display: grid; gap: 4px; justify-items: center; text-align: center; border-bottom: 1px solid var(--rule); }
+  .sheet-head .ar { font: 400 clamp(36px, 8vw, 52px)/1.7 var(--quran); direction: rtl; }
+  .sheet-head .latin { font: 700 22px/28px var(--sans); letter-spacing: -0.01em; }
+  .sheet-head .meaning { color: var(--ink-2); font: 400 15px/22px var(--serif); font-style: italic; }
+  .sheet-head .facts { margin-top: 6px; }
+  .sheet-head .note-id { margin: 10px 0 0; max-width: 520px; border-radius: 12px; background: var(--panel); padding: 8px 12px; font: 400 12px/18px var(--sans); color: var(--ink-2); }
+  .sheet-head .basmala { font: 400 clamp(24px, 5vw, 32px)/2 var(--quran); direction: rtl; margin-top: 10px; }
+  #page { position: relative; margin: 20px 24px 28px; }
+  .ayah { position: absolute; left: 0; right: 0; top: 0; will-change: transform; contain: layout style; }
+  .tr-id { position: absolute; left: 0; right: 0; top: 0; margin: 0; padding: 2px var(--pad, 6px) 0; font: 400 15px/24px var(--serif); color: var(--ink-2); direction: ltr; text-align: left; }
+  .tr-id span { display: block; white-space: nowrap; }
+  .tr-id[hidden] { display: none; }
+  .ayah.sep::before { content: ""; position: absolute; left: 0; right: 0; top: calc(var(--gap) / -2); border-top: 1px solid color-mix(in srgb, var(--rule) 75%, transparent); }
+  .tile { position: absolute; left: 0; top: 0; display: grid; justify-items: center; align-content: start; gap: 0; border: 0; border-radius: 8px; padding: 2px var(--pad) 6px; margin: 0; background: transparent; cursor: pointer;
+    color: var(--ink); transform-origin: 50% 60%; -webkit-tap-highlight-color: transparent; }
+  .tile .w { font-family: var(--quran); direction: rtl; white-space: nowrap; transform: translateY(-0.33em); }
+  .tile .m { font: 400 12.5px/16px var(--sans); color: var(--ink-2); white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+  .tile .mk { color: var(--copper); }
+  @media (hover: hover) { .tile:hover { background: var(--wash); } }
+  .tile.end { cursor: pointer; }
+  .card.links { gap: 10px; }
+  .link-list { display: grid; gap: 6px; }
+  .link-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto auto; gap: 2px 12px; text-align: left; border: 1px solid var(--rule); border-radius: 8px; background: var(--sheet); padding: 6px 10px; cursor: pointer; }
+  .link-row:hover { border-color: var(--copper-line); }
+  .link-row .ref { font: 600 13px/18px var(--sans); }
+  .link-row .roots { grid-row: 1 / span 2; grid-column: 2; align-self: center; font: 400 18px/1.6 var(--quran); color: var(--indigo); direction: rtl; }
+  .link-row .bar { height: 3px; background: var(--rule); border-radius: 2px; overflow: hidden; }
+  .link-row .bar i { display: block; height: 100%; background: var(--indigo); }
+  .tile.end .badge { display: grid; place-items: center; border-radius: 50%; border: 1.5px solid var(--copper-line); color: var(--copper-ink); font: 600 calc(var(--fs) * 0.5)/1 var(--quran); }
+  .tile.on .m { color: var(--copper-ink); }
+  /* The word a jump was for (the same-count sheet's Open the first ayah): a copper ring that settles in, until the next pick. */
+  .tile.found { outline: 2px solid var(--copper); outline-offset: 1px; animation: found 900ms cubic-bezier(0.2, 0.8, 0.2, 1) 2; }
+  @keyframes found { from { outline-offset: 10px; outline-color: transparent; } }
+  @media (prefers-reduced-motion: reduce) { .tile.found { animation: none; } }
+
+  /* The word card, opened by the network under the tapped word's line. */
+  .card-clip { position: absolute; left: 0; right: 0; overflow: hidden; }
+  .card { position: relative; margin: 4px 0 10px; border: 1px solid rgb(224 122 36 / 0.45); border-radius: 18px; background: color-mix(in srgb, var(--oyen) 7%, var(--sheet)); padding: 12px 16px 16px; display: grid; gap: 12px; }
+  .card-top { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: center; padding-right: 30px; }
+  .card-word { font: 400 40px/2.5 var(--quran); direction: rtl; text-align: right; }
+  .card-gloss { display: grid; gap: 2px; min-width: 0; }
+  .card > .x { position: absolute; top: 8px; right: 8px; }
+  .card-gloss .mean { font: 650 18px/24px var(--sans); letter-spacing: -0.01em; }
+  .card-gloss .tr { font: 400 14px/20px var(--serif); font-style: italic; color: var(--ink-2); }
+  .card-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px 16px; }
+  .card-facts > div { display: grid; gap: 2px; min-width: 0; }
+  .card-facts > .wide { grid-column: 1 / -1; }
+  .card-facts .v { font: 400 14px/20px var(--sans); }
+  .card-facts .v.ar { font: 400 22px/1.6 var(--quran); direction: rtl; justify-self: start; }
+  .letters { display: flex; gap: 6px; direction: rtl; justify-content: flex-end; }
+  .letters button { width: 46px; height: 50px; border-radius: 12px; border: 1px solid var(--copper-line); background: var(--sheet); font: 400 24px/1 var(--quran); color: var(--copper-ink); cursor: pointer; display: grid; place-items: center; padding-bottom: 4px; }
+  .letters button:hover { background: var(--copper-wash); }
+  .card-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .pill { border: 1px solid var(--copper-line); background: var(--sheet); color: var(--copper-ink); border-radius: 999px; padding: 6px 14px; font: 600 13px/18px var(--sans); cursor: pointer; }
+  .pill.solid { background: var(--oyen); border-color: var(--oyen); color: #171717; }
+  .x { border: 0; background: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; color: var(--ink-3); font: 400 20px/1 var(--sans); flex: none; }
+  .x:hover { background: var(--wash); color: var(--ink); }
+
+  /* The root that is lit, across the surah. */
+  #rootbar { position: fixed; z-index: 45; left: 50%; bottom: calc(var(--sab) + 16px); translate: -50% 0; display: flex; align-items: center; gap: 10px; max-width: calc(100% - 24px);
+    border-radius: 999px; background: var(--pill); color: #fff; padding: 6px 6px 6px 16px; box-shadow: 0 12px 32px -10px rgb(0 0 0 / 0.5); }
+  #rootbar .r { font: 400 22px/1.4 var(--quran); color: var(--oyen); direction: rtl; }
+  #rootbar .n { font: 400 13px/18px var(--sans); color: rgb(255 255 255 / 0.8); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  #rootbar .x { color: rgb(255 255 255 / 0.75); }
+  #rootbar .x:hover { background: rgb(255 255 255 / 0.12); color: #fff; }
+  #rootbar[hidden], #toast[hidden] { display: none; }
+  #toast { position: fixed; z-index: 60; left: 50%; top: calc(var(--sat) + 64px); translate: -50% 0; max-width: calc(100% - 32px); border-radius: 14px; background: var(--pill); color: #fff; padding: 10px 16px; font: 400 14px/20px var(--sans); box-shadow: 0 12px 30px -10px rgb(0 0 0 / 0.45); }
+  #rootbar .wire { display: none; }
+  /* Stepping through a word's places (same-count.js): the word, which place of how many, ‹ ›. Above the root bar
+     when both are up. */
+  #placebar { position: fixed; z-index: 46; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 18px); translate: -50% 0; display: flex; align-items: center; gap: 6px; max-width: calc(100% - 32px);
+    border: 1px solid var(--copper-line); border-radius: 999px; background: var(--sheet); padding: 5px 6px 5px 16px; box-shadow: 0 2px 4px rgb(var(--shadow-ink) / 0.1), 0 16px 36px -12px rgb(var(--shadow-ink) / 0.4);
+    animation: place-in 280ms cubic-bezier(0.2, 0.8, 0.2, 1) both; transition: bottom 240ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+  @keyframes place-in { from { opacity: 0; translate: -50% 14px; } }
+  #placebar[hidden] { display: none; }
+  #rootbar:not([hidden]) ~ #placebar { bottom: calc(env(safe-area-inset-bottom, 0px) + 78px); }
+  /* Amiri Quran's line box sits its glyphs low: lifted so the marks under a word clear the border. */
+  #placebar .r { position: relative; top: -4px; font: 400 22px/1.4 var(--quran); color: var(--copper-ink); direction: rtl; white-space: nowrap; }
+  #placebar .g { font: italic 400 14px/20px var(--serif); color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; max-width: 150px; margin-right: 4px; }
+  #placebar .at { min-width: 0; padding: 0 2px; text-align: center; }
+  #placebar .at b { display: block; font: 600 14px/18px var(--sans); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  #placebar .at span { display: block; font: 400 11.5px/15px var(--sans); color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #placebar .step { flex: none; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--copper-line); background: var(--sheet); color: var(--copper-ink); font: 400 26px/1 var(--sans); padding: 0 0 4px; display: grid; place-items: center; cursor: pointer; }
+  #placebar .step:disabled { opacity: 0.35; cursor: default; }
+  #placebar[aria-busy="true"] .at { opacity: 0.55; }
+  @media (hover: hover) { #placebar .step:hover:not(:disabled) { background: var(--copper-wash); } }
+  @media (max-width: 600px) { #placebar .g { display: none; } }
+  @media (prefers-reduced-motion: reduce) { #placebar { animation: none; transition: none; } }
+
+  /* The mind map: one sheet over the desk, a canvas of branches and dots, and a few DOM labels on top. */
+  #map { position: fixed; z-index: 55; inset: calc(env(safe-area-inset-top, 0px) + 56px) 12px 12px; display: flex; flex-direction: column; border: 1px solid var(--edge); border-radius: 12px; background: var(--sheet);
+    box-shadow: 0 2px 4px rgb(var(--shadow-ink) / 0.1), 0 28px 64px -16px rgb(var(--shadow-ink) / 0.38); overflow: hidden; }
+  #map[hidden] { display: none; }
+  body.mapping { overflow: hidden; }
+  .map-head { flex: none; display: flex; align-items: center; gap: 14px; padding: 10px 12px 10px 16px; border-bottom: 1px solid color-mix(in srgb, var(--copper) 24%, var(--rule)); background: color-mix(in srgb, var(--copper) 6%, transparent); }
+  .map-root { font: 400 28px/1.5 var(--quran); color: var(--copper-ink); direction: rtl; white-space: nowrap; }
+  .map-info { min-width: 0; flex: 1; display: grid; gap: 2px; }
+  .map-where { flex: none; }
+  .where-pick { display: grid; justify-items: center; gap: 6px; margin-top: 8px; }
+  .where-pick .seg button { padding: 6px 14px; font-size: 13px; }
+  .where-pick .note { font: 400 12px/18px var(--sans); color: var(--ink-3); }
+  .where-seg button[data-where="spark"][aria-pressed="true"] { color: var(--indigo); }
+  @media (max-width: 759px) { .bar-where { display: none; } }
+  @media (max-width: 600px) { .map-head { flex-wrap: wrap; } .map-info { order: 3; flex-basis: 100%; } .map-where { margin-left: auto; } }
+  .map-title { font: 400 15px/22px var(--serif); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .map-title b { font: 400 20px/22px var(--quran); unicode-bidi: isolate; }
+  .map-body { position: relative; flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; }
+  #map-canvas, #map-hover, #map-nodes { position: absolute; left: 0; top: 0; }
+  #map-hover, #map-nodes { pointer-events: none; }
+  #map-nodes { width: 100%; }
+  .map-node { position: absolute; display: grid; place-items: center; border: 1.5px solid var(--copper-line); border-radius: 999px; background: var(--sheet); color: var(--copper-ink); box-shadow: 0 1px 2px rgb(var(--shadow-ink) / 0.12); }
+  .map-node.root { border-radius: 50%; font: 400 22px/1 var(--quran); direction: rtl; border-color: var(--copper); }
+  .map-node.form { grid-auto-flow: column; justify-content: space-between; padding: 0 10px; border-color: color-mix(in srgb, var(--c) 60%, transparent); color: var(--c); }
+  .map-node.form.lead { background: color-mix(in srgb, var(--c) 10%, var(--sheet)); border-width: 2px; }
+  .map-node.form .ar { font: 400 18px/1 var(--quran); direction: rtl; }
+  .map-node.form .n { font: 600 11px/1 var(--sans); color: var(--ink-3); }
+  .map-status { position: absolute; left: 50%; top: 40%; translate: -50% 0; margin: 0; font: 400 15px/22px var(--serif); color: var(--ink-2); text-align: center; max-width: 80%; }
+  .map-status.error { color: var(--red); }
+  .map-label { position: absolute; font: 400 11px/16px var(--sans); color: var(--ink-3); white-space: nowrap; }
+  .map-end { position: absolute; translate: -50% 0; font: 600 11px/16px var(--sans); color: var(--copper-ink); white-space: nowrap; background: var(--sheet); padding: 0 4px; border-radius: 4px; }
+  .map-end.above { margin-top: -26px; }
+  .map-end.below { margin-top: 10px; }
+  .tip-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .tip-head .pill { padding: 4px 12px; font-size: 12px; flex: none; }
+  .tip-words { min-height: 42px; }
+  #map-tip { position: absolute; z-index: 2; width: 260px; border: 1px solid var(--copper-line); border-radius: 12px; background: var(--sheet); padding: 10px 12px; display: grid; gap: 6px; box-shadow: 0 10px 28px -8px rgb(var(--shadow-ink) / 0.35); }
+  #map-tip[hidden] { display: none; }
+  .tip-ref { font: 700 14px/20px var(--serif); }
+  .tip-words { font: 400 22px/1.9 var(--quran); direction: rtl; text-align: right; color: var(--copper-ink); }
+  .tip-mean { font: 400 12px/16px var(--sans); color: var(--ink-2); }
+  .tip-links { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+  .tip-links .label { width: 100%; }
+  .tip-link { border: 1px solid var(--rule-strong); background: var(--sheet); border-radius: 999px; padding: 0 8px; font: 400 12px/20px var(--mono); cursor: pointer; color: var(--indigo); }
+
+  /* Ayah dots (dots.js): the same sheet as the map, every ayah as one dot. */
+  .map-mode { flex: none; }
+  /* On a phone the header's first row is the root, the view switch and ×; the counts and the engine switch follow. */
+  @media (max-width: 600px) { .map-mode { order: 1; } #map-close { order: 2; margin-left: auto; } .map-where { order: 4; margin-left: 0; } }
+  .map-title.pending { opacity: 0.45; }
+  .dots-body { flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; padding: 12px 16px 20px; display: flex; flex-direction: column; gap: 10px; }
+  .dots-body > * { flex: none; min-width: 0; }
+  .dots-tools { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
+  #dots-search { flex: 1 1 220px; min-width: 0; border: 1px solid var(--rule-strong); border-radius: 999px; background: var(--sheet); padding: 6px 14px; font: 400 14px/20px var(--sans); color: var(--ink); }
+  #dots-search:focus { outline: 2px solid var(--copper-line); outline-offset: 1px; }
+  .dots-step { flex: 2 1 280px; min-width: 0; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-template-rows: auto auto; gap: 0 8px; align-items: center; }
+  .dots-step input { min-width: 0; width: 100%; margin: 0; accent-color: var(--copper); }
+  .dots-step button { width: 30px; height: 30px; border: 1px solid var(--rule-strong); border-radius: 50%; background: var(--sheet); color: var(--ink-2); font: 600 16px/1 var(--sans); cursor: pointer; }
+  .dots-rank { grid-column: 1 / -1; font: 400 12px/18px var(--sans); color: var(--ink-3); text-align: center; }
+  .dots-found { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .dots-found button { display: inline-flex; align-items: baseline; gap: 6px; border: 1px solid var(--copper-line); border-radius: 999px; background: var(--sheet); color: var(--copper-ink); padding: 0 12px; cursor: pointer; }
+  .dots-found .ar { font: 400 20px/1.7 var(--quran); }
+  .dots-found .n { font: 600 11px/1 var(--sans); color: var(--ink-3); }
+  .dots-pick { min-height: 44px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; font: 400 14px/20px var(--sans); color: var(--ink-2); }
+  .dots-pick .ref { font: 700 15px/20px var(--serif); color: var(--ink); }
+  .dots-pick .ar { font: 400 18px/1 var(--quran); color: var(--copper-ink); }
+  .dots-pick .words { font: 400 22px/1.8 var(--quran); color: var(--copper-ink); direction: rtl; unicode-bidi: isolate; }
+  .dots-pick .pill { padding: 4px 12px; font-size: 12px; }
+  .dots-pick .hint, .dots-found .hint { color: var(--ink-3); }
+  @media (max-width: 600px) { .dots-pick { min-height: 76px; align-content: center; } }
+  .dots-grid { position: relative; justify-self: center; width: 100%; display: flex; justify-content: center; }
+  .dots-grid > div { position: relative; }
+  #dots-canvas { display: block; cursor: crosshair; touch-action: manipulation; }
+  #dots-ring { position: absolute; left: 0; top: 0; pointer-events: none; }
+  .dots-legend { display: flex; flex-wrap: wrap; gap: 4px 12px; font: 400 12px/18px var(--sans); color: var(--ink-3); }
+  .dots-legend .key i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+  .dots-note { font: 400 12px/18px var(--sans); color: var(--copper-ink); min-height: 18px; }
+  .intro-dots { justify-self: center; }
+
+  /* The network panel (network.js): the tapped word's ayah network, live, like HandwiredOS's Monitor window. A panel
+     at the side on wide screens and a sheet at the bottom on phones; the page beside or above it stays in use, so a
+     change of text size (Aa) and a tap on another word show in the lists. network.js writes the slide (a Handwired spring), the rows (only
+     those on screen, each 24 px tall) and the footer's chart. */
+  :root { --net-w: clamp(360px, 32vw, 440px); --net-h: min(52vh, 480px); --ochre: #8a6412; --plum: #7a3355; }
+  @supports (height: 1svh) { :root { --net-h: min(52svh, 480px); } }
+  #net { position: fixed; z-index: 52; display: flex; flex-direction: column; border: 1px solid var(--edge); background: var(--sheet); overflow: hidden;
+    box-shadow: 0 2px 4px rgb(var(--shadow-ink) / 0.1), 0 28px 64px -16px rgb(var(--shadow-ink) / 0.38); }
+  #net[hidden] { display: none; }
+  @media (min-width: 760px) {
+    #net { top: calc(env(safe-area-inset-top, 0px) + 56px); right: 12px; bottom: 12px; width: var(--net-w); border-radius: 12px; }
+    /* The reading sheet moves over, so the panel covers none of it. */
+    body.netting { padding-right: calc(var(--net-w) + 24px); }
+    body.netting #rootbar, body.netting #placebar { left: calc((100% - var(--net-w) - 24px) / 2); }
+  }
+  @media (max-width: 759px) {
+    #net { left: 0; right: 0; bottom: 0; height: var(--net-h); border-radius: 16px 16px 0 0; border-bottom: 0; padding-bottom: env(safe-area-inset-bottom, 0px); }
+    /* The last ayat can still scroll up above the sheet, and the bars sit on it. */
+    body.netting main { padding-bottom: calc(var(--net-h) + 24px); }
+    body.netting #rootbar { bottom: calc(var(--net-h) + 12px); }
+    body.netting #placebar { bottom: calc(var(--net-h) + 12px); }
+    body.netting #rootbar:not([hidden]) ~ #placebar { bottom: calc(var(--net-h) + 72px); }
+  }
+  .net-head { flex: none; display: flex; align-items: center; gap: 12px; padding: 8px 8px 6px 16px; }
+  .net-who { min-width: 0; flex: 1; display: grid; gap: 0; }
+  .net-word { display: flex; align-items: baseline; gap: 10px; min-width: 0; }
+  .net-word .ar { font: 400 24px/1.7 var(--quran); color: var(--copper-ink); direction: rtl; white-space: nowrap; }
+  .net-gloss { min-width: 0; font: 400 13px/18px var(--sans); color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .net-bar { flex: none; display: flex; padding: 0 16px 8px; }
+  .net-bar .seg button { padding: 4px 10px; }
+  .net-bar .seg .n { margin-left: 6px; font-weight: 400; font-variant-numeric: tabular-nums; color: var(--ink-3); }
+  .net-caption { flex: none; display: grid; gap: 4px; padding: 0 16px 8px; font: 400 12px/17px var(--sans); color: var(--ink-3); }
+  .net-caption p { margin: 0; text-wrap: pretty; }
+  .net-kinds { display: flex; flex-wrap: wrap; gap: 2px 14px; margin: 0; padding: 0; list-style: none; }
+  .net-kinds[hidden] { display: none; }
+  .net-kinds li { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+  .net-kinds li::before { content: ""; width: 7px; height: 7px; border-radius: 1.5px; background: var(--kind); }
+  .net-kinds b { color: var(--ink-2); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .net-kinds .on { color: var(--copper-ink); }
+  .net-kinds .k1::before { border-radius: 50%; background: var(--copper); }
+  /* The kinds' colors, after HandwiredOS's chart colors. A ReGLU's mark is a dot: copper while its ReLU passes a
+     value on, grey while it outputs 0. */
+  .k0 { --kind: var(--indigo); } .k1 { --kind: var(--rule-strong); } .k2 { --kind: var(--ochre); } .k3 { --kind: var(--plum); }
+  .net-list { position: relative; flex: 1; min-height: 0; border-top: 1px solid var(--rule); font: 400 12px/24px var(--mono); container-type: inline-size; }
+  .net-header, .net-row { display: grid; align-items: center; column-gap: 8px; padding: 0 12px 0 16px; }
+  .net-header { height: 28px; border-bottom: 1px solid var(--rule); color: var(--ink-3); font: 600 11px/16px var(--sans); letter-spacing: 0.07em; text-transform: uppercase; }
+  .net-header > span { overflow: visible; white-space: nowrap; }
+  .net-scroller { position: absolute; top: 28px; left: 0; right: 0; bottom: 0; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; overflow-anchor: none;
+    scrollbar-width: thin; scrollbar-color: var(--rule-strong) transparent; }
+  .net-scroller:focus-visible { outline-offset: -2px; }
+  /* Ruled like a ledger, every 24 px, so a fast scroll shows ruled paper before the rows arrive. */
+  .net-spacer { position: relative; background: linear-gradient(to top, color-mix(in srgb, var(--rule) 55%, transparent) 1px, transparent 1px) 0 0 / 100% 24px; }
+  .net-row { position: absolute; left: 0; right: 0; top: 0; height: 24px; contain: strict; cursor: default; }
+  .net-row[hidden] { display: none; }
+  .net-row > span, .net-header > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  /* A long name is cut at its start (…tiles.12.x.velocity), and reads left to right inside its <bdi>. */
+  .net-row .c-name { direction: rtl; text-align: left; }
+  .net-row .c-kind, .net-row .c-layer, .net-row .c-weights { color: var(--ink-2); }
+  .net-row .c-kind { font-family: var(--sans); }
+  .c-layer, .c-weights, .c-value { text-align: right; font-variant-numeric: tabular-nums; }
+  .list-1 .net-row .c-kind::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 6px; border-radius: 1.5px; background: var(--kind); vertical-align: 1px; }
+  .list-1 .net-row.k1 .c-kind::before { width: 7px; height: 7px; border-radius: 50%; }
+  .list-1 .net-row.on { --kind: var(--copper); }
+  .list-1 .net-row.off .c-value { color: var(--ink-3); }
+  .list-0 .net-header, .list-0 .net-row { grid-template-columns: minmax(36px, 1fr) minmax(0, 70px) minmax(48px, 110px); }
+  .list-1 .net-header, .list-1 .net-row { grid-template-columns: minmax(36px, 1fr) minmax(0, 84px) minmax(0, 40px) minmax(0, 52px) minmax(48px, 110px); }
+  .list-2 .net-header, .list-2 .net-row { grid-template-columns: minmax(36px, 1fr) minmax(48px, 120px); }
+  .list-0 .c-layer, .list-0 .c-weights, .list-2 .c-kind, .list-2 .c-layer, .list-2 .c-weights { display: none; }
+  @container (max-width: 359px) {
+    .list-1 .net-header, .list-1 .net-row { grid-template-columns: minmax(36px, 1fr) minmax(0, 84px) minmax(0, 40px) minmax(48px, 104px); }
+    .list-1 .c-weights { display: none; }
+  }
+  /* The tapped word's rows: a copper wash. Slots past the ayah's words (unused tiles) are quieter. */
+  .net-row.mine { background: color-mix(in srgb, var(--copper) 9%, transparent); }
+  .net-row.spare { color: var(--ink-3); }
+  .net-row.sel { background: var(--copper-wash); box-shadow: inset 2px 0 var(--copper); }
+  @media (hover: hover) { .net-row:hover { background-image: linear-gradient(var(--wash), var(--wash)); } }
+  /* The network's size, then its time per frame. On a narrow sheet the time takes a second line, so no count is cut. */
+  .net-foot { flex: none; display: flex; flex-wrap: wrap; align-items: center; gap: 2px 14px; min-height: 34px; padding: 5px 14px 5px 16px; border-top: 1px solid var(--rule); color: var(--ink-3); font: 400 12px/16px var(--sans); white-space: nowrap; }
+  .net-counts { flex: 1 0 auto; display: flex; gap: 0 12px; margin: 0; padding: 0; list-style: none; }
+  .net-counts b, .net-frame b { color: var(--ink-2); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .net-frame { flex: none; display: flex; align-items: center; gap: 8px; margin-left: auto; }
+  .net-chart { width: 84px; height: 24px; padding: 2px 3px 2px 0; overflow: visible; }
+  .net-chart path { fill: none; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+  .net-chart .area { fill: var(--copper); fill-opacity: 0.1; }
+  .net-chart .line { stroke: var(--copper); stroke-width: 1.5; }
+  .net-chart .end { stroke: var(--copper); stroke-width: 5; }
+  .net-ms { font-variant-numeric: tabular-nums; }
+
+
+  footer { max-width: 820px; margin: 28px auto 0; font: 400 12px/18px var(--sans); color: var(--ink-3); text-align: center; text-wrap: pretty; }
+  footer p { margin: 0 0 6px; }
+  .loading { text-align: center; color: var(--ink-3); padding: 48px 0; }
+  .loading .wire-bar { width: 160px; height: 1px; margin: 12px auto 0; background: var(--rule-strong); position: relative; overflow: hidden; }
+  .loading .wire-bar i { position: absolute; top: -1px; height: 3px; width: 40%; background: var(--copper); animation: slide 1.1s ease-in-out infinite alternate; }
+  @keyframes slide { from { left: 0; } to { left: 60%; } }
+  @media (prefers-reduced-motion: reduce) { .loading .wire-bar i { animation: none; } }
+
+  /* Search (search.js for exact matches; the Spark for meaning): a box on the index, a button in the bar, and one
+     sheet of results where the words, glosses and phrases that matched are marked. */
+  .search-box { display: flex; gap: 8px; width: 100%; max-width: 560px; }
+  .search-box input { flex: 1; min-width: 0; border: 1px solid var(--rule-strong); border-radius: 999px; background: var(--sheet); padding: 9px 16px; font: 400 15px/22px var(--sans); color: var(--ink); }
+  .search-box input:focus { outline: 2px solid var(--copper-line); outline-offset: 1px; }
+  .intro-search { justify-self: center; margin-top: 6px; }
+  .search-try { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px; }
+  .search-try.start { justify-content: flex-start; margin: 16px 0; }
+  .search-try .label { margin-right: 2px; }
+  .search-try button[lang="ar"] { font: 400 16px/22px var(--sans); }
+  .search-try button, .search-families button { border: 1px solid var(--rule-strong); background: var(--sheet); border-radius: 999px; padding: 2px 12px; font: 400 13px/22px var(--sans); color: var(--ink-2); cursor: pointer; }
+  .search-try button:hover, .search-families button:hover { border-color: var(--copper-line); color: var(--copper-ink); }
+  .search-families button .ar { font: 400 16px/22px var(--quran); color: var(--copper-ink); margin-right: 6px; }
+  .search-families button[aria-pressed="true"] { background: var(--copper); border-color: var(--copper); color: var(--sheet); }
+  .search-families button[aria-pressed="true"] .ar { color: var(--sheet); }
+  #search-tabs .n { margin-left: 6px; font-weight: 400; font-variant-numeric: tabular-nums; }
+  .bar-search { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--rule-strong); background: var(--sheet); border-radius: 999px; padding: 4px 12px 4px 10px; cursor: pointer; font: 600 12px/18px var(--sans); color: var(--ink-2); }
+  .bar-search svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+  @media (max-width: 600px) { #bar-search-label { display: none; } .bar-search { padding: 5px 8px; } }
+  #search { position: fixed; z-index: 56; inset: calc(env(safe-area-inset-top, 0px) + 56px) 12px 12px; display: flex; flex-direction: column; max-width: 980px; margin: 0 auto; border: 1px solid var(--edge); border-radius: 12px; background: var(--sheet); box-shadow: 0 24px 60px -24px rgb(var(--shadow-ink) / 0.45); overflow: hidden; }
+  #search[hidden] { display: none; }
+  .search-head { flex: none; display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; padding: 12px 12px 12px 18px; border-bottom: 1px solid color-mix(in srgb, var(--copper) 24%, var(--rule)); background: color-mix(in srgb, var(--copper) 6%, transparent); }
+  .search-head .search-box { max-width: none; width: auto; flex: 1; min-width: 0; }
+  .search-summary { margin: 0; font: 400 18px/24px var(--serif); text-wrap: balance; }
+  .search-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .search-families { display: flex; flex-wrap: wrap; gap: 6px; }
+  .search-body { flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; padding: 4px 18px 24px; }
+  .hit { display: grid; gap: 6px; padding: 14px 0; border-bottom: 1px solid var(--rule); }
+  .hit-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .hit-ref { font: 700 15px/20px var(--serif); }
+  .hit-how { font: 600 11px/16px var(--sans); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); }
+  .hit-top .pill { margin-left: auto; padding: 4px 12px; font-size: 12px; }
+  .hit-ar { margin: 0; font: 400 25px/2.2 var(--quran); direction: rtl; text-align: right; color: var(--ink); }
+  .hit-en { margin: 0; font: 400 13px/20px var(--sans); color: var(--ink-3); }
+  .hit-id { margin: 0; font: 400 15px/24px var(--serif); color: var(--ink-2); }
+  .hit mark { background: color-mix(in srgb, var(--copper) 17%, transparent); color: var(--copper-ink); border-radius: 4px; padding: 0 2px; }
+  .hit-ar mark { padding: 0 4px; }
+  .search-empty { margin: 24px 0; font: 400 15px/24px var(--serif); color: var(--ink-2); }
+
+  /* Words that occur the same number of times (same-count.js): one sheet over the desk, like the map. */
+  #same { position: fixed; z-index: 55; inset: calc(env(safe-area-inset-top, 0px) + 56px) 12px 12px; display: flex; flex-direction: column; max-width: 980px; margin: 0 auto; border: 1px solid var(--edge); border-radius: 12px; background: var(--sheet); box-shadow: 0 24px 60px -24px rgb(var(--shadow-ink) / 0.45); overflow: hidden; }
+  #same[hidden] { display: none; }
+  .same-head { flex: none; display: grid; gap: 10px; padding: 12px 12px 12px 18px; border-bottom: 1px solid color-mix(in srgb, var(--copper) 24%, var(--rule)); background: color-mix(in srgb, var(--copper) 6%, transparent); }
+  .same-top { display: flex; align-items: center; gap: 12px; }
+  .same-top h2 { margin: 0; flex: 1; min-width: 0; font: 400 20px/26px var(--serif); text-wrap: balance; }
+  .same-tools { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  #same-search { flex: 1 1 200px; min-width: 0; border: 1px solid var(--rule-strong); border-radius: 999px; background: var(--sheet); padding: 6px 14px; font: 400 14px/20px var(--sans); color: var(--ink); }
+  #same-search:focus { outline: 2px solid var(--copper-line); outline-offset: 1px; }
+  .same-rule { margin: 12px 0 2px; max-width: 72ch; font: 400 12.5px/18px var(--sans); color: var(--ink-3); text-wrap: pretty; }
+  .same-body { flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; padding: 4px 18px 24px; }
+  .same-group { display: grid; grid-template-columns: 88px 1fr; gap: 6px 16px; padding: 14px 0; border-bottom: 1px solid var(--rule); }
+  #same-list.in .same-group { animation: same-in 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both; animation-delay: calc(var(--i) * 28ms); }
+  @keyframes same-in { from { opacity: 0; translate: 0 10px; } }
+  .same-n { display: grid; align-content: start; gap: 0; }
+  .same-n b { font: 400 34px/1 var(--serif); color: var(--copper-ink); font-variant-numeric: tabular-nums; }
+  .same-n span { font: 400 12px/18px var(--sans); color: var(--ink-3); }
+  .same-n b i { font-style: normal; font-size: 0.6em; margin-left: 1px; }
+  .same-chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-start; }
+  .same-chip { display: grid; justify-items: center; gap: 0; min-width: 64px; max-width: 160px; border: 1px solid var(--rule-strong); border-radius: 10px; background: var(--sheet); padding: 2px 10px 6px; cursor: pointer; transition: border-color 160ms, background-color 160ms, translate 160ms; }
+  .same-chip:hover { border-color: var(--copper-line); background: var(--copper-wash); translate: 0 -1px; }
+  .same-chip.lit { border-color: var(--copper); background: color-mix(in srgb, var(--copper) 12%, var(--sheet)); box-shadow: 0 0 0 3px var(--copper-glow); }
+  .same-chip .ar { font: 400 22px/2.4 var(--quran); direction: rtl; color: var(--ink); margin: -8px 0 -4px; }
+  .same-chip .gl { font: 400 11.5px/15px var(--sans); color: var(--ink-2); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .same-more { align-self: center; }
+  .same-detail { grid-column: 2; display: grid; gap: 10px; border: 1px solid var(--copper-line); border-radius: 12px; background: color-mix(in srgb, var(--copper) 5%, var(--sheet)); padding: 10px 14px 12px; }
+  #same-list.in .same-detail, .same-detail { animation: same-in 260ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+  .same-detail-head { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; font: 400 14px/20px var(--sans); color: var(--ink-2); }
+  .same-detail-head .ar { font: 400 28px/1.6 var(--quran); color: var(--copper-ink); direction: rtl; }
+  .same-detail-head b { color: var(--ink); font-weight: 600; }
+  /* Every place the picked word occurs: a surah's name, then its ayat; ×2 when an ayah has the word twice. */
+  .same-places { display: grid; gap: 8px; padding-top: 10px; border-top: 1px solid color-mix(in srgb, var(--copper) 18%, var(--rule)); }
+  .place-list { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; }
+  .place-group { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-width: 0; }
+  .place-s { font: italic 400 13px/18px var(--serif); color: var(--ink-3); margin-right: 2px; }
+  .place { min-height: 30px; border: 1px solid var(--rule-strong); border-radius: 999px; background: var(--sheet); padding: 4px 10px; font: 600 12.5px/18px var(--sans); font-variant-numeric: tabular-nums; color: var(--copper-ink); cursor: pointer; transition: border-color 160ms, background-color 160ms; }
+  .place i { font: 400 11px/18px var(--sans); color: var(--ink-3); margin-left: 4px; }
+  @media (hover: hover) { .place:hover { border-color: var(--copper-line); background: var(--copper-wash); } }
+  .same-none { margin: 40px 0; text-align: center; font: 400 15px/22px var(--serif); color: var(--ink-2); }
+  .same-none.error { color: var(--red); }
+  @media (max-width: 600px) {
+    #same { inset: calc(env(safe-area-inset-top, 0px) + 52px) 6px 6px; }
+    .same-body { padding: 0 12px 20px; }
+    .same-group { grid-template-columns: 1fr; }
+    .same-n { grid-auto-flow: column; justify-content: start; align-items: baseline; gap: 8px; }
+    .same-n b { font-size: 28px; }
+    .same-detail { grid-column: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) { #same-list.in .same-group, .same-detail { animation: none; } .same-chip, .place { transition: none; } }
+  /* In a word's card: its count and its twins. */
+  .card-same { grid-column: 1 / -1; }
+  .card-same .same-chips { margin-top: 4px; }
+  .card-same .same-chip .ar { font-size: 20px; }
+  .intro-same { justify-self: center; margin-top: 4px; }
+
+  /* The home's search: the phone's own search field look, 16 px so iOS doesn't zoom in when it is tapped. */
+  .intro-search { position: relative; justify-self: stretch; width: 100%; max-width: none; margin: 0; }
+  .intro-search .mag { position: absolute; left: 13px; top: 22px; width: 18px; height: 18px; translate: 0 -50%; fill: none; stroke: var(--ink-3); stroke-width: 2; stroke-linecap: round; pointer-events: none; }
+  .intro-search input { height: 44px; border: 0; border-radius: 12px; background: var(--panel); padding: 0 14px 0 38px; font: 400 16px/22px var(--sans); }
+  .intro-search input:focus { outline: 2px solid var(--copper-line); outline-offset: 0; }
+  #intro-try { justify-content: flex-start; }
+  @media (max-width: 759px) { .search-box input, #same-search, #dots-search { font-size: 16px; } }
+
+  /* Sheets of the page's own: Aa (display and reading) and the install guide. A popover under the bar on a wide
+     screen; on a phone they come up from the bottom like the others (sheet.js). */
+  .panel { position: fixed; z-index: 57; top: 64px; right: max(16px, calc((100% - 1080px) / 2)); width: 390px; max-height: calc(100% - 80px); display: flex; flex-direction: column;
+    border: 1px solid var(--edge); border-radius: 20px; background: var(--app); box-shadow: 0 2px 4px rgb(var(--shadow-ink) / 0.1), 0 28px 64px -16px rgb(var(--shadow-ink) / 0.38); overflow: hidden; }
+  .panel-head { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px 10px 20px; }
+  .panel-head h2 { margin: 0; font: 700 20px/25px var(--sans); letter-spacing: -0.012em; }
+  .done { border: 0; background: none; padding: 6px 4px; font: 600 17px/22px var(--sans); color: var(--oyen-ink); cursor: pointer; }
+  /* A column, not a grid: grid rows would shrink the groups (overflow: hidden) to fit a short phone and clip them. */
+  .panel-body { min-height: 0; overflow: auto; overscroll-behavior: contain; padding: 2px 16px 18px; display: flex; flex-direction: column; gap: 14px; }
+  .panel-body > * { flex: none; }
+  .group { border: 1px solid var(--hair); border-radius: 16px; background: var(--sheet); overflow: hidden; }
+  .row { width: 100%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px 12px; min-height: 52px; padding: 9px 16px; border: 0; background: none; text-align: left; font: 400 16px/21px var(--sans); color: var(--ink); }
+  .row + .row { border-top: 1px solid var(--hair); }
+  .row-l { display: grid; min-width: 0; flex: 1 1 140px; }
+  .row-l small { font: 400 13px/17px var(--sans); color: var(--ink-3); }
+  .row.link { cursor: pointer; }
+  .row.link i { font-style: normal; font-size: 20px; color: var(--ink-3); }
+  .row[hidden] { display: none; }
+  .panel .seg { background: var(--panel); }
+  .panel .seg button { padding: 6px 12px; font-size: 13px; }
+  .switch { flex: none; position: relative; width: 51px; height: 31px; border: 0; border-radius: 16px; background: var(--panel-2); cursor: pointer; transition: background-color 200ms; }
+  .switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 27px; height: 27px; border-radius: 50%; background: #fff; box-shadow: 0 2px 4px rgb(0 0 0 / 0.2); transition: transform 260ms var(--spring); }
+  .switch[aria-checked="true"] { background: var(--oyen); }
+  .switch[aria-checked="true"]::after { transform: translateX(20px); }
+  .switch:disabled { opacity: 0.45; cursor: default; }
+  /* Amiri Quran's marks reach far below the line: a tall line keeps the kasra under the last word in view. */
+  .size-prev { padding: 8px 12px 0; font-family: var(--quran); line-height: 2.7; direction: rtl; text-align: center; white-space: nowrap; color: var(--ink); }
+  .size-row { display: grid; grid-template-columns: 40px minmax(0, 1fr) 40px; align-items: center; gap: 6px; padding: 2px 8px 12px; }
+  .size-row button { height: 40px; border: 0; border-radius: 10px; background: none; color: var(--ink-2); font: 600 14px/1 var(--sans); cursor: pointer; }
+  .size-row button[data-step="1"] { font-size: 21px; }
+  .size-row button:disabled { opacity: 0.3; cursor: default; }
+  /* The text-size slider as iOS draws one: a light track filled in Oyen orange up to a white knob. */
+  #size-range { width: 100%; height: 28px; margin: 0; background: transparent; -webkit-appearance: none; appearance: none; --fill: 50%; }
+  #size-range::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; background: linear-gradient(var(--oyen), var(--oyen)) 0 0 / var(--fill) 100% no-repeat, var(--panel-2); }
+  #size-range::-webkit-slider-thumb { -webkit-appearance: none; width: 28px; height: 28px; margin-top: -12px; border: 0; border-radius: 50%; background: #fff; box-shadow: 0 0 0 0.5px rgb(0 0 0 / 0.08), 0 2px 6px rgb(0 0 0 / 0.22); }
+  #size-range::-moz-range-track { height: 4px; border-radius: 2px; background: var(--panel-2); }
+  #size-range::-moz-range-progress { height: 4px; border-radius: 2px; background: var(--oyen); }
+  #size-range::-moz-range-thumb { width: 28px; height: 28px; border: 0; border-radius: 50%; background: #fff; box-shadow: 0 2px 6px rgb(0 0 0 / 0.22); }
+  .about p { margin: 0; padding: 12px 16px 14px; font: 400 14px/21px var(--sans); color: var(--ink-2); }
+  .install-top { display: grid; justify-items: center; gap: 6px; padding: 4px 24px 4px; text-align: center; }
+  .install-top .face { width: 84px; height: 84px; }
+  .install-top h2 { margin: 4px 0 0; font: 700 22px/27px var(--sans); letter-spacing: -0.015em; }
+  .install-top p { margin: 0; font: 400 15px/21px var(--sans); color: var(--ink-2); text-wrap: pretty; }
+  .steps { list-style: none; margin: 0; padding: 0; }
+  .steps li { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 12px; align-items: center; min-height: 52px; padding: 10px 16px; font: 400 16px/21px var(--sans); }
+  .steps li + li { border-top: 1px solid var(--hair); }
+  .steps em { font-style: normal; width: 26px; height: 26px; border-radius: 50%; background: var(--oyen-soft); color: var(--oyen-ink); display: grid; place-items: center; font: 700 14px/1 var(--sans); }
+  .steps svg { width: 24px; height: 24px; fill: none; stroke: #2f7cf6; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .install-foot { display: grid; justify-items: center; padding: 0 0 4px; }
+  .scrim { position: fixed; inset: 0; z-index: 54; background: rgb(20 14 8 / 0.32); opacity: 0; transition: opacity 240ms; }
+  .scrim.on { opacity: 1; }
+  /* ---------- Oyen around the page (never on it) ---------- */
+  /* In a sheet's header: small, before the title; he moves once when the sheet comes up. */
+  .sheet-oyen { flex: none; width: 34px; height: 34px; }
+  .same-top .sheet-oyen { margin-right: -2px; }
+  /* The end of a surah, on the ground below the page: done, kept as your last reading, and the next surah. */
+  .end-card { max-width: 820px; margin: 18px auto 0; display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 2px 14px; align-items: center; border-radius: 20px; background: var(--oyen-soft); padding: 16px; box-shadow: inset 0 0 0 1px rgb(240 137 46 / 0.2); }
+  .end-card .face { grid-row: 1 / span 3; width: 64px; height: 64px; }
+  .end-card b { font: 700 18px/23px var(--sans); letter-spacing: -0.01em; }
+  .end-card span { font: 400 14px/19px var(--sans); color: var(--ink-2); }
+  .end-card .btn { justify-self: start; margin-top: 8px; }
+  .end-card[hidden], #hint[hidden], .nudge[hidden] { display: none; }
+  /* The first time a surah opens: a toast from the bottom of the screen, and the first word glows. Shown once. */
+  #hint { position: fixed; z-index: 65; left: 50%; bottom: calc(var(--sab) + 12px); translate: -50% 0; width: min(520px, calc(100% - 24px)); display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 12px; align-items: center;
+    border-radius: 18px; background: var(--pill); color: #fff; padding: 10px 10px 10px 12px; box-shadow: 0 12px 34px -10px rgb(0 0 0 / 0.5); animation: hint-in 340ms var(--spring) both; }
+  @keyframes hint-in { from { opacity: 0; translate: -50% 18px; } }
+  #hint .face { width: 44px; height: 44px; }
+  #hint b { display: block; font: 600 15px/20px var(--sans); }
+  #hint .hint-text span { display: block; font: 400 14px/19px var(--sans); color: rgb(255 255 255 / 0.75); }
+  #hint .btn { padding: 8px 14px; font-size: 14px; }
+  .tile.hinted { box-shadow: 0 0 0 3px rgb(240 137 46 / 0.35); background: rgb(240 137 46 / 0.08); }
+  /* Under the greeting on a return visit, until it is installed or put away: put Quran Oyen on the home screen. */
+  .nudge { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto auto; gap: 10px; align-items: center; border: 1px solid var(--hair); border-radius: 18px; background: var(--sheet); padding: 10px 6px 10px 12px; }
+  .nudge .face { width: 40px; height: 40px; }
+  .nudge b { display: block; font: 600 15px/20px var(--sans); }
+  .nudge-text span { display: block; font: 400 13px/18px var(--sans); color: var(--ink-3); }
+  .nudge .btn { padding: 7px 14px; font-size: 14px; }
+  @media (max-width: 759px) { .end-card { margin: 18px 16px 0; } }
+  @media (prefers-reduced-motion: reduce) { #hint { animation: none; } }
+  .tabs { display: none; }
+  .face { display: block; }
+  #main.swiping { box-shadow: -12px 0 32px -8px rgb(0 0 0 / 0.25); background: var(--app); }
+  .map-end.to-left { translate: calc(-100% + 10px) 0; }
+  .map-end.to-right { translate: -10px 0; }
+
+  /* ---------- a phone ---------- */
+  @media (max-width: 759px) {
+    body { padding-inline: 16px; }
+    body.reading { padding-inline: 0; }
+    main { padding-top: 60px; }
+    .bar-row { height: 48px; gap: 4px; }
+    .bar-where, #map-where { display: none; }
+    /* the home has a large title instead of the bar; the bar comes back with the title once the list scrolls under it.
+       body.reading is set by app.js while a surah is open (a class, not :has(), so mounting ayat restyles nothing else) */
+    body:not(.reading) main { padding-top: 6px; padding-bottom: calc(var(--sab) + 84px); }
+    body:not(.reading) #bar { opacity: 0; pointer-events: none; }
+    body.scrolled:not(.reading) #bar { opacity: 1; pointer-events: auto; }
+    body:not(.reading) .bar-row { justify-content: center; }
+    body:not(.reading) .bar-row > :not(.brand) { display: none; }
+    /* reading: back, the surah's name in the middle, search, Aa */
+    body.reading .bar-row { display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px 44px; }
+    body.reading #brand, #back-label { display: none; }
+    #back { width: 44px; height: 44px; justify-content: center; padding: 0; }
+    #back .chev { width: 12px; height: 20px; }
+    .where { flex-direction: column; align-items: center; gap: 0; }
+    .where b { font-size: 16px; line-height: 20px; max-width: 100%; }
+    .where span { font-size: 12px; line-height: 15px; max-width: 100%; }
+    .bar-search { justify-self: center; width: 44px; height: 44px; padding: 0; justify-content: center; border: 0; background: none; color: var(--oyen-ink); }
+    .bar-search svg { width: 20px; height: 20px; }
+    .bar-aa { justify-self: end; width: 44px; height: 44px; padding: 0; background: none; color: var(--oyen-ink); font-size: 17px; }
+    .intro .basmala, #intro-text, #intro-go { display: none; }
+    .intro-search input { padding-right: 14px; }
+    #intro-try { flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; scrollbar-width: none; margin: -6px -16px 0; padding: 0 16px 2px; }
+    #intro-try::-webkit-scrollbar { display: none; }
+    #intro-try button { flex: none; }
+    .sheet { border: 0; border-radius: 0; box-shadow: none; }
+    .sheet-head { padding: 20px 16px 8px; }
+    #page { margin: 14px 12px 22px; }
+    .card-word { font-size: 34px; }
+    footer { padding-inline: 16px; }
+    .tabs { position: fixed; z-index: 48; left: 0; right: 0; bottom: 0; padding: 6px 4px calc(var(--sab) + 4px); background: var(--app); border-top: 1px solid var(--hair); }
+    body:not(.reading) .tabs { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .tabs button { display: grid; justify-items: center; gap: 2px; padding: 4px 0 2px; border: 0; background: none; font: 500 11px/13px var(--sans); color: #8a8178; cursor: pointer; }
+    .tabs button[aria-current="page"] { color: var(--oyen-ink); }
+    .tabs svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    /* sheets come up from the bottom, with a handle; their header is where a drag closes them (sheet.js) */
+    #map, #same, #search, .panel { inset: calc(var(--sat) + 10px) 0 0 0; width: auto; max-width: none; max-height: none; margin: 0; border: 0; border-radius: 22px 22px 0 0; padding-bottom: var(--sab); box-shadow: 0 -10px 40px -12px rgb(0 0 0 / 0.3); }
+    .panel { top: auto; max-height: calc(100% - var(--sat) - 10px); }
+    #map::before, #same::before, #search::before, .panel::before { content: ""; flex: none; display: block; width: 38px; height: 5px; margin: 8px auto 0; border-radius: 3px; background: rgb(60 42 22 / 0.22); }
+    .map-head, .same-head, .search-head, .panel-head { background: transparent; border-bottom: 1px solid var(--hair); touch-action: none; }
+    .panel-head { border-bottom: 0; }
+    /* the map's header: the root, the Peta | Titik switch and × on the first row, the counts and engine under them */
+    .map-head { flex-wrap: wrap; gap: 6px 10px; padding: 8px 10px 10px 16px; }
+    .map-info { order: 3; flex: 1 1 100%; min-width: 0; }
+    .map-mode { order: 1; }
+    #map-close { order: 2; margin-left: auto; }
+    .map-root { font-size: 24px; }
+    .same-head { padding: 8px 12px 12px 18px; }
+    .search-head { padding: 8px 12px 12px 16px; }
+    .same-body { padding: 0 14px 20px; }
+    .same-group { grid-template-columns: 1fr; }
+    .same-n { grid-auto-flow: column; justify-content: start; align-items: baseline; gap: 8px; }
+    .same-n b { font-size: 28px; }
+    .same-detail { grid-column: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) { #bar, .switch::after, .scrim { transition: none; } }
+  #map-gpu { text-transform: none; letter-spacing: 0; font: 400 12.5px/17px var(--sans); color: var(--ink-3); }
+  /* The place bar (stepping through a word's places) wears the same dark pill as the lit root, above it when both are up. */
+  #placebar { border: 0; background: var(--pill); color: #fff; bottom: calc(var(--sab) + 16px); box-shadow: 0 12px 32px -10px rgb(0 0 0 / 0.5); }
+  #rootbar:not([hidden]) ~ #placebar { bottom: calc(var(--sab) + 74px); }
+  #placebar .r { color: var(--oyen); }
+  #placebar .g { color: rgb(255 255 255 / 0.75); font-family: var(--sans); font-style: normal; }
+  #placebar .at span { color: rgb(255 255 255 / 0.65); }
+  #placebar .step { border-color: rgb(255 255 255 / 0.25); background: transparent; color: #fff; }
+  #placebar .x { color: rgb(255 255 255 / 0.75); }
+  @media (hover: hover) { #placebar .step:hover:not(:disabled), #placebar .x:hover { background: rgb(255 255 255 / 0.12); color: #fff; } }
+  .feature .ic svg { width: 22px; height: 22px; }
+  .dots-step input { accent-color: var(--oyen); }
+</style>
+
+<style id="standalone-accessibility">
+.skip-link{position:fixed;z-index:1000;top:8px;left:8px;transform:translateY(-160%);padding:10px 14px;border-radius:999px;background:#1c1a17;color:#fff;font:600 14px/20px var(--sans);text-decoration:none;box-shadow:0 2px 12px rgb(0 0 0 / .2)}
+.skip-link:focus{transform:translateY(0)}
+:focus-visible{outline:3px solid #854708!important;outline-offset:3px!important}
+#main{scroll-margin-top:calc(64px + env(safe-area-inset-top,0px))}
+#main:focus{outline:none}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Langsung ke konten utama</a>
+<header id="bar">
+  <div class="bar-row">
+    <button id="back" type="button" hidden aria-label="Back to the surahs"><svg class="chev" viewBox="0 0 12 20" aria-hidden="true"><path d="M10 2 2 10l8 8"/></svg><span id="back-label">Surahs</span></button>
+    <span class="brand" id="brand">Quran Oyen</span>
+    <span class="where" id="where"></span>
+    <button class="bar-search" id="bar-search" type="button" aria-label="Search the Quran"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="M12.6 12.6 17 17"/></svg><span id="bar-search-label">Search</span></button>
+    <div class="seg where-seg bar-where" role="group" aria-label="Where root maps are computed" id="bar-where">
+      <button type="button" data-where="device" aria-pressed="true">This device</button><button type="button" data-where="spark" aria-pressed="false" disabled title="Hanya tersedia di server situs asli.">Our GPU</button>
+    </div>
+    <button class="bar-aa" id="bar-aa" type="button" aria-haspopup="dialog" aria-label="Display and reading">Aa</button>
+  </div>
+  <div class="bar-progress" id="bar-progress"></div>
+</header>
+
+<main id="main" tabindex="-1">
+  <section id="index-view">
+    <div class="home-head"><h1 id="intro-title">Al-Qur’an</h1><button class="round-btn" id="home-aa" type="button" aria-haspopup="dialog" aria-label="Display and reading">Aa</button></div>
+    <p class="home-sub" id="home-sub"></p>
+    <div class="intro">
+      <div class="basmala" lang="ar" id="intro-basmala"></div>
+      <p id="intro-text"></p>
+      <div class="greet" id="greet">
+        <div class="greet-face" id="greet-face" aria-hidden="true"></div>
+        <div class="greet-hi" id="greet-hi"></div>
+        <div class="greet-what" id="greet-what"></div>
+        <div class="greet-row"><span class="greet-pos" id="greet-pos"></span><button class="btn" id="greet-go" type="button"></button></div>
+      </div>
+      <div class="nudge" id="nudge" hidden>
+        <div class="face" id="nudge-face" aria-hidden="true"></div>
+        <div class="nudge-text"><b id="nudge-title"></b><span id="nudge-sub"></span></div>
+        <button class="btn" id="nudge-go" type="button"></button>
+        <button class="x" id="nudge-x" type="button" aria-label="Close">×</button>
+      </div>
+      <form class="search-box intro-search" id="intro-search" role="search">
+        <svg class="mag" viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="M12.6 12.6 17 17"/></svg>
+        <input id="intro-q" type="search" enterkeyhint="search" autocomplete="off" spellcheck="false" aria-label="Search the Quran">
+        <button class="pill solid" type="submit" id="intro-go">Search</button>
+      </form>
+      <div class="search-try" id="intro-try"></div>
+      <h2 class="home-h" id="popular-h"></h2>
+      <div class="chips" id="popular"></div>
+      <button class="feature" id="intro-same" type="button"><span class="ic" aria-hidden="true">=</span><b id="intro-same-title"></b><span class="sub" id="intro-same-sub"></span><i aria-hidden="true">›</i></button>
+      <button class="feature" id="intro-dots" type="button"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><g fill="currentColor"><circle cx="6" cy="6" r="2"/><circle cx="12" cy="6" r="2"/><circle cx="18" cy="6" r="2" opacity=".35"/><circle cx="6" cy="12" r="2" opacity=".35"/><circle cx="12" cy="12" r="2"/><circle cx="18" cy="12" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="12" cy="18" r="2" opacity=".35"/><circle cx="18" cy="18" r="2"/></g></svg></span><b id="intro-dots-title"></b><span class="sub" id="intro-dots-sub"></span><i aria-hidden="true">›</i></button>
+    </div>
+    <h2 class="home-h list-h"><span id="list-h"></span><small>114</small></h2>
+    <ul id="surahs" aria-label="Surahs"><li class="loading" id="index-loading" role="status" aria-live="polite">Loading the surahs<div class="wire-bar"><i></i></div></li></ul>
+  </section>
+
+  <section id="reader-view" hidden>
+    <article class="sheet" id="sheet">
+      <header class="sheet-head" id="sheet-head"></header>
+      <div id="page" aria-live="off"></div>
+    </article>
+    <div class="end-card" id="end-card" hidden>
+      <div class="face" id="end-face" aria-hidden="true"></div>
+      <b id="end-title"></b>
+      <span id="end-text"></span>
+      <button class="btn" id="end-next" type="button"></button>
+    </div>
+  </section>
+
+  <footer id="credits"></footer>
+</main>
+
+<nav class="tabs" id="tabs" aria-label="Menu">
+  <button type="button" id="tab-home" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.6C10.4 5.3 8.2 4.6 5 4.6H3.6v12.9H5c3.2 0 5.4.7 7 2 1.6-1.3 3.8-2 7-2h1.4V4.6H19c-3.2 0-5.4.7-7 2Z"/><path d="M12 6.6v12.9"/></svg><span id="tab-home-l">Al-Qur’an</span></button>
+  <button type="button" id="tab-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m20 20-4.6-4.6"/></svg><span id="tab-search-l">Search</span></button>
+  <button type="button" id="tab-same"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.6" y="3.6" width="16.8" height="16.8" rx="5"/><path d="M8.2 10h7.6M8.2 14h7.6"/></svg><span id="tab-same-l">Same count</span></button>
+  <button type="button" id="tab-aa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h9.5M18.5 7H20M4 17h3.5M12.5 17H20"/><circle cx="16" cy="7" r="2.3"/><circle cx="10" cy="17" r="2.3"/></svg><span id="tab-aa-l">Settings</span></button>
+</nav>
+
+<section id="map" hidden aria-label="Mind map">
+  <header class="map-head">
+    <div class="face sheet-oyen" id="map-oyen" aria-hidden="true"></div>
+    <div class="map-root" id="map-root" lang="ar"></div>
+    <div class="map-info"><div class="map-title" id="map-title"></div><div class="label" id="map-gpu"></div></div>
+    <div class="seg map-mode" role="group" aria-label="View" id="map-mode">
+      <button type="button" data-mode="map" aria-pressed="true">Map</button><button type="button" data-mode="dots" aria-pressed="false">Dots</button>
+    </div>
+    <div class="seg map-where" role="group" aria-label="Where the search runs" id="map-where">
+      <button type="button" data-where="device" aria-pressed="true">This device</button><button type="button" data-where="spark" aria-pressed="false" disabled title="Hanya tersedia di server situs asli.">Our GPU</button>
+    </div>
+    <button class="x" id="map-close" type="button" aria-label="Close">×</button>
+  </header>
+  <div class="map-body" id="map-body">
+    <canvas id="map-canvas"></canvas><canvas id="map-hover"></canvas>
+    <div id="map-nodes"></div>
+    <div id="map-tip" hidden></div>
+  </div>
+  <div class="dots-body" id="dots-body" hidden>
+    <div class="dots-tools">
+      <input id="dots-search" type="search" autocomplete="off" spellcheck="false" dir="auto" aria-label="Find a root">
+      <div class="dots-step">
+        <button type="button" id="dots-prev" aria-label="Previous root">‹</button>
+        <input type="range" id="dots-scrub" min="0" max="0" step="1" value="0" aria-label="Step through the roots">
+        <button type="button" id="dots-next" aria-label="Next root">›</button>
+        <span class="dots-rank" id="dots-rank"></span>
+      </div>
+      <button class="pill" id="dots-scan" type="button">Play the scan · slowed down</button>
+    </div>
+    <div class="dots-found" id="dots-found" hidden></div>
+    <div class="dots-pick" id="dots-pick" aria-live="polite"></div>
+    <div class="dots-grid" id="dots-grid"><div><canvas id="dots-canvas" aria-label="Every ayah as one dot, lit where the root occurs"></canvas><canvas id="dots-ring"></canvas></div></div>
+    <div class="dots-note" id="dots-note" aria-live="polite"></div>
+    <div class="dots-legend" id="dots-legend"></div>
+  </div>
+</section>
+<section id="search" hidden aria-labelledby="search-title">
+  <div class="search-head">
+    <div class="same-top">
+      <form class="search-box" id="sheet-search" role="search"><input id="sheet-q" type="search" enterkeyhint="search" autocomplete="off" spellcheck="false" aria-label="Search the Quran"><button class="pill solid" type="submit" id="sheet-go">Search</button></form>
+      <button class="x" id="search-close" type="button" aria-label="Close">×</button>
+    </div>
+    <h2 id="search-title" class="search-summary"></h2>
+    <div class="search-row">
+      <div class="seg" role="group" aria-label="Kind of match" id="search-tabs"><button type="button" data-tab="exact" aria-pressed="true">Exact</button><button type="button" data-tab="meaning" aria-pressed="false">By meaning</button></div>
+      <div class="search-families" id="search-families"></div>
+    </div>
+  </div>
+  <div class="search-body" id="search-body"><p class="same-rule" id="search-rule"></p><div id="search-list"></div><button class="plain" id="search-more" type="button" hidden>More</button></div>
+</section>
+<section id="same" hidden aria-labelledby="same-title">
+  <header class="same-head">
+    <div class="same-top"><div class="face sheet-oyen" id="same-oyen" aria-hidden="true"></div><h2 id="same-title"></h2><button class="x" id="same-close" type="button" aria-label="Close">×</button></div>
+    <div class="same-tools">
+      <div class="seg" role="group" aria-label="Kind of word" id="same-filter">
+        <button type="button" data-f="names" aria-pressed="true"></button><button type="button" data-f="nouns" aria-pressed="false"></button><button type="button" data-f="verbs" aria-pressed="false"></button><button type="button" data-f="all" aria-pressed="false"></button>
+      </div>
+      <input id="same-search" type="search" autocomplete="off" spellcheck="false" aria-label="Find a word">
+      <span class="label" id="same-stats"></span>
+    </div>
+  </header>
+  <div class="same-body" id="same-body"><p class="same-rule" id="same-rule"></p><div id="same-list"></div></div>
+</section>
+
+<section class="panel" id="aa" hidden role="dialog" aria-modal="true" aria-labelledby="aa-title">
+  <header class="panel-head"><h2 id="aa-title">Display and reading</h2><button class="done" id="aa-done" type="button">Done</button></header>
+  <div class="panel-body">
+    <div class="group">
+      <div class="size-prev" id="size-prev" lang="ar" aria-hidden="true"></div>
+      <div class="size-row" id="size" role="group" aria-label="Text size">
+        <button type="button" data-step="-1" aria-label="Smaller text">A</button>
+        <input type="range" id="size-range" min="0" max="4" step="1" value="2" aria-label="Text size">
+        <button type="button" data-step="1" aria-label="Larger text">A</button>
+      </div>
+    </div>
+    <div class="group">
+      <div class="row"><span class="row-l" id="lang-label">Language</span>
+        <div class="seg" role="group" aria-labelledby="lang-label" id="lang"><button type="button" data-lang="id" aria-pressed="true">Indonesia</button><button type="button" data-lang="en" aria-pressed="false">English</button></div></div>
+      <div class="row"><span class="row-l"><span id="tr-label">Ayah translation</span><small id="tr-note"></small></span><button class="switch" type="button" role="switch" id="tr-switch" aria-checked="true" aria-labelledby="tr-label"></button></div>
+      <div class="row"><span class="row-l"><span id="where-label">Root maps are computed on</span><small id="where-note"></small></span>
+        <div class="seg where-seg" role="group" aria-labelledby="where-label" id="aa-where"><button type="button" data-where="device" aria-pressed="true">This device</button><button type="button" data-where="spark" aria-pressed="false" disabled title="Hanya tersedia di server situs asli.">Our GPU</button></div></div>
+    </div>
+    <div class="group">
+      <div class="row" id="offline-row"><span class="row-l"><span id="offline-label">Read offline</span><small id="offline-note"></small></span><button class="btn" id="offline-go" type="button"></button></div>
+      <button class="row link" id="install-row" type="button" hidden><span id="install-label">Add to Home Screen</span><i aria-hidden="true">›</i></button>
+    </div>
+    <div class="group about"><p id="about-text"></p></div>
+  </div>
+</section>
+<section class="panel" id="install" hidden role="dialog" aria-modal="true" aria-labelledby="install-title">
+  <header class="panel-head"><span></span><button class="done" id="install-done" type="button">Later</button></header>
+  <div class="panel-body">
+    <div class="install-top"><div class="face" id="install-face" aria-hidden="true"></div><h2 id="install-title"></h2><p id="install-text"></p></div>
+    <ol class="steps group" id="install-steps"></ol>
+  </div>
+</section>
+<div class="scrim" id="scrim" hidden></div>
+<section id="net" hidden aria-label="This word’s network">
+  <header class="net-head">
+    <div class="net-who">
+      <span class="label" id="net-kicker"></span>
+      <div class="net-word"><span class="ar" id="net-ar" lang="ar"></span><span class="net-gloss" id="net-gloss"></span></div>
+    </div>
+    <button class="x" id="net-close" type="button" aria-label="Close">×</button>
+  </header>
+  <div class="net-bar">
+    <div class="seg" role="group" aria-label="List" id="net-lists">
+      <button type="button" data-list="0" aria-pressed="false">Input</button><button type="button" data-list="1" aria-pressed="false">Operations</button><button type="button" data-list="2" aria-pressed="true">Output</button>
+    </div>
+  </div>
+  <div class="net-caption"><ul class="net-kinds" id="net-kinds" hidden></ul><p id="net-sentence"></p></div>
+  <div class="net-list list-2" id="net-list">
+    <div class="net-header" id="net-header"></div>
+    <div class="net-scroller" id="net-scroller" tabindex="0"><div class="net-spacer" id="net-spacer"></div></div>
+  </div>
+  <footer class="net-foot">
+    <ul class="net-counts" id="net-counts"></ul>
+    <div class="net-frame" id="net-frame" role="group"><svg class="net-chart" viewBox="0 0 59 1" preserveAspectRatio="none" aria-hidden="true"><path class="area" id="net-area"/><path class="line" id="net-line"/><path class="end" id="net-end"/></svg><span class="net-ms"><b id="net-ms">–</b> ms</span></div>
+  </footer>
+</section>
+<div id="zoom" hidden></div>
+<div id="toast" role="status" hidden></div>
+<div id="hint" role="status" hidden><div class="face" id="hint-face" aria-hidden="true"></div><div class="hint-text"><b id="hint-title"></b><span id="hint-sub"></span></div><button class="btn" id="hint-ok" type="button"></button></div>
+<div id="rootbar" hidden><span class="r" id="root-letters" lang="ar"></span><span class="n" id="root-count"></span><button class="pill solid" id="root-map" type="button">Map</button><button class="x" id="root-clear" type="button" aria-label="Turn off the root">×</button><span class="wire"></span></div>
+<div id="placebar" role="group" aria-label="Places of this word" hidden><span class="r" id="place-word" lang="ar"></span><span class="g" id="place-gloss"></span><button class="step" id="place-prev" type="button" aria-label="Previous place">‹</button><span class="at" aria-live="polite"><b id="place-n"></b><span id="place-ref"></span></span><button class="step" id="place-next" type="button" aria-label="Next place">›</button><button class="x" id="place-close" type="button" aria-label="Close the places">×</button></div>
+
+<script type="module" src="app.js?v=9b5457c"></script>
+</body>
+</html>

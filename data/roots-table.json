@@ -1,0 +1,33 @@
+{
+ "format": "roots-table/1",
+ "about": "Every word's rootId in reading order, for the root light in quran-gpu.js. Built by tools/build_roots_table.py from s001..s114.json; little-endian arrays at the offsets below.",
+ "file": "roots-table.bin",
+ "bytes": 180274,
+ "sha256": "c711f99db5748f59d34a8cf4d0d40b0d056468e9ef984de4d216903088d27935",
+ "surahs": 114,
+ "ayat": 6236,
+ "words": 77433,
+ "wordsWithRoot": 49940,
+ "roots": 1642,
+ "maxWordsPerAyah": 128,
+ "arrays": {
+  "surahStart": {
+   "type": "uint32",
+   "offset": 0,
+   "length": 115,
+   "about": "index of each surah's first ayah in reading order; the last entry is the ayah count"
+  },
+  "ayahStart": {
+   "type": "uint32",
+   "offset": 460,
+   "length": 6237,
+   "about": "index of each ayah's first word in reading order; the last entry is the word count"
+  },
+  "roots": {
+   "type": "uint16",
+   "offset": 25408,
+   "length": 77433,
+   "about": "each word's rootId (roots.json index + 1), 0 for a word without a root"
+  }
+ }
+}
