@@ -10,7 +10,7 @@ Situs web statis untuk membaca dan menelusuri Al-Qur’an kata demi kata. Reposi
 - **Jelajahi akar kata** melalui peta hubungan atau tampilan titik ayat. Pilih sebuah kata untuk menyorot kemunculan akar katanya di seluruh Al-Qur’an.
 - **Bandingkan frekuensi kata** berdasarkan bentuk dasar (lemma), lalu telusuri lokasi kemunculannya.
 - **Navigasi dan tampilan responsif** untuk layar ponsel maupun desktop, termasuk panel yang mengikuti gerakan sentuh di ponsel.
-- **Dukungan PWA dan baca offline.** Situs dapat ditambahkan ke layar utama. Dari pengaturan baca, pengguna dapat mengunduh data seluruh surah untuk dibaca tanpa koneksi; jumlah unduhan yang ditampilkan aplikasi sekitar 3,4 MB.
+- **Dukungan PWA dan baca offline.** Situs dapat ditambahkan ke layar utama. Dari pengaturan baca, pengguna dapat mengunduh data seluruh surah untuk dibaca tanpa koneksi; unduhan terkompresi sekitar 3,5 MB dan memakai sekitar 12 MB penyimpanan lokal.
 
 ## Batasan salinan mandiri
 
@@ -39,7 +39,7 @@ Repositori ini adalah situs statis. Untuk layanan hosting statis:
 - pertahankan struktur folder dan huruf besar/kecil nama berkas; browser perlu memuat modul JavaScript, berkas JSON, dan berkas biner dari jalur relatif yang sama;
 - aktifkan HTTPS agar service worker dan fitur PWA dapat digunakan di luar `localhost`.
 
-`sw.js` berisi versi rilis dan hash berkas untuk cache offline. Jika berkas situs atau data diubah, hash dan versi rilis yang dikelola service worker perlu diperbarui sebelum deploy; skrip stamping rilis yang disebut dalam komentar `sw.js` tidak termasuk dalam repositori ini. README tidak mengasumsikan adanya pipeline deploy otomatis.
+`sw.js` berisi versi rilis dan hash berkas untuk cache offline. Sebelum deploy, jalankan `python3 tools/stamp_sw.py` untuk menghitung ulang hash semua aset publik dan menandai versi rilis; setelah itu uji PWA serta mode offline. README tidak mengasumsikan adanya pipeline deploy otomatis.
 
 ## Privasi dan layanan eksternal
 

@@ -111,8 +111,8 @@ Object.assign(T.en, {
   ayahOf: (a, n) => `Ayah ${a} of ${n}`, popular: 'Read often', allSurahs: 'All surahs', sameTitle: 'Words with the same count', sameSub: 'Adam and Isa: 25 times each',
   tabHome: 'Al-Qur’an', tabSearch: 'Search', tabSame: 'Same count', tabAa: 'Settings', menu: 'Menu', aa: 'Display and reading', done: 'Done',
   size: 'Text size', smaller: 'Smaller text', larger: 'Larger text', langLabel: 'Language', trLabel: 'Ayah translation', trNote: 'Kemenag, in the Indonesian view',
-  offlineLabel: 'Read offline', offlineNote: 'All 114 surahs, one download of 3.4 MB', offlineGo: 'Download', offlineBusy: (p) => `Saving… ${p}%`, offlineDone: 'Saved on this phone',
-  offlineFail: 'Not finished. Try again when you are online.', offlineStop: { changed: 'A newer version just arrived. Open the app again, then download.', quota: 'This phone is out of space for it.', storage: 'This browser is not letting the site keep files (a private window?).', off: 'Saving offline is paused for now.' }, offlineNoWorker: 'Open quran.oyenza.com in Safari or Chrome to save it',
+  offlineLabel: 'Read offline', offlineNote: 'All 114 surahs & Indonesian translations · ~3.5 MB download, ~12 MB storage', offlinePartial: (n, total) => `${n}/${total} data files saved · ~3.5 MB download, ~12 MB storage`, offlineGo: 'Download', offlineBusy: (p) => `Saving… ${p}%`, offlineDone: 'Saved on this phone',
+  offlineFail: 'Not finished. Try again online; saved files will be kept.', offlineStop: { changed: 'A newer version just arrived. Open the app again, then download.', quota: 'This phone is out of space for it.', storage: 'This browser is not letting the site keep files (a private window?).', off: 'Saving offline is paused for now.' }, offlineNoWorker: 'Open this site in Safari or Chrome to save it offline.',
   installLabel: 'Add to Home Screen', installTitle: 'Add Quran Oyen to your Home Screen', installText: 'It opens like an app, and the surahs you have opened stay readable without internet.',
   installSteps: ['Tap the Share button', 'Choose Add to Home Screen', 'Tap Add'], inAppTitle: 'Open it in your browser first', inAppText: 'The browser inside this app can’t add Quran Oyen to your Home Screen. Open its menu and choose Open in browser.',
   later: 'Later', mapCpuPlain: 'Found on this device', mapSparkDown: 'Our GPU did not answer, so it was found on this device',
@@ -128,8 +128,8 @@ Object.assign(T.id, {
   ayahOf: (a, n) => `Ayat ${a} dari ${n}`, popular: 'Sering dibaca', allSurahs: 'Semua surah', sameTitle: 'Kata dengan jumlah sama', sameSub: 'Adam dan Isa sama-sama 25 kali',
   tabHome: 'Al-Qur’an', tabSearch: 'Cari', tabSame: 'Jumlah sama', tabAa: 'Pengaturan', menu: 'Menu', aa: 'Tampilan & bacaan', done: 'Selesai',
   size: 'Ukuran huruf', smaller: 'Huruf lebih kecil', larger: 'Huruf lebih besar', langLabel: 'Bahasa', trLabel: 'Terjemahan ayat', trNote: 'Kementerian Agama RI',
-  offlineLabel: 'Baca tanpa internet', offlineNote: 'Semua 114 surah, sekali unduh 3,4 MB', offlineGo: 'Unduh', offlineBusy: (p) => `Menyimpan… ${p}%`, offlineDone: 'Tersimpan di ponsel ini',
-  offlineFail: 'Belum selesai. Coba lagi saat ada internet.', offlineStop: { changed: 'Versi baru baru saja tiba. Buka lagi aplikasinya, lalu unduh.', quota: 'Ruang penyimpanan ponsel ini tidak cukup.', storage: 'Browser ini tidak mengizinkan situs menyimpan file (jendela pribadi?).', off: 'Penyimpanan offline sedang dijeda.' }, offlineNoWorker: 'Buka quran.oyenza.com di Safari atau Chrome untuk menyimpannya',
+  offlineLabel: 'Baca tanpa internet', offlineNote: 'Semua 114 surah + terjemahan · unduh ±3,5 MB; ruang ±12 MB', offlinePartial: (n, total) => `${n}/${total} berkas data tersimpan · unduh ±3,5 MB; ruang ±12 MB`, offlineGo: 'Unduh', offlineBusy: (p) => `Menyimpan… ${p}%`, offlineDone: 'Tersimpan di ponsel ini',
+  offlineFail: 'Belum selesai. Coba lagi saat online; berkas yang tersimpan tetap ada.', offlineStop: { changed: 'Versi baru baru saja tiba. Buka lagi aplikasinya, lalu unduh.', quota: 'Ruang penyimpanan ponsel ini tidak cukup.', storage: 'Browser ini tidak mengizinkan situs menyimpan file (jendela pribadi?).', off: 'Penyimpanan offline sedang dijeda.' }, offlineNoWorker: 'Buka situs ini di Safari atau Chrome agar dapat disimpan untuk dibaca tanpa internet.',
   installLabel: 'Pasang di layar utama', installTitle: 'Pasang Quran Oyen', installText: 'Buka dari layar utama seperti aplikasi, dan surah yang sudah dibuka tetap bisa dibaca tanpa internet.',
   installSteps: ['Ketuk tombol Bagikan', 'Pilih Tambah ke Layar Utama', 'Ketuk Tambah'], inAppTitle: 'Buka di browser dulu', inAppText: 'Browser di dalam aplikasi ini belum bisa memasang Quran Oyen. Buka menunya, lalu pilih Buka di browser.',
   later: 'Nanti saja', mapCpuPlain: 'Dicari di perangkat ini', mapSparkDown: 'GPU kami tidak menjawab, jadi dicari di perangkat ini',
@@ -1734,7 +1734,7 @@ function syncOffline() {
   if (!worker?.controller) { note.textContent = worker ? t('offlineNote') : t('offlineNoWorker'); go.disabled = true; return; }
   if (offline.busy) { note.textContent = t('offlineBusy')(offline.total ? Math.round((offline.done / offline.total) * 100) : 0); go.disabled = true; return; }
   const saved = offline.totalData > 0 && offline.cachedData >= offline.totalData;
-  note.textContent = offline.failed ? t('offlineStop')[offline.code] ?? t('offlineFail') : saved ? t('offlineDone') : t('offlineNote');
+  note.textContent = offline.failed ? t('offlineStop')[offline.code] ?? t('offlineFail') : saved ? t('offlineDone') : offline.cachedData > 0 ? t('offlinePartial')(offline.cachedData, offline.totalData) : t('offlineNote');
   go.hidden = saved;
   go.disabled = false;
 }
