@@ -12,6 +12,7 @@ import { faceSVG, MOODS } from './vendor/oyen-face-d00ce3e/oyen-face.js';
 import { createNetworkPanel, networkText } from './network.js?v=9b5457c';
 import * as track from './track.js?v=9b5457c';
 import { audioForQari, getEquranSurah, getEquranSurahs, getEquranTafsir, QARIS } from './equran.js';
+import { createIbadahFeatures } from './ibadah.js?v=20261031';
 
 const $ = (id) => document.getElementById(id);
 const el = (tag, props = {}, ...children) => {
@@ -49,6 +50,7 @@ let equranCatalog = null;
 let equranCatalogPromise = null;
 let equranCatalogCached = false;
 let audioUI = null;
+let ibadahUI = null;
 let tafsirRequest = 0;
 // Resolved once start() has data/index.json, for views that can be opened from the home before it arrives.
 let markIndexReady;
@@ -544,7 +546,7 @@ function plainApiText(value) {
   return (parsed.body.textContent ?? '').replace(/\r/g, '').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
 }
 
-function openTafsir(n) {
+function openTafsir(n, focusAyah = 0) {
   const token = ++tafsirRequest;
   const meta = index[n - 1];
   $('tafsir-title').textContent = `${EQURAN_TEXT[settings.lang].tafsir} · ${meta?.latin ?? n}`;
@@ -574,6 +576,7 @@ function openTafsir(n) {
     const empty = el('p', { className: 'tafsir-empty', textContent: et('tafsirNoResults'), hidden: true });
     const entries = data.tafsir.map((item) => {
       const entry = el('article', { className: 'tafsir-entry' });
+      entry.dataset.ayah = String(item.ayat);
       entry.dataset.search = `${item.ayat} ${item.teks}`.toLocaleLowerCase();
       entry.append(el('h3', { textContent: et('ayah', item.ayat) }));
       const prose = el('div', { className: 'tafsir-prose', dir: 'auto' });
@@ -599,9 +602,10 @@ function openTafsir(n) {
     });
     const updateFilter = () => {
       const query = filter.value.trim().toLocaleLowerCase();
+      const exactAyah = /^\d+$/.test(query);
       let shown = 0;
       for (const entry of entries) {
-        const match = !query || entry.dataset.search.includes(query);
+        const match = !query || (exactAyah ? entry.dataset.ayah === query : entry.dataset.search.includes(query));
         entry.hidden = !match;
         if (match) shown++;
       }
@@ -611,6 +615,12 @@ function openTafsir(n) {
     filter.addEventListener('input', updateFilter);
     updateFilter();
     body.replaceChildren(overview, filterRow, list, empty);
+    if (Number.isInteger(focusAyah) && focusAyah > 0) {
+      filter.value = String(focusAyah);
+      updateFilter();
+      const target = entries.find((entry) => Number(entry.dataset.ayah) === focusAyah);
+      if (target) requestAnimationFrame(() => target.scrollIntoView({ block: 'start', behavior: reduced.matches ? 'auto' : 'smooth' }));
+    }
   }).catch(() => {
     if (token === tafsirRequest) $('tafsir-body').replaceChildren(el('p', { className: 'tafsir-credit', role: 'status', textContent: et('tafsirError') }));
   });
@@ -1523,6 +1533,21 @@ function goToAyah(s, ayah, r, word) {
   if (view?.n === s) land();
   else { closeSurah(true); openSurah(s, null, land); }
 }
+function openApiResult(surah, ayah, action) {
+  const meta = index[surah - 1];
+  if (!meta) return;
+  const verse = Math.min(meta.ayat, Math.max(1, Number(ayah) || 1));
+  const open = () => {
+    goToAyah(surah, verse - 1, 0);
+    if (action === 'tafsir') openTafsir(surah, verse);
+    else if (action === 'play') {
+      if (audioUI?.n === surah) audioUI.playAyah(verse).then((started) => { if (!started) openTafsir(surah, verse); });
+      else openTafsir(surah, verse);
+    }
+  };
+  if (view?.n === surah) open();
+  else openSurah(surah, null, open);
+}
 function measureThrough(target, now) {
   const g = geometry();
   let past = 0;
@@ -1637,6 +1662,7 @@ function setLang(lang) {
   for (const b of $('map-mode').querySelectorAll('button')) b.textContent = b.dataset.mode === 'dots' ? dt.modeDots : dt.modeMap;
   dotsView?.relang();
   netPanel?.relang();
+  ibadahUI?.relang(lang);
   renderIndex();
   renderPopular();
   renderGreeting();
@@ -1876,6 +1902,7 @@ const sheets = createSheets({ reduced });
 sheets.own('aa', { handle: '.panel-head' });
 sheets.own('install', { handle: '.panel-head' });
 sheets.own('tafsir', { handle: '.panel-head' });
+ibadahUI = createIbadahFeatures({ sheets, onNavigate: openApiResult });
 sheets.adopt('map', { handle: '.map-head', closeButton: 'map-close' });
 sheets.adopt('same', { handle: '.same-head', closeButton: 'same-close', onShow: () => playFace($('same-oyen'), 'happy') });
 sheets.adopt('search', { handle: '.search-head', closeButton: 'search-close' });

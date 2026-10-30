@@ -130,6 +130,9 @@
   .feature .sub { grid-column: 2; font: 400 13px/18px var(--sans); color: var(--ink-3); }
   .feature i { grid-row: 1 / span 2; grid-column: 3; font-style: normal; font-size: 22px; color: var(--ink-3); }
   .feature:active, .chip:active, .surah:active, .row.link:active { background: var(--panel); }
+  .ibadah-shortcuts { max-width: 720px; margin: 22px auto 4px; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 9px; }
+  .ibadah-shortcuts h2 { grid-column: 1 / -1; margin: 0 0 2px; font: 700 18px/24px var(--sans); letter-spacing: -0.01em; }
+  .ibadah-shortcuts .feature { min-height: 70px; }
   .list-h { max-width: 720px; margin: 26px auto 8px; padding: 0 4px; }
   /* Every surah: one grouped list with hairlines, which is lighter to draw than 114 cards with shadows. */
   #surahs { list-style: none; margin: 0 auto; padding: 0; max-width: 720px; border: 1px solid var(--hair); border-radius: 18px; background: var(--sheet); overflow: hidden; }
@@ -200,6 +203,67 @@
   .tafsir-actions .pill:disabled { opacity: 0.55; cursor: wait; }
   .tafsir-empty { margin: 0; padding: 24px 12px; text-align: center; color: var(--ink-3); font: 400 14px/21px var(--sans); }
   .tafsir-credit { margin: 0; color: var(--ink-3); font: 400 12px/18px var(--sans); }
+  .ibadah-panel { width: min(520px, calc(100vw - 32px)); }
+  .ibadah-panel .panel-head h2 { min-width: 0; }
+  .ibadah-panel .panel-body { gap: 11px; padding: 2px 16px max(18px, var(--sab)); }
+  .ibadah-note, .ibadah-source { margin: 0; color: var(--ink-3); font: 400 13px/19px var(--sans); }
+  .ibadah-source { padding-top: 9px; border-top: 1px solid var(--hair); font-size: 11px; }
+  .ibadah-source a { color: var(--oyen-ink); font-weight: 650; text-decoration: underline; text-underline-offset: 2px; }
+  .ibadah-form, .ibadah-form-grid { display: grid; gap: 9px; }
+  .ibadah-form-grid { grid-template-columns: minmax(0, 1fr) minmax(130px, .55fr); align-items: end; }
+  .ibadah-field { display: grid; gap: 5px; min-width: 0; color: var(--ink-3); font: 600 12px/17px var(--sans); }
+  .ibadah-panel input, .ibadah-panel select { width: 100%; min-width: 0; height: 43px; border: 1px solid var(--rule-strong); border-radius: 12px; background: var(--sheet); color: var(--ink); padding: 0 11px; font: 450 14px/20px var(--sans); }
+  .ibadah-panel input:focus-visible, .ibadah-panel select:focus-visible { border-color: var(--copper); outline-offset: 1px; }
+  .ibadah-panel button:disabled { opacity: .55; cursor: wait; }
+  .ibadah-status { min-height: 18px; margin: 0; color: var(--ink-3); font: 400 12px/18px var(--sans); }
+  .ibadah-status.is-error { color: var(--red); }
+  .ibadah-results { display: grid; gap: 10px; }
+  .ibadah-card { min-width: 0; padding: 14px; border: 1px solid var(--hair); border-radius: 16px; background: var(--sheet); box-shadow: 0 3px 12px rgb(var(--shadow-ink) / .035); }
+  .ibadah-card-head { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px 10px; }
+  .ibadah-badge { max-width: 100%; padding: 3px 9px; border-radius: 999px; background: var(--oyen-soft); color: var(--oyen-ink); font: 650 11px/16px var(--sans); }
+  .ibadah-badge.tafsir { background: #eef0fa; color: var(--indigo); }
+  .ibadah-score { color: var(--ink-3); font: 550 11px/16px var(--sans); }
+  .ibadah-reference { margin: 9px 0 0; font: 700 15px/21px var(--sans); }
+  .ibadah-arabic { margin: 10px 0 7px; color: var(--ink); font: 400 26px/1.9 var(--quran); text-align: right; overflow-wrap: anywhere; }
+  .dua-arabic { font-size: 29px; line-height: 2; }
+  .ibadah-latin { margin: 7px 0; color: var(--ink-2); font: 450 14px/22px var(--serif); overflow-wrap: anywhere; }
+  .ibadah-prose { margin: 8px 0 0; color: var(--ink-2); font: 400 14px/22px var(--serif); white-space: pre-line; overflow-wrap: anywhere; }
+  .ibadah-field-label { color: var(--ink-3); font: 650 12px/18px var(--sans); }
+  .ibadah-english { border-top: 1px solid var(--hair); padding-top: 8px; }
+  .ibadah-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--hair); }
+  .ibadah-actions .pill { min-height: 38px; }
+  .ibadah-more { margin-top: 10px; border-top: 1px solid var(--hair); padding-top: 8px; }
+  .ibadah-more summary, .prayer-month summary { cursor: pointer; color: var(--oyen-ink); font: 650 13px/19px var(--sans); }
+  .ibadah-tags { margin: 8px 0 0; color: var(--ink-3); font: 400 12px/18px var(--sans); }
+  .ibadah-empty { margin: 0; padding: 18px 12px; border: 1px dashed var(--rule-strong); border-radius: 14px; color: var(--ink-3); font: 400 14px/21px var(--sans); text-align: center; }
+  .prayer-location { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+  .prayer-month-tools { display: grid; grid-template-columns: 40px minmax(0, 1fr) 40px; align-items: center; gap: 7px; }
+  .prayer-month-tools button { min-height: 38px; border: 1px solid var(--hair); border-radius: 11px; background: var(--sheet); color: var(--oyen-ink); font: 650 17px/1 var(--sans); cursor: pointer; }
+  .prayer-month-tools #prayer-month-label { text-align: center; font: 700 15px/20px var(--sans); text-transform: capitalize; }
+  .prayer-month-tools #prayer-now { grid-column: 1 / -1; justify-self: center; border: 0; background: none; padding: 3px 8px; color: var(--oyen-ink); font: 600 12px/18px var(--sans); }
+  .prayer-today { padding: 14px; border: 1px solid rgb(240 137 46 / .38); border-radius: 16px; background: linear-gradient(145deg, var(--oyen-soft), var(--sheet) 78%); }
+  .prayer-today-head { display: grid; gap: 2px; }
+  .prayer-today-head b { font: 700 16px/21px var(--sans); }
+  .prayer-today-head span { color: var(--ink-3); font: 400 12px/18px var(--sans); }
+  .prayer-time-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 7px; margin-top: 12px; }
+  .prayer-time { min-width: 0; display: grid; gap: 2px; padding: 8px 7px; border-radius: 11px; background: rgb(255 255 255 / .72); }
+  .prayer-time span { color: var(--ink-3); font: 500 10px/14px var(--sans); }
+  .prayer-time b { font: 700 15px/19px var(--sans); font-variant-numeric: tabular-nums; }
+  .prayer-month { border: 1px solid var(--hair); border-radius: 13px; background: var(--sheet); padding: 11px 12px; }
+  .prayer-month summary { list-style-position: inside; }
+  .prayer-table-scroll { overflow: auto; margin-top: 10px; overscroll-behavior-x: contain; }
+  .prayer-table { width: 100%; min-width: 610px; border-collapse: collapse; font: 400 12px/18px var(--sans); font-variant-numeric: tabular-nums; }
+  .prayer-table th, .prayer-table td { padding: 7px 8px; border-bottom: 1px solid var(--hair); text-align: right; white-space: nowrap; }
+  .prayer-table thead th { position: sticky; top: 0; background: var(--panel); color: var(--ink-2); font-weight: 650; }
+  .prayer-table th:first-child, .prayer-table td:first-child { text-align: left; }
+  .prayer-table tbody th { font-weight: 550; }
+  .prayer-table tr.is-today { background: var(--oyen-soft); color: var(--oyen-ink); font-weight: 700; }
+  @media (max-width: 480px) {
+    .ibadah-shortcuts { grid-template-columns: 1fr; }
+    .ibadah-form-grid, .prayer-location { grid-template-columns: 1fr; }
+    .prayer-time-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .ibadah-panel .panel-head { padding-inline: 16px 12px; }
+  }
   @media (max-width: 480px) {
     .equran-tools { padding: 12px; border-radius: 17px; gap: 10px; }
     .equran-qari-wrap { grid-column: 1 / -1; }
@@ -781,6 +845,12 @@
         <button class="pill solid" type="submit" id="intro-go">Search</button>
       </form>
       <div class="search-try" id="intro-try"></div>
+      <section class="ibadah-shortcuts" aria-labelledby="ibadah-title">
+        <h2 id="ibadah-title">Fitur ibadah</h2>
+        <button class="feature" id="feature-vector" type="button"><span class="ic" aria-hidden="true">⌕</span><b id="feature-vector-title">Cari berdasarkan makna</b><span class="sub" id="feature-vector-sub"></span><i aria-hidden="true">›</i></button>
+        <button class="feature" id="feature-doa" type="button"><span class="ic" aria-hidden="true">دُعَاء</span><b id="feature-doa-title">Doa &amp; dzikir</b><span class="sub" id="feature-doa-sub"></span><i aria-hidden="true">›</i></button>
+        <button class="feature" id="feature-prayer" type="button"><span class="ic" aria-hidden="true">◷</span><b id="feature-prayer-title">Jadwal sholat</b><span class="sub" id="feature-prayer-sub"></span><i aria-hidden="true">›</i></button>
+      </section>
       <h2 class="home-h" id="popular-h"></h2>
       <div class="chips" id="popular"></div>
       <button class="feature" id="intro-same" type="button"><span class="ic" aria-hidden="true">=</span><b id="intro-same-title"></b><span class="sub" id="intro-same-sub"></span><i aria-hidden="true">›</i></button>
@@ -912,6 +982,47 @@
 <section class="panel" id="tafsir" hidden role="dialog" aria-modal="true" aria-labelledby="tafsir-title">
   <header class="panel-head"><h2 id="tafsir-title">Tafsir surat</h2><button class="done" id="tafsir-done" type="button">Selesai</button></header>
   <div class="panel-body" id="tafsir-body"></div>
+</section>
+<section class="panel ibadah-panel" id="vector-search" hidden role="dialog" aria-modal="true" aria-labelledby="vector-title">
+  <header class="panel-head"><h2 id="vector-title">Pencarian makna Al-Qur’an</h2><button class="done" id="vector-close" type="button">Tutup</button></header>
+  <div class="panel-body">
+    <p class="ibadah-note" id="vector-hint"></p>
+    <form class="ibadah-form" id="vector-form">
+      <label class="ibadah-field" for="vector-query"><span id="vector-query-label">Pertanyaan</span><input id="vector-query" type="search" autocomplete="off" enterkeyhint="search"></label>
+      <div class="ibadah-form-grid">
+        <label class="ibadah-field" for="vector-type"><span id="vector-type-label">Jenis hasil</span><select id="vector-type"><option value="all">Ayat dan tafsir</option><option value="ayat">Ayat saja</option><option value="tafsir">Tafsir saja</option></select></label>
+        <button class="btn" id="vector-submit" type="submit">Cari makna</button>
+      </div>
+    </form>
+    <p class="ibadah-status" id="vector-status" role="status" aria-live="polite"></p>
+    <div class="ibadah-results" id="vector-results"></div>
+    <p class="ibadah-source" id="vector-source"></p>
+  </div>
+</section>
+<section class="panel ibadah-panel" id="doa-panel" hidden role="dialog" aria-modal="true" aria-labelledby="doa-title">
+  <header class="panel-head"><h2 id="doa-title">Doa dan dzikir</h2><button class="done" id="doa-close" type="button">Tutup</button></header>
+  <div class="panel-body">
+    <p class="ibadah-note" id="doa-hint"></p>
+    <label class="ibadah-field" for="doa-search"><span id="doa-search-label">Cari doa</span><input id="doa-search" type="search" autocomplete="off"></label>
+    <label class="ibadah-field" for="doa-category"><span id="doa-category-label">Kategori doa</span><select id="doa-category"><option value="">Semua kategori</option></select></label>
+    <p class="ibadah-status" id="doa-status" role="status" aria-live="polite"></p>
+    <div class="ibadah-results" id="doa-list"></div>
+    <p class="ibadah-source" id="doa-source"></p>
+  </div>
+</section>
+<section class="panel ibadah-panel" id="shalat-panel" hidden role="dialog" aria-modal="true" aria-labelledby="shalat-title">
+  <header class="panel-head"><h2 id="shalat-title">Jadwal sholat</h2><button class="done" id="shalat-close" type="button">Tutup</button></header>
+  <div class="panel-body">
+    <p class="ibadah-note" id="shalat-hint"></p>
+    <div class="prayer-location">
+      <label class="ibadah-field" for="prayer-province"><span id="province-label">Provinsi</span><select id="prayer-province" disabled><option value="">Pilih provinsi</option></select></label>
+      <label class="ibadah-field" for="prayer-city"><span id="city-label">Kabupaten/kota</span><select id="prayer-city" disabled><option value="">Pilih kabupaten/kota</option></select></label>
+    </div>
+    <div class="prayer-month-tools" role="group" aria-label="Pilih bulan"><button id="prayer-prev" type="button" aria-label="Bulan sebelumnya">‹</button><b id="prayer-month-label"></b><button id="prayer-next" type="button" aria-label="Bulan berikutnya">›</button><button id="prayer-now" type="button">Kembali ke bulan ini</button></div>
+    <p class="ibadah-status" id="prayer-status" role="status" aria-live="polite"></p>
+    <div class="ibadah-results" id="prayer-results"></div>
+    <p class="ibadah-source" id="shalat-source"></p>
+  </div>
 </section>
 <div class="scrim" id="scrim" hidden></div>
 <section id="net" hidden aria-label="This word’s network">

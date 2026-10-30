@@ -2,6 +2,13 @@
 
 Perubahan penting pada Quran Oyen dicatat di sini.
 
+## 31 Oktober 2026 — Pencarian makna, doa, dan jadwal sholat
+
+- **Fitur baru:** Pencarian semantik EQuran.id dapat mencari ayat dan tafsir, menampilkan teks Arab/Latin bila tersedia, lalu membuka ayat, tafsir terfokus, atau audio ayat.
+- **Fitur baru:** Katalog doa dan dzikir dapat dicari serta disaring per kategori; kartu bacaan menampilkan Arab, transliterasi Latin, arti, tag, dan keterangan.
+- **Fitur baru:** Jadwal sholat menampilkan waktu hari ini serta kalender bulanan setelah lokasi dipilih manual; data dan pilihan lokasi disimpan lokal untuk mendukung pemakaian kembali.
+- **Pengembang:** Tambahkan modul `ibadah.js` ke cache publik dengan menjalankan `python3 tools/stamp_sw.py` sebelum deploy.
+
 ## 31 Oktober 2026 — Audio dan tafsir per ayat
 
 - **Peningkatan:** Entri tafsir kini dapat langsung memutar audio ayat atau membuka ayat terkait di pembaca.

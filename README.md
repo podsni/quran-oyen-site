@@ -8,6 +8,9 @@ Situs web statis untuk membaca dan menelusuri Al-Qur’an kata demi kata. Reposi
 - **Terjemahan bahasa Indonesia per ayat** dapat ditampilkan atau disembunyikan. Bahasa antarmuka tersedia dalam bahasa Indonesia dan Inggris, dengan pengaturan ukuran teks.
 - **Audio surat penuh dan audio per ayat** tersedia dari enam qari EQuran.id. Pilih qari, putar seluruh surat atau satu ayat, aktifkan lanjut otomatis, atau mulai audio dari entri tafsir.
 - **Tafsir per ayat** dapat dibuka dari halaman surat dengan ringkasan konteks surat dan pencarian nomor/kata. Setiap entri dapat diputar atau dibuka langsung di ayatnya; respons katalog, detail, dan tafsir API disimpan di IndexedDB untuk membantu saat koneksi terputus.
+- **Pencarian semantik ayat dan tafsir** menggunakan Vector Search EQuran.id. Hasil menampilkan teks Arab, transliterasi Latin bila tersedia, terjemahan/tafsir, tingkat kecocokan, serta tautan untuk membuka, mendengarkan, atau melihat tafsir ayat terkait.
+- **Doa dan dzikir** dari katalog EQuran.id dapat dicari dan disaring berdasarkan kategori. Kartu menampilkan teks Arab, bacaan Latin, arti, tag, dan keterangan bila tersedia.
+- **Jadwal sholat bulanan** tersedia setelah pengguna memilih provinsi dan kabupaten/kota secara manual. Jadwal hari ini ditonjolkan, tabel bulanan dapat dibuka, dan lokasi terakhir disimpan di perangkat.
 - **Pencarian Al-Qur’an** mendukung kata Arab, kata dalam terjemahan Indonesia, dan arti kata bahasa Inggris. Pencocokan persis berjalan di browser; ejaan Arab dinormalisasi agar beberapa variasi penulisan tetap dapat ditemukan.
 - **Jelajahi akar kata** melalui peta hubungan atau tampilan titik ayat. Pilih sebuah kata untuk menyorot kemunculan akar katanya di seluruh Al-Qur’an.
 - **Bandingkan frekuensi kata** berdasarkan bentuk dasar (lemma), lalu telusuri lokasi kemunculannya.
@@ -18,7 +21,7 @@ Teks bacaan, terjemahan lokal, dan fitur pencarian tetap bekerja dengan salinan 
 
 ## Batasan salinan mandiri
 
-Repositori ini berisi situs statis, bukan server lengkap dari situs sumber. Pencarian persis dan sebagian besar fitur baca berjalan di perangkat. **Pencarian terkait makna melalui GPU tidak tersambung pada salinan ini** karena layanan API yang dibutuhkan tidak disertakan; pilihan GPU pada antarmuka memang dinonaktifkan.
+Repositori ini berisi situs statis, bukan server lengkap dari situs sumber. Pencarian persis dan sebagian besar fitur baca berjalan di perangkat. **Pencarian semantik memakai API publik EQuran.id dan memerlukan koneksi internet; pencarian terkait makna melalui GPU tetap tidak tersambung** karena layanan GPU sumber tidak disertakan, sehingga pilihan GPU dinonaktifkan.
 
 Peta akar kata memakai WebGPU bila tersedia dan memiliki jalur perhitungan cadangan di JavaScript. WebGPU bukan syarat untuk membaca surah atau memakai pencarian persis.
 
@@ -49,7 +52,7 @@ Untuk Cloudflare Workers Static Assets, `worker.js` hanya meneruskan request ke 
 
 ## Privasi dan layanan eksternal
 
-Fitur audio dan tafsir mengambil metadata melalui [EQuran.id API v2](https://equran.id/apidev/v2); pemutar memuat berkas MP3 dari CDN EQuran.id hanya setelah pengguna memutar audio. Respons JSON yang sudah dimuat disimpan lokal di IndexedDB. Tidak ada API key atau kueri pencarian yang dikirim sebagai bagian dari fitur ini.
+Audio, tafsir, pencarian semantik, katalog doa, dan jadwal sholat mengambil data dari [API EQuran.id](https://equran.id/apidev/v2). Pemutar memuat berkas MP3 dari CDN EQuran.id hanya setelah pengguna memutar audio. Katalog doa dan jadwal yang sudah dimuat disimpan di IndexedDB untuk akses saat koneksi terputus; kueri Vector Search dikirim ke EQuran.id dan tidak disimpan oleh fitur ini. Jadwal hanya mengirim provinsi/kabupaten-kota yang dipilih pengguna, dan pilihan lokasi disimpan di `localStorage` perangkat.
 
 Pencarian persis dilakukan di perangkat. Menurut implementasi `track.js`, teks kueri pencarian dan teks kata tidak dikirim sebagai analitik; pelacakan hanya mencatat peristiwa layar/interaksi dan konteks kunjungan. Kode tersebut mematikan pelacakan untuk browser otomatis, preferensi Do Not Track/Global Privacy Control, atau bila `localStorage` berisi `quran.notrack`. Pengiriman analitik menggunakan endpoint same-origin `/_e` dan `/_d`.
 
@@ -62,6 +65,7 @@ Pada kode repositori ini, pelacak hanya diaktifkan untuk hostname `quran.oyenza.
 | `index.html` | Dokumen aplikasi, gaya, struktur halaman, dan dialog/panel. |
 | `app.js` | Inisialisasi aplikasi, pembacaan, navigasi, pengaturan, dan penghubung antarmodul. |
 | `equran.js` | Adapter EQuran.id v2, validasi respons/audio, dan cache API di IndexedDB. |
+| `ibadah.js` | Adapter pencarian semantik, doa/dzikir, jadwal sholat, dan cache data API Islam. |
 | `worker.js` | Entry point pass-through untuk Cloudflare Workers Static Assets. |
 | `search.js`, `search-sheet.js` | Pencarian lokal dan tampilan hasil. |
 | `layout.js`, `sheet.js` | Tata letak bacaan dan perilaku panel/sheet. |
