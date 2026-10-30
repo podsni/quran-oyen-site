@@ -6,11 +6,15 @@ Situs web statis untuk membaca dan menelusuri Al-Qur’an kata demi kata. Reposi
 
 - **Baca 114 surah dan 6.236 ayat** dalam teks Arab Utsmani. Setiap kata dapat dibuka untuk melihat bentuk dasar, akar kata, kelas kata, transliterasi, dan arti kata dalam bahasa Inggris.
 - **Terjemahan bahasa Indonesia per ayat** dapat ditampilkan atau disembunyikan. Bahasa antarmuka tersedia dalam bahasa Indonesia dan Inggris, dengan pengaturan ukuran teks.
+- **Audio surat penuh dan audio per ayat** tersedia dari enam qari EQuran.id. Pilih qari, putar seluruh surat atau satu ayat, dan aktifkan lanjut otomatis untuk audio ayat.
+- **Tafsir per ayat** dapat dibuka dari halaman surat. Respons katalog, detail, dan tafsir API disimpan di IndexedDB untuk membantu saat koneksi terputus.
 - **Pencarian Al-Qur’an** mendukung kata Arab, kata dalam terjemahan Indonesia, dan arti kata bahasa Inggris. Pencocokan persis berjalan di browser; ejaan Arab dinormalisasi agar beberapa variasi penulisan tetap dapat ditemukan.
 - **Jelajahi akar kata** melalui peta hubungan atau tampilan titik ayat. Pilih sebuah kata untuk menyorot kemunculan akar katanya di seluruh Al-Qur’an.
 - **Bandingkan frekuensi kata** berdasarkan bentuk dasar (lemma), lalu telusuri lokasi kemunculannya.
 - **Navigasi dan tampilan responsif** untuk layar ponsel maupun desktop, termasuk panel yang mengikuti gerakan sentuh di ponsel.
 - **Dukungan PWA dan baca offline.** Situs dapat ditambahkan ke layar utama. Dari pengaturan baca, pengguna dapat mengunduh data seluruh surah untuk dibaca tanpa koneksi; unduhan terkompresi sekitar 3,5 MB dan memakai sekitar 12 MB penyimpanan lokal.
+
+Teks bacaan, terjemahan lokal, dan fitur pencarian tetap bekerja dengan salinan offline yang sudah diunduh. Audio MP3 diputar dari CDN EQuran.id dan memerlukan koneksi; tafsir dapat dibaca offline jika suratnya pernah berhasil dimuat dan cache browser masih tersedia.
 
 ## Batasan salinan mandiri
 
@@ -41,7 +45,11 @@ Repositori ini adalah situs statis. Untuk layanan hosting statis:
 
 `sw.js` berisi versi rilis dan hash berkas untuk cache offline. Sebelum deploy, jalankan `python3 tools/stamp_sw.py` untuk menghitung ulang hash semua aset publik dan menandai versi rilis; setelah itu uji PWA serta mode offline. README tidak mengasumsikan adanya pipeline deploy otomatis.
 
+Untuk Cloudflare Workers Static Assets, `worker.js` hanya meneruskan request ke binding aset `ASSETS`; berkas entry point ini bukan bagian dari aset publik situs.
+
 ## Privasi dan layanan eksternal
+
+Fitur audio dan tafsir mengambil metadata melalui [EQuran.id API v2](https://equran.id/apidev/v2); pemutar memuat berkas MP3 dari CDN EQuran.id hanya setelah pengguna memutar audio. Respons JSON yang sudah dimuat disimpan lokal di IndexedDB. Tidak ada API key atau kueri pencarian yang dikirim sebagai bagian dari fitur ini.
 
 Pencarian persis dilakukan di perangkat. Menurut implementasi `track.js`, teks kueri pencarian dan teks kata tidak dikirim sebagai analitik; pelacakan hanya mencatat peristiwa layar/interaksi dan konteks kunjungan. Kode tersebut mematikan pelacakan untuk browser otomatis, preferensi Do Not Track/Global Privacy Control, atau bila `localStorage` berisi `quran.notrack`. Pengiriman analitik menggunakan endpoint same-origin `/_e` dan `/_d`.
 
@@ -53,6 +61,8 @@ Pada kode repositori ini, pelacak hanya diaktifkan untuk hostname `quran.oyenza.
 | --- | --- |
 | `index.html` | Dokumen aplikasi, gaya, struktur halaman, dan dialog/panel. |
 | `app.js` | Inisialisasi aplikasi, pembacaan, navigasi, pengaturan, dan penghubung antarmodul. |
+| `equran.js` | Adapter EQuran.id v2, validasi respons/audio, dan cache API di IndexedDB. |
+| `worker.js` | Entry point pass-through untuk Cloudflare Workers Static Assets. |
 | `search.js`, `search-sheet.js` | Pencarian lokal dan tampilan hasil. |
 | `layout.js`, `sheet.js` | Tata letak bacaan dan perilaku panel/sheet. |
 | `map.js`, `dots.js`, `quran-gpu.js` | Peta akar kata, visualisasi titik ayat, dan perhitungan akar kata berbantuan GPU dengan fallback. |
