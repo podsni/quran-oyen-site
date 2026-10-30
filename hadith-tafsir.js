@@ -298,7 +298,15 @@ function makeLink(href, label) {
   return el('a', { href, target: '_blank', rel: 'noopener noreferrer', textContent: label });
 }
 
+export function hadithScopeLabel(scope, lang = 'id') {
+  const words = WORDS[lang === 'en' ? 'en' : 'id'];
+  return scope === 'global' ? words.globalScope : words.indScope;
+}
+
 export function createIlmFeatures({ sheets, onNavigate, getSurahs, initialLang = 'id' }) {
+  // An older PWA shell can briefly receive newer scripts during an update.
+  // Keep the reader and its update controls alive until the new HTML takes over.
+  if (!$('ilm-panel') || !$('feature-ilm')) return null;
   let lang = initialLang === 'en' ? 'en' : 'id';
   let activeTab = 'hadith';
   let selectedDetail = null;
@@ -380,8 +388,9 @@ export function createIlmFeatures({ sheets, onNavigate, getSurahs, initialLang =
     $('ilm-query-label').textContent = w.searchQuery;
     $('ilm-query').placeholder = w.queryPlaceholder;
     $('ilm-search-scope-label').textContent = w.searchScope;
-    $('ilm-search-scope').options[0].textContent = w.globalScope;
-    $('ilm-search-scope').options[1].textContent = w.indScope;
+    for (const option of $('ilm-search-scope').options) {
+      option.textContent = hadithScopeLabel(option.value, lang);
+    }
     $('ilm-search-collection-label').textContent = w.searchCollection;
     $('ilm-search-button').textContent = w.searchButton;
     $('ilm-search-collection').options[0].textContent = w.allCollections;

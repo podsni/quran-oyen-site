@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import {
   COLLECTIONS,
   buildFawazHadithUrl,
+  createIlmFeatures,
+  hadithScopeLabel,
   normalizeSearchText,
   searchIndonesianHadith,
   validateFawazCorpus,
@@ -90,4 +92,22 @@ test('validates a corpus and searches every Indonesian token without case sensit
 
 test('normalizes Arabic diacritics and punctuation for local matching', () => {
   assert.equal(normalizeSearchText('رَسُولُ اللَّهِ،'), 'رسول الله');
+});
+
+test('old PWA HTML without the new panel does not crash reader initialization', () => {
+  const original = globalThis.document;
+  globalThis.document = { getElementById: () => null };
+  try {
+    assert.equal(createIlmFeatures({ sheets: { own() { throw new Error('must not register'); } } }), null);
+  } finally {
+    if (original === undefined) delete globalThis.document;
+    else globalThis.document = original;
+  }
+});
+
+test('scope labels follow option values rather than option order', () => {
+  assert.equal(hadithScopeLabel('indonesian'), 'Kitab terpilih · terjemahan Indonesia');
+  assert.equal(hadithScopeLabel('global'), 'Semua kitab · teks Inggris');
+  assert.match(hadithScopeLabel('global', 'en'), /English/);
+  assert.match(hadithScopeLabel('indonesian', 'en'), /Indonesian/);
 });

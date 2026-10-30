@@ -8,6 +8,7 @@ Perubahan penting pada Quran Oyen dicatat di sini.
 - **Fitur baru:** Tafsir EQuran.id untuk seluruh 114 surat dapat dibuka langsung dari panel Hadis/Tafsir; fitur ini memakai pembaca tafsir per ayat yang sudah ada.
 - **Privasi dan offline:** Pencarian Indonesia berlangsung di perangkat sesudah satu edisi diunduh; pencarian global Inggris mengirim kueri ke UmmahAPI. Respons hadis/edisi yang pernah diminta disimpan di IndexedDB.
 - **Pengembang:** Jalankan tes `node --test tools/test_hadith_tafsir.mjs` dan `python3 tools/stamp_sw.py` sebelum deploy agar modul baru masuk cache PWA.
+- **Perbaikan:** HTML PWA lama tetap bisa membuka pembaca dan kontrol pembaruan ketika script baru diterima; label cakupan pencarian mengikuti nilai opsi, bukan urutan opsi.
 
 ## 31 Oktober 2026 — Pencarian makna, doa, dan jadwal sholat
 
