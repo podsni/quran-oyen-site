@@ -8,6 +8,7 @@ Situs web statis untuk membaca dan menelusuri Al-Qur’an kata demi kata. Reposi
 - **Terjemahan bahasa Indonesia per ayat** dapat ditampilkan atau disembunyikan. Bahasa antarmuka tersedia dalam bahasa Indonesia dan Inggris, dengan pengaturan ukuran teks.
 - **Audio surat penuh dan audio per ayat** tersedia dari enam qari EQuran.id. Pilih qari, putar seluruh surat atau satu ayat, aktifkan lanjut otomatis, atau mulai audio dari entri tafsir.
 - **Tafsir per ayat** dapat dibuka dari halaman surat dengan ringkasan konteks surat dan pencarian nomor/kata. Setiap entri dapat diputar atau dibuka langsung di ayatnya; respons katalog, detail, dan tafsir API disimpan di IndexedDB untuk membantu saat koneksi terputus.
+- **Hadis dan tafsir lengkap per surat** tersedia dari satu panel. Pengguna dapat membuka hadis Arab/Indonesia berdasarkan kitab dan nomor, mencari teks Indonesia secara lokal pada edisi Bukhari, Muslim, Abu Dawud, Tirmidhi, Nasa'i, Ibn Majah, atau Malik, serta mencari lintas koleksi memakai teks Inggris UmmahAPI. Tafsir EQuran.id dapat dibuka untuk masing-masing dari 114 surat.
 - **Pencarian semantik ayat dan tafsir** menggunakan Vector Search EQuran.id. Hasil menampilkan teks Arab, transliterasi Latin bila tersedia, terjemahan/tafsir, tingkat kecocokan, serta tautan untuk membuka, mendengarkan, atau melihat tafsir ayat terkait.
 - **Doa dan dzikir** dari katalog EQuran.id dapat dicari dan disaring berdasarkan kategori. Kartu menampilkan teks Arab, bacaan Latin, arti, tag, dan keterangan bila tersedia.
 - **Jadwal sholat bulanan** tersedia setelah pengguna memilih provinsi dan kabupaten/kota secara manual. Jadwal hari ini ditonjolkan, tabel bulanan dapat dibuka, dan lokasi terakhir disimpan di perangkat.
@@ -17,7 +18,7 @@ Situs web statis untuk membaca dan menelusuri Al-Qur’an kata demi kata. Reposi
 - **Navigasi dan tampilan responsif** untuk layar ponsel maupun desktop, termasuk panel yang mengikuti gerakan sentuh di ponsel.
 - **Dukungan PWA dan baca offline.** Situs dapat ditambahkan ke layar utama. Dari pengaturan baca, pengguna dapat mengunduh data seluruh surah untuk dibaca tanpa koneksi; unduhan terkompresi sekitar 3,5 MB dan memakai sekitar 12 MB penyimpanan lokal.
 
-Teks bacaan, terjemahan lokal, dan fitur pencarian tetap bekerja dengan salinan offline yang sudah diunduh. Audio MP3 diputar dari CDN EQuran.id dan memerlukan koneksi; tafsir dapat dibaca offline jika suratnya pernah berhasil dimuat dan cache browser masih tersedia.
+Teks bacaan, terjemahan lokal, dan fitur pencarian tetap bekerja dengan salinan offline yang sudah diunduh. Audio MP3 diputar dari CDN EQuran.id dan memerlukan koneksi; tafsir dapat dibaca offline jika suratnya pernah berhasil dimuat dan cache browser masih tersedia. Detail hadis serta edisi Indonesia yang pernah diunduh untuk pencarian disimpan di IndexedDB pada perangkat.
 
 ## Batasan salinan mandiri
 
@@ -52,7 +53,7 @@ Untuk Cloudflare Workers Static Assets, `worker.js` hanya meneruskan request ke 
 
 ## Privasi dan layanan eksternal
 
-Audio, tafsir, pencarian semantik, katalog doa, dan jadwal sholat mengambil data dari [API EQuran.id](https://equran.id/apidev/v2). Pemutar memuat berkas MP3 dari CDN EQuran.id hanya setelah pengguna memutar audio. Katalog doa dan jadwal yang sudah dimuat disimpan di IndexedDB untuk akses saat koneksi terputus; kueri Vector Search dikirim ke EQuran.id dan tidak disimpan oleh fitur ini. Jadwal hanya mengirim provinsi/kabupaten-kota yang dipilih pengguna, dan pilihan lokasi disimpan di `localStorage` perangkat.
+Audio, tafsir, pencarian semantik, katalog doa, dan jadwal sholat mengambil data dari [API EQuran.id](https://equran.id/apidev/v2). Pemutar memuat berkas MP3 dari CDN EQuran.id hanya setelah pengguna memutar audio. Katalog doa, jadwal, tafsir yang sudah dibuka, dan data hadis yang pernah diminta disimpan di IndexedDB untuk akses saat koneksi terputus. Pencarian Hadis Indonesia mengunduh satu edisi lengkap dari [Fawaz Hadith API](https://github.com/fawazahmed0/hadith-api), lalu memproses kueri di perangkat. Jika pengguna memilih pencarian lintas koleksi berbahasa Inggris, teks kueri dikirim ke [UmmahAPI](https://ummahapi.com/api/docs); detail hadis juga meminta nomor/koleksi tersebut. Kueri Vector Search dikirim ke EQuran.id dan tidak disimpan oleh fitur ini. Jadwal hanya mengirim provinsi/kabupaten-kota yang dipilih pengguna, dan pilihan lokasi disimpan di `localStorage` perangkat. Sumber, cakupan bahasa, keterbatasan edisi, dan catatan lisensi API Hadis/Tafsir dijelaskan di [`API_SOURCES.md`](API_SOURCES.md).
 
 Pencarian persis dilakukan di perangkat. Menurut implementasi `track.js`, teks kueri pencarian dan teks kata tidak dikirim sebagai analitik; pelacakan hanya mencatat peristiwa layar/interaksi dan konteks kunjungan. Kode tersebut mematikan pelacakan untuk browser otomatis, preferensi Do Not Track/Global Privacy Control, atau bila `localStorage` berisi `quran.notrack`. Pengiriman analitik menggunakan endpoint same-origin `/_e` dan `/_d`.
 
@@ -66,6 +67,8 @@ Pada kode repositori ini, pelacak hanya diaktifkan untuk hostname `quran.oyenza.
 | `app.js` | Inisialisasi aplikasi, pembacaan, navigasi, pengaturan, dan penghubung antarmodul. |
 | `equran.js` | Adapter EQuran.id v2, validasi respons/audio, dan cache API di IndexedDB. |
 | `ibadah.js` | Adapter pencarian semantik, doa/dzikir, jadwal sholat, dan cache data API Islam. |
+| `hadith-tafsir.js` | Fitur Hadis/Tafsir, pencarian edisi Indonesia lokal, validasi respons, serta cache IndexedDB. |
+| `API_SOURCES.md` | Sumber, endpoint, bahasa edisi, keterbatasan, dan catatan penggunaan API Hadis/Tafsir. |
 | `worker.js` | Entry point pass-through untuk Cloudflare Workers Static Assets. |
 | `search.js`, `search-sheet.js` | Pencarian lokal dan tampilan hasil. |
 | `layout.js`, `sheet.js` | Tata letak bacaan dan perilaku panel/sheet. |

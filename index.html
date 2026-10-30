@@ -204,8 +204,15 @@
   .tafsir-empty { margin: 0; padding: 24px 12px; text-align: center; color: var(--ink-3); font: 400 14px/21px var(--sans); }
   .tafsir-credit { margin: 0; color: var(--ink-3); font: 400 12px/18px var(--sans); }
   .ibadah-panel { width: min(520px, calc(100vw - 32px)); }
+  .ilm-panel { width: min(680px, calc(100vw - 32px)); }
   .ibadah-panel .panel-head h2 { min-width: 0; }
   .ibadah-panel .panel-body { gap: 11px; padding: 2px 16px max(18px, var(--sab)); }
+  .ilm-tabs { position: sticky; top: 0; z-index: 4; padding: 6px 0; background: var(--app); }
+  .ilm-view { display: grid; gap: 11px; min-width: 0; }
+  .ilm-view[hidden] { display: none; }
+  .ilm-view h3 { margin: 2px 0 -3px; color: var(--ink); font: 700 15px/21px var(--sans); }
+  .ilm-panel .ibadah-source { line-height: 1.7; }
+  .ilm-panel .ibadah-actions a { display: inline-flex; align-items: center; min-height: 34px; color: var(--oyen-ink); font: 650 12px/18px var(--sans); }
   .ibadah-note, .ibadah-source { margin: 0; color: var(--ink-3); font: 400 13px/19px var(--sans); }
   .ibadah-source { padding-top: 9px; border-top: 1px solid var(--hair); font-size: 11px; }
   .ibadah-source a { color: var(--oyen-ink); font-weight: 650; text-decoration: underline; text-underline-offset: 2px; }
@@ -848,6 +855,7 @@
       <section class="ibadah-shortcuts" aria-labelledby="ibadah-title">
         <h2 id="ibadah-title">Fitur ibadah</h2>
         <button class="feature" id="feature-vector" type="button"><span class="ic" aria-hidden="true">⌕</span><b id="feature-vector-title">Cari berdasarkan makna</b><span class="sub" id="feature-vector-sub"></span><i aria-hidden="true">›</i></button>
+        <button class="feature" id="feature-ilm" type="button"><span class="ic" aria-hidden="true">حديث</span><b id="feature-ilm-title">Hadis &amp; tafsir</b><span class="sub" id="feature-ilm-sub">Jelajahi kitab hadis dan tafsir lengkap per surat.</span><i aria-hidden="true">›</i></button>
         <button class="feature" id="feature-doa" type="button"><span class="ic" aria-hidden="true">دُعَاء</span><b id="feature-doa-title">Doa &amp; dzikir</b><span class="sub" id="feature-doa-sub"></span><i aria-hidden="true">›</i></button>
         <button class="feature" id="feature-prayer" type="button"><span class="ic" aria-hidden="true">◷</span><b id="feature-prayer-title">Jadwal sholat</b><span class="sub" id="feature-prayer-sub"></span><i aria-hidden="true">›</i></button>
       </section>
@@ -1024,6 +1032,50 @@
     <p class="ibadah-source" id="shalat-source"></p>
   </div>
 </section>
+<section class="panel ibadah-panel ilm-panel" id="ilm-panel" hidden role="dialog" aria-modal="true" aria-labelledby="ilm-title">
+  <header class="panel-head"><h2 id="ilm-title">Hadis &amp; tafsir</h2><button class="done" id="ilm-close" type="button">Tutup</button></header>
+  <div class="panel-body">
+    <p class="ibadah-note" id="ilm-hint"></p>
+    <div class="seg ilm-tabs" id="ilm-tabs" role="group" aria-label="Hadis atau tafsir">
+      <button type="button" id="ilm-tab-hadith" data-tab="hadith" aria-pressed="true">Hadis</button>
+      <button type="button" id="ilm-tab-tafsir" data-tab="tafsir" aria-pressed="false">Tafsir Al-Qur’an</button>
+    </div>
+    <section class="ilm-view" id="ilm-hadith-view" role="tabpanel" aria-labelledby="ilm-tab-hadith">
+      <h3 id="ilm-browse-title">Buka hadis berdasarkan kitab dan nomor</h3>
+      <form class="ibadah-form" id="ilm-browse-form">
+        <div class="ibadah-form-grid">
+          <label class="ibadah-field" for="ilm-book"><span id="ilm-book-label">Kitab hadis</span><select id="ilm-book"></select></label>
+          <label class="ibadah-field" for="ilm-number"><span id="ilm-number-label">Nomor hadis</span><input id="ilm-number" type="text" inputmode="decimal" value="1" autocomplete="off" aria-label="Nomor hadis"></label>
+        </div>
+        <button class="btn" id="ilm-open-number" type="submit">Buka hadis</button>
+      </form>
+      <p class="ibadah-status" id="ilm-detail-status" role="status" aria-live="polite"></p>
+      <div class="ibadah-results" id="ilm-detail"></div>
+      <h3 id="ilm-search-title">Cari hadis</h3>
+      <form class="ibadah-form" id="ilm-search-form">
+        <label class="ibadah-field" for="ilm-query"><span id="ilm-query-label">Kata atau topik</span><input id="ilm-query" type="search" autocomplete="off" enterkeyhint="search" spellcheck="false"></label>
+        <div class="ibadah-form-grid">
+          <label class="ibadah-field" for="ilm-search-scope"><span id="ilm-search-scope-label">Cakupan pencarian</span><select id="ilm-search-scope"><option value="indonesian">Kitab terpilih · terjemahan Indonesia</option><option value="global">Semua kitab · teks Inggris</option></select></label>
+          <label class="ibadah-field" for="ilm-search-collection"><span id="ilm-search-collection-label">Koleksi</span><select id="ilm-search-collection"><option value="all">Semua koleksi</option></select></label>
+        </div>
+        <p class="ibadah-note" id="ilm-search-hint"></p>
+        <button class="btn" id="ilm-search-button" type="submit">Cari hadis</button>
+      </form>
+      <p class="ibadah-status" id="ilm-search-status" role="status" aria-live="polite"></p>
+      <div class="ibadah-results" id="ilm-search-results"></div>
+    </section>
+    <section class="ilm-view" id="ilm-tafsir-view" role="tabpanel" aria-labelledby="ilm-tab-tafsir" hidden>
+      <h3 id="ilm-tafsir-title">Jelajahi tafsir lengkap</h3>
+      <p class="ibadah-note" id="ilm-tafsir-hint"></p>
+      <label class="ibadah-field" for="ilm-surah-search"><span id="ilm-surah-search-label">Cari nama surat</span><input id="ilm-surah-search" type="search" autocomplete="off"></label>
+      <label class="ibadah-field" for="ilm-surah"><span id="ilm-surah-label">Surat</span><select id="ilm-surah"></select></label>
+      <button class="btn" id="ilm-open-tafsir" type="button">Buka tafsir surat</button>
+      <p class="ibadah-source" id="ilm-tafsir-source"></p>
+    </section>
+    <p class="ibadah-source"><b id="ilm-source-label">Sumber dan catatan</b><br><span id="ilm-source"></span></p>
+    <p class="ibadah-note" id="ilm-source-note"></p>
+  </div>
+</section>
 <div class="scrim" id="scrim" hidden></div>
 <section id="net" hidden aria-label="This word’s network">
   <header class="net-head">
@@ -1054,6 +1106,6 @@
 <div id="rootbar" hidden><span class="r" id="root-letters" lang="ar"></span><span class="n" id="root-count"></span><button class="pill solid" id="root-map" type="button">Map</button><button class="x" id="root-clear" type="button" aria-label="Turn off the root">×</button><span class="wire"></span></div>
 <div id="placebar" role="group" aria-label="Places of this word" hidden><span class="r" id="place-word" lang="ar"></span><span class="g" id="place-gloss"></span><button class="step" id="place-prev" type="button" aria-label="Previous place">‹</button><span class="at" aria-live="polite"><b id="place-n"></b><span id="place-ref"></span></span><button class="step" id="place-next" type="button" aria-label="Next place">›</button><button class="x" id="place-close" type="button" aria-label="Close the places">×</button></div>
 
-<script type="module" src="app.js?v=9b5457c"></script>
+<script type="module" src="app.js?v=20261031-hadith-3"></script>
 </body>
 </html>

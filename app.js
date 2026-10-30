@@ -13,6 +13,7 @@ import { createNetworkPanel, networkText } from './network.js?v=9b5457c';
 import * as track from './track.js?v=9b5457c';
 import { audioForQari, getEquranSurah, getEquranSurahs, getEquranTafsir, QARIS } from './equran.js';
 import { createIbadahFeatures } from './ibadah.js?v=20261031';
+import { createIlmFeatures } from './hadith-tafsir.js?v=20261031-hadith-3';
 
 const $ = (id) => document.getElementById(id);
 const el = (tag, props = {}, ...children) => {
@@ -51,6 +52,7 @@ let equranCatalogPromise = null;
 let equranCatalogCached = false;
 let audioUI = null;
 let ibadahUI = null;
+let ilmUI = null;
 let tafsirRequest = 0;
 // Resolved once start() has data/index.json, for views that can be opened from the home before it arrives.
 let markIndexReady;
@@ -1663,6 +1665,7 @@ function setLang(lang) {
   dotsView?.relang();
   netPanel?.relang();
   ibadahUI?.relang(lang);
+  ilmUI?.relang(lang);
   renderIndex();
   renderPopular();
   renderGreeting();
@@ -1903,6 +1906,7 @@ sheets.own('aa', { handle: '.panel-head' });
 sheets.own('install', { handle: '.panel-head' });
 sheets.own('tafsir', { handle: '.panel-head' });
 ibadahUI = createIbadahFeatures({ sheets, onNavigate: openApiResult });
+ilmUI = createIlmFeatures({ sheets, onNavigate: openApiResult, getSurahs: async () => { await indexReady; return index; }, initialLang: settings.lang });
 sheets.adopt('map', { handle: '.map-head', closeButton: 'map-close' });
 sheets.adopt('same', { handle: '.same-head', closeButton: 'same-close', onShow: () => playFace($('same-oyen'), 'happy') });
 sheets.adopt('search', { handle: '.search-head', closeButton: 'search-close' });

@@ -2,6 +2,13 @@
 
 Perubahan penting pada Quran Oyen dicatat di sini.
 
+## 31 Oktober 2026 — Hadis dan tafsir lengkap
+
+- **Fitur baru:** Panel Hadis menyediakan teks Arab/Indonesia menurut kitab dan nomor, pencarian lokal Indonesia pada tujuh edisi, serta pencarian lintas koleksi berbasis teks Inggris.
+- **Fitur baru:** Tafsir EQuran.id untuk seluruh 114 surat dapat dibuka langsung dari panel Hadis/Tafsir; fitur ini memakai pembaca tafsir per ayat yang sudah ada.
+- **Privasi dan offline:** Pencarian Indonesia berlangsung di perangkat sesudah satu edisi diunduh; pencarian global Inggris mengirim kueri ke UmmahAPI. Respons hadis/edisi yang pernah diminta disimpan di IndexedDB.
+- **Pengembang:** Jalankan tes `node --test tools/test_hadith_tafsir.mjs` dan `python3 tools/stamp_sw.py` sebelum deploy agar modul baru masuk cache PWA.
+
 ## 31 Oktober 2026 — Pencarian makna, doa, dan jadwal sholat
 
 - **Fitur baru:** Pencarian semantik EQuran.id dapat mencari ayat dan tafsir, menampilkan teks Arab/Latin bila tersedia, lalu membuka ayat, tafsir terfokus, atau audio ayat.
