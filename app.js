@@ -362,6 +362,22 @@ const EQURAN_TEXT = {
   id: { qari: 'Pilih qari', fullAudio: 'Audio surat penuh', tafsir: 'Lihat tafsir', playAyah: 'Putar ayat', autoNext: 'Lanjut otomatis', loading: 'Memuat audio dan data surat dari EQuran.id…', ready: 'Audio dari EQuran.id · teks Al-Qur’an tetap tersedia tanpa internet.', cached: 'Data API tersimpan di perangkat; pemutaran MP3 tetap memerlukan koneksi.', offline: 'Audio perlu internet; tafsir dapat dibuka jika pernah dimuat. Bacaan Al-Qur’an tetap tersedia.', playbackError: 'Audio tidak dapat diputar. Periksa koneksi dan coba lagi.', tafsirLoading: 'Memuat tafsir…', tafsirError: 'Tafsir belum dapat dimuat. Periksa koneksi lalu coba lagi.', ayah: (n) => `Ayat ${n}`, openAyah: 'Buka ayat ini', source: 'Tafsir Kementerian Agama RI melalui EQuran.id.' },
   en: { qari: 'Choose a reciter', fullAudio: 'Full-surah audio', tafsir: 'Read tafsir', playAyah: 'Play ayah', autoNext: 'Play next ayah', loading: 'Loading audio and surah data from EQuran.id…', ready: 'Audio by EQuran.id · Quran text remains available offline.', cached: 'API data is saved on this device; MP3 playback may still need internet.', offline: 'Audio needs internet; tafsir is available if it was loaded before. Quran text remains available.', playbackError: 'Audio could not be played. Check your connection and try again.', tafsirLoading: 'Loading tafsir…', tafsirError: 'Tafsir could not be loaded. Check your connection and try again.', ayah: (n) => `Ayah ${n}`, openAyah: 'Open this ayah', source: 'Tafsir: Ministry of Religious Affairs of Indonesia via EQuran.id.' },
 };
+Object.assign(EQURAN_TEXT.id, {
+  audioTitle: 'Dengarkan Al-Qur’an', audioNote: 'Pilih qari, dengarkan satu surat atau langsung ke ayat.', verseLabel: 'Putar per ayat',
+  playingAyah: (n, qari) => `Memutar ayat ${n} · ${qari}`, playingFull: (qari) => `Memutar surat penuh · ${qari}`,
+  playbackDone: 'Audio selesai.', fullDone: 'Surat selesai.', playFromTafsir: 'Putar ayat', playLoading: 'Menyiapkan audio…',
+  searchTafsir: 'Cari kata dalam tafsir atau nomor ayat', tafsirCount: (shown, total) => `${shown} dari ${total} ayat`,
+  tafsirNoResults: 'Tidak ada tafsir yang cocok dengan pencarian ini.', aboutSurah: 'Tentang surah',
+  surahMeta: (meaning, place, count) => `${meaning} · ${{ Mekah: 'Makkiyah', Madinah: 'Madaniyah' }[place] ?? place} · ${count} ayat`,
+});
+Object.assign(EQURAN_TEXT.en, {
+  audioTitle: 'Listen to the Quran', audioNote: 'Choose a reciter, play the full surah, or go straight to an ayah.', verseLabel: 'Play by ayah',
+  playingAyah: (n, qari) => `Playing ayah ${n} · ${qari}`, playingFull: (qari) => `Playing full surah · ${qari}`,
+  playbackDone: 'Audio finished.', fullDone: 'Surah finished.', playFromTafsir: 'Play ayah', playLoading: 'Preparing audio…',
+  searchTafsir: 'Search tafsir text or ayah number', tafsirCount: (shown, total) => `${shown} of ${total} ayat`,
+  tafsirNoResults: 'No tafsir entries match this search.', aboutSurah: 'About this surah',
+  surahMeta: (meaning, place, count) => `${meaning} · ${{ Mekah: 'Meccan', Madinah: 'Medinan' }[place] ?? place} · ${count} ayat`,
+});
 const et = (key, ...args) => {
   const value = EQURAN_TEXT[settings.lang][key];
   return typeof value === 'function' ? value(...args) : value;
@@ -370,6 +386,9 @@ const et = (key, ...args) => {
 function createReaderTools(n) {
   const text = EQURAN_TEXT[settings.lang];
   const node = el('div', { className: 'equran-tools' });
+  const heading = el('div', { className: 'equran-heading' },
+    el('span', { className: 'equran-mark', ariaHidden: 'true', textContent: '▶' }),
+    el('span', {}, el('b', { textContent: text.audioTitle }), el('small', { textContent: text.audioNote })));
   const qariSelect = el('select', { className: 'qari', ariaLabel: text.qari });
   qariSelect.append(...QARIS.map((qari) => el('option', { value: qari.id, textContent: qari.name })));
   qariSelect.value = settings.qari;
@@ -381,18 +400,21 @@ function createReaderTools(n) {
   const count = index[n - 1]?.ayat ?? 1;
   ayahSelect.append(...Array.from({ length: count }, (_, i) => el('option', { value: String(i + 1), textContent: text.ayah(i + 1) })));
   const playButton = el('button', { type: 'button', className: 'btn', textContent: text.playAyah, disabled: true });
-  const autoNext = el('input', { type: 'checkbox' });
+  const verseLabel = el('span', { className: 'equran-verse-label', textContent: text.verseLabel });
+  const autoNext = el('input', { type: 'checkbox', checked: store.get('autoNext', false) });
   const autoText = document.createTextNode(text.autoNext);
   const autoLabel = el('label', { className: 'equran-autonext' }, autoNext, autoText);
   const verseRow = el('div', { className: 'equran-verse' }, ayahSelect, playButton, autoLabel);
   const status = el('p', { className: 'equran-status', role: 'status', textContent: text.loading });
-  node.append(qariWrap, tafsirButton, fullLabel, player, verseRow, status);
+  node.append(heading, qariWrap, tafsirButton, fullLabel, player, verseLabel, verseRow, status);
 
   const ui = {
     n, node, qariSelect, player, ayahSelect, playButton, autoNext, status, mode: 'full', cached: false,
     setStatus(message) { status.textContent = message; },
     relang() {
       const words = EQURAN_TEXT[settings.lang];
+      heading.querySelector('b').textContent = words.audioTitle;
+      heading.querySelector('small').textContent = words.audioNote;
       qariWrap.querySelector('span').textContent = words.qari;
       qariSelect.ariaLabel = words.qari;
       player.ariaLabel = settings.lang === 'id' ? 'Audio surat penuh' : 'Full-surah audio';
@@ -400,6 +422,7 @@ function createReaderTools(n) {
       tafsirButton.textContent = words.tafsir;
       playButton.textContent = words.playAyah;
       autoText.textContent = words.autoNext;
+      verseLabel.textContent = words.verseLabel;
       for (const option of ayahSelect.options) option.textContent = words.ayah(Number(option.value));
     },
     setSource(mode, ayahNumber) {
@@ -414,6 +437,26 @@ function createReaderTools(n) {
         player.load();
       }
       return true;
+    },
+    async playAyah(ayahNumber) {
+      if (!Number.isInteger(ayahNumber) || ayahNumber < 1 || ayahNumber > count) return false;
+      const target = view?.n === n ? view : null;
+      if (!target) return false;
+      ayahSelect.value = String(ayahNumber);
+      ui.mode = 'verse';
+      status.textContent = `${EQURAN_TEXT[settings.lang].playLoading} ${EQURAN_TEXT[settings.lang].ayah(ayahNumber)}…`;
+      try {
+        await ensureEquranDetail(target);
+        if (audioUI !== ui || view !== target) return false;
+        ui.refresh();
+        if (!ui.setSource('verse', ayahNumber)) throw new Error('Audio ayat tidak tersedia untuk qari ini.');
+        playButton.disabled = false;
+        await player.play();
+        return true;
+      } catch {
+        if (audioUI === ui) status.textContent = EQURAN_TEXT[settings.lang].playbackError;
+        return false;
+      }
     },
     refresh() {
       if (audioUI !== ui || view?.n !== n) return;
@@ -436,22 +479,27 @@ function createReaderTools(n) {
   };
   qariSelect.onchange = () => {
     if (!validQari(qariSelect.value)) return;
+    const resume = !player.paused;
     settings.qari = qariSelect.value;
     store.set('qari', settings.qari);
     ui.refresh();
+    if (resume) player.play().catch(() => { status.textContent = EQURAN_TEXT[settings.lang].playbackError; });
   };
   ayahSelect.onchange = () => ui.refresh();
-  playButton.onclick = () => {
-    ui.mode = 'verse';
-    const ayahNumber = Number(ayahSelect.value) || 1;
-    if (!ui.setSource('verse', ayahNumber)) { ui.unavailable(); return; }
-    player.play().catch(() => { status.textContent = EQURAN_TEXT[settings.lang].playbackError; });
+  autoNext.onchange = () => store.set('autoNext', autoNext.checked);
+  playButton.onclick = () => { ui.playAyah(Number(ayahSelect.value) || 1); };
+  player.onplay = () => {
+    const words = EQURAN_TEXT[settings.lang];
+    const qari = QARIS.find((item) => item.id === settings.qari)?.name ?? '';
+    status.textContent = ui.mode === 'verse' ? words.playingAyah(Number(ayahSelect.value) || 1, qari) : words.playingFull(qari);
   };
   player.onerror = () => { if (audioUI === ui) status.textContent = EQURAN_TEXT[settings.lang].playbackError; };
   player.onended = () => {
-    if (ui.mode !== 'verse' || !autoNext.checked) return;
+    if (ui.mode !== 'verse') { status.textContent = EQURAN_TEXT[settings.lang].fullDone; return; }
+    if (!autoNext.checked) { status.textContent = EQURAN_TEXT[settings.lang].playbackDone; return; }
     const next = Number(ayahSelect.value) + 1;
-    if (next <= count) { ayahSelect.value = String(next); playButton.click(); }
+    if (next <= count) { ayahSelect.value = String(next); ui.playAyah(next); }
+    else status.textContent = EQURAN_TEXT[settings.lang].playbackDone;
   };
   tafsirButton.onclick = () => openTafsir(n);
   ui.refresh();
@@ -471,15 +519,29 @@ function loadEquranCatalog() {
   return equranCatalogPromise;
 }
 
+function ensureEquranDetail(target) {
+  if (target.equran) return Promise.resolve({ data: target.equran, cached: target.equranCached });
+  if (!target.equranPromise) {
+    target.equranPromise = getEquranSurah(target.n).then((result) => {
+      if (result.data.ayat.length !== target.ayat.length) throw new Error('Jumlah ayat API tidak sesuai dengan teks lokal.');
+      target.equran = result.data;
+      target.equranCached = result.cached;
+      if (view === target && audioUI?.n === target.n) { audioUI.cached = result.cached || equranCatalogCached; audioUI.refresh(); }
+      return result;
+    }).catch((error) => { target.equranPromise = null; throw error; });
+  }
+  return target.equranPromise;
+}
+
 function loadEquranFor(target) {
   loadEquranCatalog().catch(() => {});
-  getEquranSurah(target.n).then((result) => {
-    if (view !== target) return;
-    if (result.data.ayat.length !== target.ayat.length) throw new Error('Jumlah ayat API tidak sesuai dengan teks lokal.');
-    target.equran = result.data;
-    target.equranCached = result.cached;
-    if (audioUI?.n === target.n) { audioUI.cached = result.cached || equranCatalogCached; audioUI.refresh(); }
-  }).catch(() => { if (view === target) audioUI?.unavailable(); });
+  ensureEquranDetail(target).catch(() => { if (view === target) audioUI?.unavailable(); });
+}
+
+function plainApiText(value) {
+  const html = String(value ?? '').replace(/<br\s*\/?>/gi, '\n');
+  const parsed = new DOMParser().parseFromString(html, 'text/html');
+  return (parsed.body.textContent ?? '').replace(/\r/g, '').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
 }
 
 function openTafsir(n) {
@@ -490,16 +552,65 @@ function openTafsir(n) {
   sheets.open('tafsir');
   getEquranTafsir(n).then(({ data, cached }) => {
     if (token !== tafsirRequest) return;
+    const body = $('tafsir-body');
+    const overview = el('section', { className: 'tafsir-overview', ariaLabel: et('aboutSurah') });
+    overview.append(
+      el('span', { className: 'tafsir-arabic', lang: 'ar', dir: 'rtl', textContent: data.nama ?? '' }),
+      el('h3', { textContent: data.namaLatin ?? meta?.latin ?? `${n}` }),
+      el('p', { className: 'tafsir-meta', textContent: EQURAN_TEXT[settings.lang].surahMeta(settings.lang === 'id' ? (data.arti ?? '') : (surahMeaning(meta) || data.arti || ''), data.tempatTurun ?? '', data.jumlahAyat ?? data.tafsir.length) }),
+    );
+    const description = plainApiText(data.deskripsi);
+    if (description) {
+      const about = el('details', { className: 'tafsir-about' });
+      about.append(el('summary', { textContent: et('aboutSurah') }), el('p', { textContent: description }));
+      overview.append(about);
+    }
+    overview.append(el('p', { className: 'tafsir-credit', textContent: `${et('source')}${cached ? ` ${EQURAN_TEXT[settings.lang].cached}` : ''}` }));
+
+    const filter = el('input', { type: 'search', className: 'tafsir-search', placeholder: et('searchTafsir'), ariaLabel: et('searchTafsir'), autocomplete: 'off' });
+    const count = el('span', { className: 'tafsir-count', role: 'status' });
+    const filterRow = el('div', { className: 'tafsir-filter-row' }, filter, count);
+    const list = el('div', { className: 'tafsir-list' });
+    const empty = el('p', { className: 'tafsir-empty', textContent: et('tafsirNoResults'), hidden: true });
     const entries = data.tafsir.map((item) => {
       const entry = el('article', { className: 'tafsir-entry' });
-      entry.append(el('h3', { textContent: et('ayah', item.ayat) }), el('p', { textContent: item.teks }));
+      entry.dataset.search = `${item.ayat} ${item.teks}`.toLocaleLowerCase();
+      entry.append(el('h3', { textContent: et('ayah', item.ayat) }));
+      const prose = el('div', { className: 'tafsir-prose', dir: 'auto' });
+      for (const paragraph of item.teks.trim().split(/\n\s*\n/).map((part) => part.replace(/\n+/g, ' ').trim()).filter(Boolean)) {
+        prose.append(el('p', { textContent: paragraph }));
+      }
+      const actions = el('div', { className: 'tafsir-actions' });
+      const play = el('button', { type: 'button', className: 'pill solid', textContent: et('playFromTafsir'), ariaLabel: `${et('playFromTafsir')} · ${et('ayah', item.ayat)}` });
+      play.onclick = async () => {
+        if (view?.n !== n || !audioUI || audioUI.n !== n) return;
+        play.disabled = true;
+        play.textContent = et('playLoading');
+        const started = await audioUI.playAyah(item.ayat);
+        if (started) { sheets.close('tafsir'); goToAyah(n, item.ayat - 1, 0); }
+        else { play.disabled = false; play.textContent = et('playFromTafsir'); }
+      };
       const open = el('button', { type: 'button', className: 'pill', textContent: et('openAyah') });
       open.onclick = () => { if (view?.n === n) { sheets.close('tafsir'); goToAyah(n, item.ayat - 1, 0); } };
-      entry.append(open);
+      actions.append(play, open);
+      entry.append(prose, actions);
+      list.append(entry);
       return entry;
     });
-    const credit = el('p', { className: 'tafsir-credit', textContent: `${et('source')}${cached ? ` ${EQURAN_TEXT[settings.lang].cached}` : ''}` });
-    $('tafsir-body').replaceChildren(credit, ...entries);
+    const updateFilter = () => {
+      const query = filter.value.trim().toLocaleLowerCase();
+      let shown = 0;
+      for (const entry of entries) {
+        const match = !query || entry.dataset.search.includes(query);
+        entry.hidden = !match;
+        if (match) shown++;
+      }
+      count.textContent = EQURAN_TEXT[settings.lang].tafsirCount(shown, entries.length);
+      empty.hidden = shown > 0;
+    };
+    filter.addEventListener('input', updateFilter);
+    updateFilter();
+    body.replaceChildren(overview, filterRow, list, empty);
   }).catch(() => {
     if (token === tafsirRequest) $('tafsir-body').replaceChildren(el('p', { className: 'tafsir-credit', role: 'status', textContent: et('tafsirError') }));
   });

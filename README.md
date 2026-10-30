@@ -6,8 +6,8 @@ Situs web statis untuk membaca dan menelusuri Al-Qur’an kata demi kata. Reposi
 
 - **Baca 114 surah dan 6.236 ayat** dalam teks Arab Utsmani. Setiap kata dapat dibuka untuk melihat bentuk dasar, akar kata, kelas kata, transliterasi, dan arti kata dalam bahasa Inggris.
 - **Terjemahan bahasa Indonesia per ayat** dapat ditampilkan atau disembunyikan. Bahasa antarmuka tersedia dalam bahasa Indonesia dan Inggris, dengan pengaturan ukuran teks.
-- **Audio surat penuh dan audio per ayat** tersedia dari enam qari EQuran.id. Pilih qari, putar seluruh surat atau satu ayat, dan aktifkan lanjut otomatis untuk audio ayat.
-- **Tafsir per ayat** dapat dibuka dari halaman surat. Respons katalog, detail, dan tafsir API disimpan di IndexedDB untuk membantu saat koneksi terputus.
+- **Audio surat penuh dan audio per ayat** tersedia dari enam qari EQuran.id. Pilih qari, putar seluruh surat atau satu ayat, aktifkan lanjut otomatis, atau mulai audio dari entri tafsir.
+- **Tafsir per ayat** dapat dibuka dari halaman surat dengan ringkasan konteks surat dan pencarian nomor/kata. Setiap entri dapat diputar atau dibuka langsung di ayatnya; respons katalog, detail, dan tafsir API disimpan di IndexedDB untuk membantu saat koneksi terputus.
 - **Pencarian Al-Qur’an** mendukung kata Arab, kata dalam terjemahan Indonesia, dan arti kata bahasa Inggris. Pencocokan persis berjalan di browser; ejaan Arab dinormalisasi agar beberapa variasi penulisan tetap dapat ditemukan.
 - **Jelajahi akar kata** melalui peta hubungan atau tampilan titik ayat. Pilih sebuah kata untuk menyorot kemunculan akar katanya di seluruh Al-Qur’an.
 - **Bandingkan frekuensi kata** berdasarkan bentuk dasar (lemma), lalu telusuri lokasi kemunculannya.
