@@ -213,6 +213,11 @@
   .ilm-view h3 { margin: 2px 0 -3px; color: var(--ink); font: 700 15px/21px var(--sans); }
   .ilm-panel .ibadah-source { line-height: 1.7; }
   .ilm-panel .ibadah-actions a { display: inline-flex; align-items: center; min-height: 34px; color: var(--oyen-ink); font: 650 12px/18px var(--sans); }
+  .hadith-save[aria-pressed="true"] { border-color: var(--oyen-ink); background: var(--oyen-soft); color: var(--oyen-ink); }
+  .hadith-saved { border: 1px solid var(--hair); border-radius: 14px; background: var(--sheet); padding: 10px 12px; }
+  .hadith-saved > summary { display: flex; align-items: center; justify-content: space-between; gap: 9px; cursor: pointer; color: var(--oyen-ink); font: 700 14px/20px var(--sans); }
+  .hadith-saved .ibadah-status { padding-top: 6px; }
+  .hadith-saved .ibadah-results { margin-top: 9px; }
   .ibadah-note, .ibadah-source { margin: 0; color: var(--ink-3); font: 400 13px/19px var(--sans); }
   .ibadah-source { padding-top: 9px; border-top: 1px solid var(--hair); font-size: 11px; }
   .ibadah-source a { color: var(--oyen-ink); font-weight: 650; text-decoration: underline; text-underline-offset: 2px; }
@@ -1051,6 +1056,11 @@
       </form>
       <p class="ibadah-status" id="ilm-detail-status" role="status" aria-live="polite"></p>
       <div class="ibadah-results" id="ilm-detail"></div>
+      <details class="hadith-saved">
+        <summary><span id="ilm-saved-title">Hadis tersimpan</span><span class="ibadah-status" id="ilm-saved-status" role="status" aria-live="polite"></span></summary>
+        <p class="ibadah-note" id="ilm-saved-hint"></p>
+        <div class="ibadah-results" id="ilm-saved-list"></div>
+      </details>
       <h3 id="ilm-search-title">Cari hadis</h3>
       <form class="ibadah-form" id="ilm-search-form">
         <label class="ibadah-field" for="ilm-query"><span id="ilm-query-label">Kata atau topik</span><input id="ilm-query" type="search" autocomplete="off" enterkeyhint="search" spellcheck="false"></label>
@@ -1106,6 +1116,6 @@
 <div id="rootbar" hidden><span class="r" id="root-letters" lang="ar"></span><span class="n" id="root-count"></span><button class="pill solid" id="root-map" type="button">Map</button><button class="x" id="root-clear" type="button" aria-label="Turn off the root">×</button><span class="wire"></span></div>
 <div id="placebar" role="group" aria-label="Places of this word" hidden><span class="r" id="place-word" lang="ar"></span><span class="g" id="place-gloss"></span><button class="step" id="place-prev" type="button" aria-label="Previous place">‹</button><span class="at" aria-live="polite"><b id="place-n"></b><span id="place-ref"></span></span><button class="step" id="place-next" type="button" aria-label="Next place">›</button><button class="x" id="place-close" type="button" aria-label="Close the places">×</button></div>
 
-<script type="module" src="app.js?v=20261031-hadith-4"></script>
+<script type="module" src="app.js?v=20261031-hadith-5"></script>
 </body>
 </html>

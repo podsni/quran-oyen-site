@@ -2,6 +2,12 @@
 
 Perubahan penting pada Quran Oyen dicatat di sini.
 
+## 31 Oktober 2026 — Simpanan Hadis
+
+- **Peningkatan:** Hadis dapat disimpan dari detail atau hasil pencarian; hingga 50 teks tersimpan di perangkat dan dapat dibuka kembali tanpa koneksi.
+- **Privasi:** Simpanan tidak disinkronkan ke akun. Daftar dilindungi dari data rusak, referensi ganda, dan teks berukuran tidak wajar.
+- **Pengembang:** Jalankan `node --test tools/test_hadith_tafsir.mjs` serta `python3 tools/stamp_sw.py` sebelum deploy.
+
 ## 31 Oktober 2026 — Hadis dan tafsir lengkap
 
 - **Fitur baru:** Panel Hadis menyediakan teks Arab/Indonesia menurut kitab dan nomor, pencarian lokal Indonesia pada tujuh edisi, serta pencarian lintas koleksi berbasis teks Inggris.

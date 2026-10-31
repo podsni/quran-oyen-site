@@ -2,11 +2,15 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   COLLECTIONS,
+  MAX_SAVED_HADITH,
   buildFawazHadithUrl,
   createIlmFeatures,
   hadithScopeLabel,
+  normalizeSavedHadith,
   normalizeSearchText,
+  savedHadithKey,
   searchIndonesianHadith,
+  validateSavedHadithList,
   validateFawazCorpus,
   validateFawazHadith,
   validateGlobalHadithSearch,
@@ -58,6 +62,7 @@ test('validates full-text global search response and ignores malformed results',
         { collection: 'bukhari', hadithnumber: 1, arabic: 'عربي', english: 'Text' },
         { collection: 'muslim', hadithnumber: 2, english: 'Other text' },
         { collection: 'invalid' },
+        { collection: 'bukhari', hadithnumber: 0, english: 'Invalid reference' },
       ],
     },
   });
@@ -92,6 +97,27 @@ test('validates a corpus and searches every Indonesian token without case sensit
 
 test('normalizes Arabic diacritics and punctuation for local matching', () => {
   assert.equal(normalizeSearchText('رَسُولُ اللَّهِ،'), 'رسول الله');
+});
+
+test('normalizes saved hadith references to trusted collection metadata', () => {
+  const saved = normalizeSavedHadith({ collection: 'bukhari', number: '1', collectionName: 'Forged name', indonesian: 'Niat', savedAt: 123 });
+  assert.deepEqual(saved, {
+    collection: 'bukhari', collectionName: 'Sahih al-Bukhari', number: '1',
+    arabic: '', indonesian: 'Niat', english: '', grade: '', savedAt: 123,
+  });
+  assert.equal(savedHadithKey(saved), 'bukhari:1');
+  assert.equal(normalizeSavedHadith({ collection: 'unknown', number: 1 }), null);
+  assert.equal(normalizeSavedHadith({ collection: 'bukhari', number: 0 }), null);
+  assert.equal(normalizeSavedHadith({ collection: 'bukhari', number: 1, english: 7 }), null);
+  assert.equal(normalizeSavedHadith({ collection: 'bukhari', number: 1, english: 'x'.repeat(30001) }), null);
+});
+
+test('filters duplicate saved references and caps the local list at fifty', () => {
+  const items = Array.from({ length: MAX_SAVED_HADITH + 4 }, (_, index) => ({ collection: 'bukhari', number: index + 1, indonesian: `Teks ${index + 1}` }));
+  const list = validateSavedHadithList([items[0], { ...items[0], indonesian: 'duplikat' }, ...items]);
+  assert.equal(list.length, MAX_SAVED_HADITH);
+  assert.equal(list[0].indonesian, 'Teks 1');
+  assert.deepEqual(validateSavedHadithList({}), []);
 });
 
 test('old PWA HTML without the new panel does not crash reader initialization', () => {

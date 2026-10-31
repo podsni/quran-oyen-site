@@ -2,6 +2,8 @@ const UMMAH_API = 'https://ummahapi.com/api';
 const FAWAZ_API = 'https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1';
 const CACHE_DB = 'quran-oyen-hadith-v1';
 const CACHE_STORE = 'responses';
+const SAVED_HADITH_KEY = 'quran-oyen.saved-hadith.v1';
+export const MAX_SAVED_HADITH = 50;
 const memory = new Map();
 let database;
 
@@ -45,6 +47,10 @@ const WORDS = {
     tafsirSource: 'Sumber tafsir: EQuran.id API v2. Konten tafsir dimuat per surat dan disimpan pada cache perangkat setelah berhasil diambil.',
     statusReady: 'Pilih salah satu fitur di atas untuk mulai.', sourceLabel: 'Sumber dan catatan',
     sourceNote: 'Teks dan penomoran dapat berbeda antar-edisi. Derajat hadis hanya ditampilkan bila diberikan sumber; fitur ini bukan pengganti verifikasi ilmiah atau bimbingan ulama.',
+    savedTitle: 'Hadis tersimpan', savedHint: 'Disimpan hanya di perangkat ini dan dapat dibuka tanpa koneksi. Maksimal 50 hadis.',
+    save: 'Simpan', removeSaved: 'Hapus simpanan', savedCount: (count) => `${count} hadis tersimpan di perangkat ini.`,
+    emptySaved: 'Belum ada hadis tersimpan. Ketuk “Simpan” pada hadis yang ingin dibaca kembali.', savedLimit: 'Simpanan penuh. Hapus satu hadis terlebih dahulu (maksimal 50).',
+    savedStorageError: 'Simpanan tidak dapat diperbarui di perangkat ini. Periksa ruang penyimpanan browser.', savedOffline: 'Dibuka dari simpanan perangkat; tersedia tanpa koneksi.',
   },
   en: {
     featureTitle: 'Hadith & tafsir', featureSub: 'Browse hadith collections and full tafsir by surah.',
@@ -72,6 +78,10 @@ const WORDS = {
     tafsirSource: 'Tafsir source: EQuran.id API v2. Tafsir is loaded by surah and saved to the device cache after it is retrieved.',
     statusReady: 'Choose one of the features above to begin.', sourceLabel: 'Sources and notes',
     sourceNote: 'Text and numbering may vary by edition. A hadith grade is shown only when supplied by the source; this feature does not replace scholarly verification or guidance.',
+    savedTitle: 'Saved hadith', savedHint: 'Saved only on this device and available offline. Up to 50 hadith.',
+    save: 'Save', removeSaved: 'Remove saved copy', savedCount: (count) => `${count} hadith saved on this device.`,
+    emptySaved: 'No saved hadith yet. Tap “Save” on any hadith you want to revisit.', savedLimit: 'Saved list is full. Remove one hadith first (maximum 50).',
+    savedStorageError: 'Could not update this device’s saved list. Check browser storage space.', savedOffline: 'Opened from this device’s saved copy; available offline.',
   },
 };
 
@@ -96,7 +106,7 @@ export function buildFawazHadithUrl(language, collection, number = null) {
 export function validateGlobalHadithSearch(payload) {
   const list = payload?.success === true && payload?.service === 'hadith-search' ? payload?.data?.hadiths : null;
   if (!Array.isArray(list)) throw new Error(payload?.message || 'Invalid hadith search response.');
-  return list.filter((item) => typeof item?.collection === 'string' && item.hadithnumber !== undefined && (typeof item.arabic === 'string' || typeof item.english === 'string'));
+  return list.filter((item) => collectionFor(item?.collection) && /^\d+(?:\.\d+)?$/.test(String(item.hadithnumber ?? '')) && Number(item.hadithnumber) > 0 && (typeof item.arabic === 'string' || typeof item.english === 'string'));
 }
 
 export function validateHadithDetail(payload, expectedCollection, expectedNumber) {
@@ -143,6 +153,60 @@ export function searchIndonesianHadith(corpus, query, limit = 30) {
   }
   const max = Math.max(1, Math.min(100, Number(limit) || 30));
   return { items: matches.slice(0, max), total: matches.length };
+}
+
+export function savedHadithKey(item) {
+  if (!item || !collectionFor(item.collection) || !/^\d+(?:\.\d+)?$/.test(String(item.number ?? ''))) return '';
+  return `${item.collection}:${String(item.number)}`;
+}
+
+export function normalizeSavedHadith(item) {
+  const key = savedHadithKey(item);
+  if (!key || Number(item.number) <= 0) return null;
+  const textFields = ['arabic', 'indonesian', 'english', 'grade'];
+  if (textFields.some((field) => item[field] != null && typeof item[field] !== 'string')) return null;
+  if (textFields.some((field) => String(item[field] ?? '').length > 30000)) return null;
+  const collection = collectionFor(item.collection);
+  return {
+    collection: collection.key,
+    collectionName: collection.name,
+    number: String(item.number),
+    arabic: String(item.arabic ?? ''),
+    indonesian: String(item.indonesian ?? ''),
+    english: String(item.english ?? ''),
+    grade: String(item.grade ?? ''),
+    savedAt: Number.isFinite(Number(item.savedAt)) ? Number(item.savedAt) : Date.now(),
+  };
+}
+
+export function validateSavedHadithList(items) {
+  if (!Array.isArray(items)) return [];
+  const saved = [];
+  const seen = new Set();
+  for (const item of items) {
+    const record = normalizeSavedHadith(item);
+    if (!record) continue;
+    const key = savedHadithKey(record);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    saved.push(record);
+    if (saved.length >= MAX_SAVED_HADITH) break;
+  }
+  return saved;
+}
+
+function loadSavedHadith() {
+  try {
+    return validateSavedHadithList(JSON.parse(globalThis.localStorage?.getItem(SAVED_HADITH_KEY) ?? '[]'));
+  } catch { return []; }
+}
+
+function persistSavedHadith(items) {
+  try {
+    if (!globalThis.localStorage) return false;
+    globalThis.localStorage.setItem(SAVED_HADITH_KEY, JSON.stringify(items));
+    return true;
+  } catch { return false; }
 }
 
 function openDatabase() {
@@ -315,6 +379,7 @@ export function createIlmFeatures({ sheets, onNavigate, getSurahs, initialLang =
   let searchTicket = 0;
   let detailTicket = 0;
   let surahList = [];
+  let savedHadith = loadSavedHadith();
   let globalSearchCollection = 'all';
   let indonesianSearchCollection = 'bukhari';
 
@@ -393,6 +458,8 @@ export function createIlmFeatures({ sheets, onNavigate, getSurahs, initialLang =
     }
     $('ilm-search-collection-label').textContent = w.searchCollection;
     $('ilm-search-button').textContent = w.searchButton;
+    $('ilm-saved-title').textContent = w.savedTitle;
+    $('ilm-saved-hint').textContent = w.savedHint;
     $('ilm-search-collection').options[0].textContent = w.allCollections;
     $('ilm-tafsir-title').textContent = w.tafsirTitle;
     $('ilm-surah-label').textContent = w.surah;
@@ -410,6 +477,7 @@ export function createIlmFeatures({ sheets, onNavigate, getSurahs, initialLang =
     updateSources();
     if (selectedDetail) renderDetail(selectedDetail);
     if (selectedSearch) renderSearchResults(selectedSearch);
+    renderSavedHadith();
   }
 
   function setTab(tab) {
@@ -500,11 +568,76 @@ export function createIlmFeatures({ sheets, onNavigate, getSurahs, initialLang =
     if (!item.indonesian) card.append(el('p', { className: 'ibadah-tags', textContent: collectionFor(item.collection)?.indonesian ? w.translationUnavailable : w.noIdEdition }));
     const actions = el('div', { className: 'ibadah-actions' });
     const hadithUrl = `https://ummahapi.com/api/hadith/${encodeURIComponent(item.collection)}/${encodeURIComponent(item.number)}`;
+    actions.append(makeSaveButton(item));
     actions.append(makeLink(item.sourceUrl || hadithUrl, lang === 'id' ? 'Sumber hadis' : 'Hadith source'));
     if (item.arabicUrl) actions.append(makeLink(item.arabicUrl, lang === 'id' ? 'Edisi Arab' : 'Arabic edition'));
     if (item.indonesianUrl) actions.append(makeLink(item.indonesianUrl, lang === 'id' ? 'Edisi Indonesia' : 'Indonesian edition'));
     card.append(actions);
     $('ilm-detail').replaceChildren(card);
+  }
+
+  function makeSaveButton(item) {
+    const key = savedHadithKey(item);
+    const isSaved = !!key && savedHadith.some((saved) => savedHadithKey(saved) === key);
+    const button = el('button', { type: 'button', className: 'pill hadith-save', textContent: isSaved ? words().removeSaved : words().save });
+    button.setAttribute('aria-pressed', String(isSaved));
+    button.addEventListener('click', () => toggleSavedHadith(item));
+    return button;
+  }
+
+  function toggleSavedHadith(item) {
+    const record = normalizeSavedHadith(item);
+    const key = savedHadithKey(record);
+    if (!record || !key) {
+      setStatus($('ilm-saved-status'), words().savedStorageError, true);
+      return;
+    }
+    const exists = savedHadith.some((saved) => savedHadithKey(saved) === key);
+    if (!exists && savedHadith.length >= MAX_SAVED_HADITH) {
+      setStatus($('ilm-saved-status'), words().savedLimit, true);
+      return;
+    }
+    const next = exists
+      ? savedHadith.filter((saved) => savedHadithKey(saved) !== key)
+      : [record, ...savedHadith];
+    if (!persistSavedHadith(next)) {
+      setStatus($('ilm-saved-status'), words().savedStorageError, true);
+      return;
+    }
+    savedHadith = next;
+    renderSavedHadith();
+    if (selectedDetail) renderDetail(selectedDetail);
+    if (selectedSearch) renderSearchResults(selectedSearch);
+  }
+
+  function renderSavedHadith() {
+    const container = $('ilm-saved-list');
+    if (!container) return;
+    $('ilm-saved-status').textContent = words().savedCount(savedHadith.length);
+    if (!savedHadith.length) {
+      container.replaceChildren(el('p', { className: 'ibadah-empty', textContent: words().emptySaved }));
+      return;
+    }
+    container.replaceChildren(...savedHadith.map((item) => {
+      const card = el('article', { className: 'ibadah-card hadith-card' });
+      card.append(el('div', { className: 'ibadah-card-head' }, el('span', { className: 'ibadah-badge', textContent: `${item.collectionName} · ${item.number}` })));
+      const excerpt = lang === 'id' ? item.indonesian || item.english : item.english || item.indonesian;
+      if (excerpt) card.append(el('p', { className: 'ibadah-prose', dir: 'auto', textContent: excerpt.length > 260 ? `${excerpt.slice(0, 257).trimEnd()}…` : excerpt }));
+      else if (item.arabic) card.append(el('p', { className: 'ibadah-arabic', lang: 'ar', dir: 'rtl', textContent: item.arabic.length > 220 ? `${item.arabic.slice(0, 217).trimEnd()}…` : item.arabic }));
+      const actions = el('div', { className: 'ibadah-actions' });
+      const openButton = el('button', { type: 'button', className: 'pill solid', textContent: words().openDetail });
+      openButton.addEventListener('click', () => {
+        $('ilm-book').value = item.collection;
+        $('ilm-number').value = item.number;
+        selectedDetail = item;
+        renderDetail(item);
+        setStatus($('ilm-detail-status'), words().savedOffline);
+        $('ilm-detail').scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      });
+      actions.append(openButton, makeSaveButton(item));
+      card.append(actions);
+      return card;
+    }));
   }
 
   async function searchHadith(event) {
@@ -580,6 +713,14 @@ export function createIlmFeatures({ sheets, onNavigate, getSurahs, initialLang =
       if (isGlobal && item.english) card.append(el('p', { className: 'ibadah-prose', dir: 'auto', textContent: item.english }));
       if (!isGlobal) card.append(el('p', { className: 'ibadah-prose', dir: 'auto', textContent: item.text }));
       const actions = el('div', { className: 'ibadah-actions' });
+      const savedRecord = {
+        collection, number, collectionName: collectionName(collection),
+        arabic: isGlobal ? item.arabic ?? '' : '',
+        indonesian: isGlobal ? '' : item.text ?? '',
+        english: isGlobal ? item.english ?? '' : '',
+        grade: isGlobal ? item.grade ?? '' : '',
+      };
+      actions.append(makeSaveButton(savedRecord));
       const detail = el('button', { type: 'button', className: 'pill', textContent: w.openDetail });
       detail.addEventListener('click', () => {
         $('ilm-book').value = collection;
