@@ -1,0 +1,18 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import vm from 'node:vm';
+const source=await fs.readFile(new URL('../sw.js',import.meta.url),'utf8');
+const pathFunction=source.match(/function pathOf\(url\) \{[\s\S]*?\n\}/)[0];
+const networkFunction=source.match(/async function fromNetwork\([\s\S]*?\n\}/)[0];
+const requests=[],cached=[];
+const scope={URL,Headers,Response,Uint8Array,BASE:'https://example.com/',BASE_PATH:'/',self:{location:{origin:'https://example.com'}},FILES:{'gulir.html':'abc','index.html':'def','data/index.json':'xyz'},keyOf:p=>'https://example.com/'+p+'?h=abc',fail:(code,message)=>Object.assign(new Error(message),{code}),hashOf:async()=> 'abc',askForUpdate:()=>{},fetch:async(url,options)=>{requests.push({url,options});return {ok:true,type:'basic',status:200,statusText:'OK',headers:new Headers(),arrayBuffer:async()=>new TextEncoder().encode('same bytes').buffer};}};
+vm.createContext(scope);vm.runInContext(pathFunction+'\n'+networkFunction,scope);
+for(const path of ['/gulir','/gulir/','/gulir.html'])assert.equal(scope.pathOf(new URL('https://example.com'+path+'?s=107&a=4')),'gulir.html');
+assert.equal(scope.pathOf(new URL('https://example.com/')),'index.html');
+assert.equal(scope.pathOf(new URL('https://example.com/data/index.json')),'data/index.json');
+assert.equal(scope.pathOf(new URL('https://outside.example/gulir')),null);
+const result=await scope.fromNetwork({put:async(key,res)=>cached.push({key,text:await res.text()})},'gulir.html');
+assert.equal(requests[0].options.redirect,'follow');assert.equal(requests[0].options.mode,'same-origin');assert.equal(result.kept,true);assert.equal(cached[0].text,'same bytes');
+scope.hashOf=async()=> 'mismatch';const changed=await scope.fromNetwork({put:async()=>assert.fail('mismatched bytes must not be cached')},'gulir.html');assert.equal(changed.kept,false);
+await scope.fromNetwork({put:async()=>{}},'data/index.json');assert.equal(requests.at(-1).options.redirect,'error');
+console.log('service worker canonical path / HTML redirects / content hashes: ok');
