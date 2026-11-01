@@ -34,9 +34,11 @@
 <header class="topbar">
   <a class="brand" href="./" aria-label="Kembali ke pembaca Quran Oyen"><span class="brand-mark" aria-hidden="true" data-icon="book"></span><span>Quran Oyen<small>Gulir Ayat</small></span></a>
   <button id="location" class="location" type="button" aria-label="Buka ayat ini di surahnya"><b>Selamat membaca</b><small>Satu ayat, satu jeda</small></button>
+  <button id="feed-refresh" class="icon-button" type="button" aria-label="Ganti ayat" title="Ganti ayat · atau tarik ke bawah di awal feed" data-icon="refresh" disabled></button>
   <button id="settings-open" class="icon-button" type="button" aria-label="Pengaturan dan sumber" data-icon="settings"></button>
 </header>
 <main id="main">
+  <div id="feed-status" class="feed-status" role="status" aria-live="polite" hidden></div>
   <section id="feed" class="stream" tabindex="0" aria-label="Beranda, feed ayat"><div class="state-card" role="status"><span class="eyebrow">Gulir Ayat</span><h1>Satu ayat,<br>satu jeda.</h1><p>Menyiapkan bacaanmu…</p></div></section>
   <section id="foryou" class="stream" tabindex="0" aria-label="Ayat terkait simpananmu" hidden></section>
   <section id="today" class="page" tabindex="0" aria-label="Bacaan hari ini" hidden></section>

@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { createGulirData, joinWords, sentenceRanges } from '../gulir-data.js';
+import { createGulirData, joinWords, sentenceRanges, cachedSurahNumbers } from '../gulir-data.js';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
@@ -50,4 +50,24 @@ await assert.rejects(() => retry.surah(107));
 await retry.surah(107); assert.ok(attempts > 1, 'rejected cache entry is evicted');
 let total=0;for(const meta of index){const d=await api.surah(meta.n);total+=d.words.ayat.length;for(let a=1;a<=d.words.ayat.length;a++){const words=d.words.ayat[a-1],v=await api.verse({s:meta.n,a});assert.ok(joinWords(words).length>0);assert.ok(v.latin.trim(),`missing Latin for ${meta.n}:${a}`);}}assert.equal(total,6236);
 for(const ref of [{s:2,a:181},{s:8,a:6},{s:13,a:37},{s:37,a:130}])assert.equal((await api.verse(ref)).latinSource,'EQuran.id');
+const cacheRoot = new URL('../data/', import.meta.url);
+const cacheInventory = {
+  keys: async () => ['quran-complete', 'quran-incomplete', 'not-quran'],
+  open: async name => ({ keys: async () => name === 'quran-complete' ? [
+    { url: new URL('s001.json', cacheRoot).href },
+    { url: new URL('id/t001.json', cacheRoot).href + '?v=1' },
+    { url: new URL('links/l001.json', cacheRoot).href },
+    { url: 'https://other.example/data/s002.json' },
+  ] : name === 'quran-incomplete' ? [
+    { url: new URL('s107.json', cacheRoot).href },
+    { url: new URL('id/t107.json', cacheRoot).href },
+  ] : [{ url: new URL('s002.json', cacheRoot).href }] }),
+};
+assert.deepEqual(await cachedSurahNumbers(cacheInventory), [1]);
+let offlineCalls = 0;
+const offline = createGulirData(index, { isOnline: false, cachedSurahs: async () => [107], fetcher: async url => { offlineCalls++; return fake(url); } });
+const zero = await offline.batch({ count: 0 });
+assert.deepEqual(zero.items, []); assert.equal(offlineCalls, 0);
+const offlineBatch = await offline.batch({ seed: 9, count: 2 });
+assert.ok(offlineBatch.items.length >= 2); assert.equal(offlineBatch.failures, 0);
 console.log('gulir-data tests: ok · 114 surahs / 6236 verses / complete context units');

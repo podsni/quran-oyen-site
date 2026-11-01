@@ -2,6 +2,14 @@
 
 Perubahan penting pada Quran Oyen dicatat di sini.
 
+## 2 November 2026 — Gulir dan ganti ayat lebih andal
+
+- **Navigasi:** Feed memuat pilihan berikutnya menjelang akhir guliran. Tombol panah maju/mundur membantu berpindah ayat, termasuk dari teks panjang; fokus keyboard di ujung teks dapat melanjutkan ke kartu berikutnya.
+- **Refresh:** Ikon Ganti ayat dan tarik-ke-bawah di awal Beranda menyiapkan pilihan baru tanpa memuat ulang seluruh halaman. Beranda biasa diacak saat dibuka ulang, tetapi tautan ayat tetap mempertahankan referensi dan rangkaian konteksnya.
+- **Pemulihan:** Indikator memuat dan tombol coba lagi tidak menghapus bacaan lama ketika permintaan gagal. Simpanan, progres, preferensi, serta rancangan Story tidak direset oleh refresh.
+- **Offline:** Daftar surah lengkap di cache ditemukan kembali setelah reload; pemilihan tidak lagi menganggap surah yang dimuat di sesi aktif sebagai satu-satunya unduhan yang tersedia.
+- **Pengembang:** Jalankan tes Node di `tools/test_*.mjs`, `python3 tools/stamp_sw.py`, `tools/test_gulir_browser.py`, dan `tools/test_gulir_feed_browser.py` sebelum deploy.
+
 ## 2 November 2026 — Rancangan Story dapat dibuka kembali
 
 - **Peningkatan:** Simpan hingga 20 rancangan Story ke Pustaka, lalu buka kembali setelah halaman atau aplikasi dimuat ulang.
