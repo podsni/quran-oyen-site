@@ -26,8 +26,15 @@ with sync_playwright() as p:
     first.locator('[data-action=save]').click()
     assert first.locator('[data-action=save]').get_attribute('aria-pressed')=='true'
     first.locator('[data-action=share]').click()
+    page.locator('#story-image').wait_for()
+    page.wait_for_function("document.querySelector('#story-image').naturalWidth===1080")
+    assert page.locator('#story-image').evaluate('(img)=>img.naturalHeight')==1920
+    page.locator('[data-story-theme=paper]').click()
+    page.wait_for_function("document.querySelector('#story-image').naturalWidth===1080")
+    page.locator('#share-text').click()
     clip=page.evaluate('navigator.clipboard.readText()')
     assert 's=107&a=4' in clip and 'Tanzil' in clip and 'Kemenag' in clip
+    page.locator('[data-close=share-dialog]').click()
     first.locator('.study-button').click()
     page.locator('#study-content .word').first.wait_for()
     page.locator('#study-content .word').first.click()
@@ -86,6 +93,12 @@ with sync_playwright() as p:
     assert long.locator('.translation').inner_text().endswith('.')
     assert long.locator('.actions').is_visible()
     page.screenshot(path='/tmp/gulir-long-verse.png')
+    long.locator('[data-action=share]').click()
+    page.wait_for_function("!document.querySelector('#story-pager').hidden")
+    assert page.locator('#story-page-label').inner_text()=='Gambar 1 dari 2'
+    page.locator('#story-next').click()
+    assert page.locator('#story-page-label').inner_text()=='Gambar 2 dari 2'
+    page.locator('[data-close=share-dialog]').click()
     page.goto(BASE+'/gulir.html?s=107&a=4',wait_until='domcontentloaded')
     page.locator('#feed .verse').first.wait_for()
     page.wait_for_function('!!navigator.serviceWorker.controller',timeout=45000)

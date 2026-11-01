@@ -54,6 +54,20 @@
   <div class="study-tabs" role="tablist" aria-label="Jenis pembelajaran"><button id="study-words" type="button" role="tab" aria-selected="true" aria-controls="study-content" data-study="words">Kata per kata</button><button id="study-related" type="button" role="tab" aria-selected="false" aria-controls="study-content" data-study="related" tabindex="-1">Terkait</button><button id="study-tafsir" type="button" role="tab" aria-selected="false" aria-controls="study-content" data-study="tafsir" tabindex="-1">Tafsir</button></div>
   <div id="study-content" class="study-content" role="tabpanel" aria-labelledby="study-words" tabindex="0"></div>
 </dialog>
+<dialog id="share-dialog" class="sheet share-sheet" aria-labelledby="share-title">
+  <header class="dialog-head"><div><span class="eyebrow">Kartu ayat 9:16</span><h2 id="share-title">Bagikan ayat</h2></div><button class="icon-button" type="button" data-close="share-dialog" aria-label="Tutup Bagikan" data-icon="close"></button></header>
+  <div class="share-body">
+    <p class="share-intro">Pratinjau gambar vertikal yang siap disimpan atau dibagikan.</p>
+    <div class="story-frame"><img id="story-image" alt="Pratinjau kartu ayat untuk Story" hidden><p id="story-loading" role="status">Menyiapkan gambar…</p></div>
+    <div id="story-pager" class="story-pager" hidden><button id="story-prev" type="button" aria-label="Kartu sebelumnya">‹</button><span id="story-page-label"></span><button id="story-next" type="button" aria-label="Kartu berikutnya">›</button></div>
+    <div class="story-controls">
+      <label class="story-toggle"><input id="story-latin" type="checkbox"><span>Sertakan transliterasi Latin</span></label>
+      <div class="story-themes" role="group" aria-label="Tema kartu"><button type="button" data-story-theme="forest" aria-pressed="true"><i class="theme-dot forest"></i>Hening</button><button type="button" data-story-theme="paper" aria-pressed="false"><i class="theme-dot paper"></i>Kertas</button><button type="button" data-story-theme="dusk" aria-pressed="false"><i class="theme-dot dusk"></i>Senja</button></div>
+    </div>
+    <div class="share-buttons"><button id="share-story" type="button" class="button" disabled>Bagikan gambar ini</button><button id="download-story" type="button" class="button secondary" disabled>Unduh gambar</button><button id="share-text" type="button" class="share-text-button">Bagikan teks &amp; tautan ayat</button></div>
+    <p class="note share-note">Jika Instagram Story atau Status WhatsApp tidak muncul di menu berbagi, unduh gambar lalu unggah dari aplikasi tersebut. Tautan ayat dapat dibagikan terpisah melalui tombol teks &amp; tautan.</p>
+  </div>
+</dialog>
 <dialog id="settings-dialog" class="sheet settings" aria-labelledby="settings-title">
   <header class="dialog-head"><div><span class="eyebrow">Di perangkatmu</span><h2 id="settings-title">Ruang membaca</h2></div><button class="icon-button" type="button" data-close="settings-dialog" aria-label="Tutup pengaturan" data-icon="close"></button></header>
   <div class="settings-body">

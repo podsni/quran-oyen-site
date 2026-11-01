@@ -2,6 +2,12 @@
 
 Perubahan penting pada Quran Oyen dicatat di sini.
 
+## 1 November 2026 — Kartu Story untuk ayat
+
+- **Peningkatan:** Menu Bagikan membuat kartu PNG 9:16 dengan tiga tema, transliterasi opsional, dan pembagian otomatis menjadi beberapa kartu untuk ayat panjang.
+- **Berbagi:** Gambar dapat dikirim lewat menu berbagi perangkat bila didukung, atau diunduh lalu diunggah manual ke Instagram Story/WhatsApp Status. Teks dan tautan ayat tetap tersedia terpisah.
+- **Atribusi:** Kartu mencantumkan sumber teks dan terjemahan; tautan langsung tetap berada pada caption/teks berbagi.
+
 ## 31 Oktober 2026 — Simpanan Hadis
 
 - **Peningkatan:** Hadis dapat disimpan dari detail atau hasil pencarian; hingga 50 teks tersimpan di perangkat dan dapat dibuka kembali tanpa koneksi.
