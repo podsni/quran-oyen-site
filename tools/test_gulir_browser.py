@@ -31,6 +31,9 @@ with sync_playwright() as p:
     assert page.locator('#story-image').evaluate('(img)=>img.naturalHeight')==1920
     page.locator('[data-story-theme=paper]').click()
     page.wait_for_function("document.querySelector('#story-image').naturalWidth===1080")
+    page.locator('#story-latin').check()
+    page.locator('#story-save-draft').click()
+    assert page.locator('#story-save-draft').inner_text()=='Perbarui rancangan tersimpan'
     page.locator('#share-text').click()
     clip=page.evaluate('navigator.clipboard.readText()')
     assert 's=107&a=4' in clip and 'Tanzil' in clip and 'Kemenag' in clip
@@ -70,6 +73,16 @@ with sync_playwright() as p:
     page.reload(wait_until='domcontentloaded')
     page.locator('#feed .verse').first.wait_for()
     assert page.locator('#feed .verse').first.locator('[data-action=save]').get_attribute('aria-pressed')=='true'
+    page.locator('[data-view=library]').click()
+    draft=page.locator('#story-drafts .mini-card').first
+    draft.wait_for()
+    assert 'Al-Ma' in draft.inner_text() and 'Kertas' in draft.inner_text() and 'dengan transliterasi' in draft.inner_text()
+    draft.get_by_role('button',name='Buka Story').click()
+    page.wait_for_function("document.querySelector('#story-image').naturalWidth===1080")
+    assert page.locator('[data-story-theme=paper]').get_attribute('aria-pressed')=='true'
+    assert page.locator('#story-latin').is_checked()
+    page.locator('[data-close=share-dialog]').click()
+    page.locator('[data-view=feed]').click()
     page.locator('[data-view=foryou]').click()
     page.locator('#foryou .verse').first.wait_for(timeout=30000)
     page.locator('[data-view=feed]').click()

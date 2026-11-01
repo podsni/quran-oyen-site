@@ -2,6 +2,13 @@
 
 Perubahan penting pada Quran Oyen dicatat di sini.
 
+## 2 November 2026 — Rancangan Story dapat dibuka kembali
+
+- **Peningkatan:** Simpan hingga 20 rancangan Story ke Pustaka, lalu buka kembali setelah halaman atau aplikasi dimuat ulang.
+- **Pemulihan:** Tema dan pilihan transliterasi ikut disimpan; gambar dirender ulang dari ayat lokal agar tidak memenuhi penyimpanan dengan file PNG besar.
+- **Privasi/offline:** Rancangan tersimpan hanya di browser perangkat. Ayat dapat dibuat ulang offline jika datanya sudah tersedia di cache.
+- **Pengembang:** Jalankan `node --test tools/test_story_drafts.mjs` dan tes browser Gulir sebelum deploy.
+
 ## 1 November 2026 — Kartu Story untuk ayat
 
 - **Peningkatan:** Menu Bagikan membuat kartu PNG 9:16 dengan tiga tema, transliterasi opsional, dan pembagian otomatis menjadi beberapa kartu untuk ayat panjang.
