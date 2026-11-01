@@ -1,0 +1,20 @@
+{
+  "format": "tanzil-baretext-canonical-order",
+  "totalAyat": 6236,
+  "surahs": 114,
+  "lineRule": "remove only comments beginning # and blank lines; preserve each data line verbatim",
+  "sources": {
+    "jalalayn": {
+      "file": "id.jalalayn.txt",
+      "sha256": "add979722725f27caebadde63964fdbe0ba410de36571c956d7dffc8aac8f4e1",
+      "id": "id.jalalayn",
+      "footer": "# --------------------------------------------------------------------\n#\n#  Quran Translation\n#  Name: Tafsir Jalalayn\n#  Translator: Jalal ad-Din al-Mahalli and Jalal ad-Din as-Suyuti\n#  Language: Indonesian\n#  ID: id.jalalayn\n#  Last Update: July 27, 2012\n#  Source: Tanzil.net\n#\n# --------------------------------------------------------------------"
+    },
+    "muntakhab": {
+      "file": "id.muntakhab.txt",
+      "sha256": "352af035ca8b8aba8a65959fc5858ebac941f4763b8f26a79681d6851743ff5a",
+      "id": "id.muntakhab",
+      "footer": "# --------------------------------------------------------------------\n#\n#  Quran Translation\n#  Name: Quraish Shihab\n#  Translator: Muhammad Quraish Shihab et al.\n#  Language: Indonesian\n#  ID: id.muntakhab\n#  Last Update: April 28, 2011\n#  Source: Tanzil.net\n#\n# --------------------------------------------------------------------"
+    }
+  }
+}

@@ -12,6 +12,12 @@ Quran Oyen menggunakan endpoint `GET https://equran.id/api/v2/tafsir/{nomor-sura
 
 API tidak membutuhkan akun atau API key untuk pemakaian wajar. Ketentuan EQuran.id menyebut rate limiting, atribusi EQuran.id, larangan menjual data, dan hak cipta terjemahan, tafsir, audio, serta fitur aplikasinya. Karena itu aplikasi menautkan sumber dan tidak menyajikan tafsir sebagai fatwa atau pengganti bimbingan ahli.
 
+## Tafsir lokal pada Gulir Ayat
+
+Jalalain (Al-Mahalli dan As-Suyuthi) dan Quraish Shihab dkk. (Al-Muntakhab) berasal dari unduhan resmi [Tanzil](https://tanzil.net/trans/), masing-masing 114 surah dan 6.236 teks ayat. Berkas dipisah per surah, dimuat dari origin Quran Oyen tanpa menghubungi situs referensi, dan dicache ketika dibuka. Sumber, checksum, footer asli, serta ketentuan non-komersial dicatat di [`tafsir/SOURCES.md`](tafsir/SOURCES.md). Teks tidak ditulis ulang oleh AI; pendahuluan surah tetap tersedia terpisah dari teks ayat.
+
+[Al-Mukhtasar](https://quranenc.com/id/browse/indonesian_mokhtasar) dan [As-Sa’di](https://quranenc.com/id/browse/indonesian_saadi) hanya tersedia sebagai tautan sumber resmi, bukan data terintegrasi. API Al-Mukhtasar berhasil untuk Al-Fatihah namun penarikan lanjutan ditolak 403; endpoint As-Sa’di yang diuji mengembalikan string kosong. Metadata versi tidak berhasil diperoleh. Jangan mengklaim empat kitab penuh atau ketersediaan offline dua sumber QuranEnc ini. Ketentuan QuranEnc meminta teks tidak diubah, atribusi penerbit/QuranEnc, nomor versi, serta pembaruan; lihat [dokumentasi API resmi](https://quranenc.com/en/home/api/).
+
 ## Hadis: Fawaz Hadith API melalui jsDelivr
 
 Aplikasi mematok rute CDN ke versi `@1`, lalu mengambil teks per nomor atau satu edisi lengkap hanya ketika pengguna memilih pencarian Indonesia pada kitab tersebut. Edisi Arab tersedia untuk 10 koleksi; katalog versi `1` menyediakan edisi Indonesia yang teridentifikasi untuk tujuh koleksi: Bukhari, Muslim, Abu Dawud, Tirmidhi, Nasa'i, Ibn Majah, dan Malik. Koleksi Nawawi, Hadis Qudsi, dan Shah Waliullah ditampilkan dengan Arab/Inggris bila sumber tersebut tersedia, tanpa mengklaim ada terjemahan Indonesia.

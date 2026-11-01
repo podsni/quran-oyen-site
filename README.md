@@ -21,6 +21,16 @@ Situs web statis untuk membaca dan menelusuri Al-Qur’an kata demi kata. Reposi
 
 Teks bacaan, terjemahan lokal, dan fitur pencarian tetap bekerja dengan salinan offline yang sudah diunduh. Audio MP3 diputar dari CDN EQuran.id dan memerlukan koneksi; tafsir dapat dibaca offline jika suratnya pernah berhasil dimuat dan cache browser masih tersedia. Detail hadis serta edisi Indonesia yang pernah diunduh untuk pencarian disimpan di IndexedDB pada perangkat; hadis yang ditandai untuk dibaca kembali disimpan di penyimpanan lokal browser.
 
+## Gulir Ayat
+
+Buka **Gulir Ayat** di beranda atau langsung ke `/gulir.html`. Mode ini memiliki feed vertikal satu ayat per layar, pilihan lokal **Untukmu** berdasarkan akar kata pada simpanan, **Hari ini** untuk target/progres/streak, serta **Pustaka** untuk simpanan dan membaca urutan surah. Tautan `gulir.html?s=107&a=4` membuka rangkaian konteks ayat tersebut, bukan menghilangkan kelanjutan kalimatnya. Pengelompokan memakai tanda baca terjemahan sebagai bantuan navigasi, bukan penetapan ilmiah konteks tafsir.
+
+Ayat dapat disimpan, dibagikan sebagai teks beserta tautan, dipelajari kata per kata, atau didengarkan dari qari yang dipilih. Ayat panjang memiliki area teks yang bisa digulir agar tidak terpotong. Makna kata dan transliterasi korpus tetap berbahasa Inggris. Panel tafsir mengintegrasikan Jalalain dan Quraish Shihab dkk. dari unduhan resmi Tanzil (non-komersial), serta Kemenag melalui EQuran.id. Al-Mukhtasar dan As-Sa’di hanya ditautkan ke halaman resmi QuranEnc karena data lengkap/resmi belum berhasil diverifikasi untuk dipaketkan; keduanya **bukan** sumber terintegrasi offline.
+
+Progres khusus mode Gulir dihitung setelah ayat terlihat sekurangnya 1,5 detik, hanya ketika halaman terlihat dan panel belajar tertutup. Ini indikator bacaan, bukan bukti pemahaman atau penilaian ibadah. Target, ayat unik, streak berdasarkan tanggal lokal, maksimal 500 simpanan, tema, dan ukuran teks disimpan di `localStorage`, tanpa akun atau sinkronisasi. Menghapus data situs menghapus semuanya. Rekomendasi tidak mengirim riwayat ke backend dan tidak menggunakan AI. Pembaca lama tetap terpisah dan tidak diubah.
+
+Shell Gulir dan data yang pernah dimuat tersedia offline melalui service worker. Unduh seluruh data dari pembaca utama untuk ketersediaan 114 surah tanpa jaringan. Dua tafsir lokal di `tafsir/` dimuat per surah sesuai kebutuhan dan tidak memperbesar paket **Unduh semua data** lama; surat tafsir yang sudah dibuka dapat dibaca offline selama cache tersimpan. Kemenag memakai cache IndexedDB yang sudah ada; audio tetap memerlukan jaringan. Ketentuan serta provenance ada di [`tafsir/SOURCES.md`](tafsir/SOURCES.md).
+
 ## Batasan salinan mandiri
 
 Repositori ini berisi situs statis, bukan server lengkap dari situs sumber. Pencarian persis dan sebagian besar fitur baca berjalan di perangkat. **Pencarian semantik memakai API publik EQuran.id dan memerlukan koneksi internet; pencarian terkait makna melalui GPU tetap tidak tersambung** karena layanan GPU sumber tidak disertakan, sehingga pilihan GPU dinonaktifkan.
@@ -66,6 +76,9 @@ Pada kode repositori ini, pelacak hanya diaktifkan untuk hostname `quran.oyenza.
 | --- | --- |
 | `index.html` | Dokumen aplikasi, gaya, struktur halaman, dan dialog/panel. |
 | `app.js` | Inisialisasi aplikasi, pembacaan, navigasi, pengaturan, dan penghubung antarmodul. |
+| `gulir.html`, `gulir.css`, `gulir.js` | Mode Gulir Ayat dan antarmuka feed/belajar/progres. |
+| `gulir-data.js`, `gulir-state.js`, `gulir-tafsir.js` | Data konteks/akar, state lokal tervalidasi, dan adapter sumber tafsir. |
+| `tafsir/` | Dua sumber tafsir lokal per surah beserta provenance dan ketentuannya. |
 | `equran.js` | Adapter EQuran.id v2, validasi respons/audio, dan cache API di IndexedDB. |
 | `ibadah.js` | Adapter pencarian semantik, doa/dzikir, jadwal sholat, dan cache data API Islam. |
 | `hadith-tafsir.js` | Fitur Hadis/Tafsir, pencarian edisi Indonesia lokal, validasi respons, serta cache IndexedDB. |

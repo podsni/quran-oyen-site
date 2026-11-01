@@ -1647,6 +1647,8 @@ function setLang(lang) {
   $('back').ariaLabel = t('backLabel');
   $('intro-title').textContent = t('homeTitle');
   $('home-sub').textContent = t('homeSub');
+  if ($('feature-gulir-title')) $('feature-gulir-title').textContent = lang === 'en' ? 'Ayah Scroll' : 'Gulir Ayat';
+  if ($('feature-gulir-sub')) $('feature-gulir-sub').textContent = lang === 'en' ? 'One ayah per screen · save, study and keep daily reading progress.' : 'Satu ayat per layar · simpan, pelajari, dan catat progres harian.';
   syncWhere();
   $('intro-text').textContent = t('intro');
   $('about-text').textContent = t('intro');

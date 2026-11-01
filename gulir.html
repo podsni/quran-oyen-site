@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="id" data-theme="light" data-size="medium">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fbf8f3">
+<meta name="description" content="Baca Al-Qur’an satu ayat per layar. Simpan, pelajari, dan bangun kebiasaan membaca dengan progres di perangkatmu.">
+<title>Gulir Ayat · Quran Oyen</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="preload" href="vendor/fonts-amiri-quran-v19/amiri-quran-arabic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="gulir.css">
+<script type="module" src="gulir.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="./" aria-label="Kembali ke pembaca Quran Oyen"><span class="brand-mark" aria-hidden="true" data-icon="book"></span><span>Quran Oyen<small>Gulir Ayat</small></span></a>
+  <button id="location" class="location" type="button" aria-label="Buka ayat ini di surahnya"><b>Selamat membaca</b><small>Satu ayat, satu jeda</small></button>
+  <button id="settings-open" class="icon-button" type="button" aria-label="Pengaturan dan sumber" data-icon="settings"></button>
+</header>
+<main id="main">
+  <section id="feed" class="stream" tabindex="0" aria-label="Beranda, feed ayat"><div class="state-card" role="status"><span class="eyebrow">Gulir Ayat</span><h1>Satu ayat,<br>satu jeda.</h1><p>Menyiapkan bacaanmu…</p></div></section>
+  <section id="foryou" class="stream" tabindex="0" aria-label="Ayat terkait simpananmu" hidden></section>
+  <section id="today" class="page" tabindex="0" aria-label="Bacaan hari ini" hidden></section>
+  <section id="library" class="page" tabindex="0" aria-label="Pustaka dan ayat tersimpan" hidden></section>
+  <section id="reader" class="stream" tabindex="0" aria-label="Baca surah berurutan" hidden></section>
+</main>
+<nav class="bottom-nav" aria-label="Menu Gulir Ayat">
+  <button type="button" data-view="feed" aria-current="page"><i data-icon="home"></i><span>Beranda</span></button>
+  <button type="button" data-view="foryou"><i data-icon="spark"></i><span>Untukmu</span></button>
+  <button type="button" data-view="today"><i data-icon="sun"></i><span>Hari ini</span></button>
+  <button type="button" data-view="library"><i data-icon="book"></i><span>Pustaka</span></button>
+</nav>
+<dialog id="learn-dialog" class="sheet" aria-labelledby="learn-title">
+  <header class="dialog-head"><div><span class="eyebrow">Pelajari ayat</span><h2 id="learn-title"></h2></div><button class="icon-button" type="button" data-close="learn-dialog" aria-label="Tutup Pelajari" data-icon="close"></button></header>
+  <div class="study-tabs" role="tablist" aria-label="Jenis pembelajaran"><button id="study-words" type="button" role="tab" aria-selected="true" aria-controls="study-content" data-study="words">Kata per kata</button><button id="study-related" type="button" role="tab" aria-selected="false" aria-controls="study-content" data-study="related" tabindex="-1">Terkait</button><button id="study-tafsir" type="button" role="tab" aria-selected="false" aria-controls="study-content" data-study="tafsir" tabindex="-1">Tafsir</button></div>
+  <div id="study-content" class="study-content" role="tabpanel" aria-labelledby="study-words" tabindex="0"></div>
+</dialog>
+<dialog id="settings-dialog" class="sheet settings" aria-labelledby="settings-title">
+  <header class="dialog-head"><div><span class="eyebrow">Di perangkatmu</span><h2 id="settings-title">Ruang membaca</h2></div><button class="icon-button" type="button" data-close="settings-dialog" aria-label="Tutup pengaturan" data-icon="close"></button></header>
+  <div class="settings-body">
+    <label class="setting">Tampilan<select id="theme"><option value="light">Kertas terang</option><option value="dark">Malam tenang</option></select></label>
+    <label class="setting">Ukuran teks<select id="size"><option value="small">Kecil</option><option value="medium">Sedang</option><option value="large">Besar</option></select></label>
+    <label class="setting">Qari audio<select id="qari"></select></label>
+    <p class="note">Simpanan, target, progres khatam, dan streak disimpan hanya di browser ini. Tanggal mengikuti perangkatmu. Tidak disinkronkan antarperangkat; menghapus data situs juga menghapusnya.</p>
+    <p id="storage-note" class="note"></p>
+    <details class="source-details"><summary>Sumber &amp; cara memilih ayat</summary><div id="source-notes"></div></details>
+    <a class="button secondary" href="./">Pembaca lengkap &amp; unduhan offline</a>
+  </div>
+</dialog>
+<div id="toast" role="status" aria-live="polite" hidden></div>
+<noscript>Aktifkan JavaScript untuk Gulir Ayat. <a href="./">Kembali ke Quran Oyen</a>.</noscript>
+</body>
+</html>
