@@ -51,16 +51,83 @@ Kemudian buka <http://localhost:8000/> di browser modern. `localhost` dianggap k
 
 ## Deploy
 
-Repositori ini adalah situs statis. Untuk layanan hosting statis:
+Quran Oyen adalah situs statis tanpa framework, bundler, atau langkah kompilasi. Semua berkas publik berada di **root** repository. Pada platform hosting, gunakan root repository sebagai direktori proyek dan pertahankan struktur folder serta huruf besar/kecil nama berkas.
 
-- jadikan direktori root repositori sebagai direktori publik;
-- gunakan direktori keluaran `.` dan kosongkan perintah build—tidak ada bundler atau langkah kompilasi;
-- pertahankan struktur folder dan huruf besar/kecil nama berkas; browser perlu memuat modul JavaScript, berkas JSON, dan berkas biner dari jalur relatif yang sama;
-- aktifkan HTTPS agar service worker dan fitur PWA dapat digunakan di luar `localhost`.
+Sebelum menerbitkan perubahan pada aset aplikasi, jalankan `python3 tools/stamp_sw.py` dari root repository untuk memperbarui daftar hash dan versi cache di `sw.js`. Uji perubahan, lalu commit `sw.js` bersama aset yang diubah. Perubahan README saja tidak memerlukan stamping. Semua platform harus menyajikan situs di HTTPS; jangan host aplikasi ini di subdirektori URL karena jalur aset dan cakupan service worker menggunakan root situs.
 
-`sw.js` berisi versi rilis dan hash berkas untuk cache offline. Sebelum deploy, jalankan `python3 tools/stamp_sw.py` untuk menghitung ulang hash semua aset publik dan menandai versi rilis; setelah itu uji PWA serta mode offline. README tidak mengasumsikan adanya pipeline deploy otomatis.
+> **Penting tentang link share ayat:** Vercel, Cloudflare Pages yang statis, dan Netlify dapat menyajikan aplikasi, tetapi tidak menjalankan `worker.js`. Worker tersebut menyisipkan metadata Open Graph/Twitter khusus ayat untuk crawler media sosial. Untuk mempertahankan preview share per ayat, gunakan **Cloudflare Workers Static Assets** di bawah ini. `worker.js` saat ini menetapkan `PUBLIC_ORIGIN` ke domain demo; jika memakai domain sendiri, ganti nilainya dengan URL HTTPS produksi milik Anda.
 
-Untuk Cloudflare Workers Static Assets, `worker.js` hanya meneruskan request ke binding aset `ASSETS`; berkas entry point ini bukan bagian dari aset publik situs.
+### Vercel
+
+1. Di dashboard Vercel, pilih **Add New… > Project**, hubungkan GitHub, lalu impor `podsni/quran-oyen-site` (atau fork Anda). Beri Vercel akses ke repository bila diminta.
+2. Atur **Root Directory** ke `./` (root repository) dan **Framework Preset** ke **Other**.
+3. Pada pengaturan build, aktifkan override **Build Command** lalu biarkan kosong agar Vercel melewati build. Tidak ada perintah install atau dependency aplikasi yang perlu dijalankan. Set **Output Directory** ke `.`; repository ini tidak memiliki direktori `public` atau folder hasil build.
+4. Pilih branch produksi `main`, lalu pilih **Deploy**. Jika proyek dihubungkan ke Git, push berikutnya ke branch produksi akan memicu deployment baru.
+5. Untuk domain sendiri, tambahkan domain melalui **Project Settings > Domains** dan ikuti instruksi DNS Vercel. Pastikan deployment memakai HTTPS.
+
+Rujukan: [Vercel — Configuring a Build](https://vercel.com/docs/builds/configure-a-build) (lihat bagian *Skip Build Step* dan *Output Directory*).
+
+### Cloudflare Workers Static Assets (disarankan untuk preview share)
+
+`worker.js` memerlukan binding aset `ASSETS` dan harus dijalankan sebelum aset pada dua path Gulir Ayat. Untuk deploy dengan Wrangler, buat file `wrangler.toml` di root repository dengan konfigurasi berikut. Ubah `name` bila nama Worker tersebut sudah dipakai di akun Cloudflare Anda; sesuaikan `compatibility_date` ke tanggal saat konfigurasi dibuat.
+
+```toml
+name = "quran-oyen-site"
+main = "worker.js"
+compatibility_date = "2026-11-01"
+
+[assets]
+directory = "."
+binding = "ASSETS"
+run_worker_first = ["/gulir", "/gulir.html"]
+html_handling = "auto-trailing-slash"
+not_found_handling = "none"
+```
+
+Pasang [Node.js dan npm](https://nodejs.org/), kemudian jalankan dari root repository:
+
+```bash
+npm init -y
+npm install --save-dev wrangler
+npx wrangler login
+npx wrangler dev
+npx wrangler deploy
+```
+
+`wrangler dev` menjalankan pratinjau lokal; setelah diuji, `wrangler deploy` mengunggah kode Worker beserta seluruh aset statis. Wrangler akan meminta autentikasi Cloudflare pada deploy pertama. Untuk domain sendiri, buka **Workers & Pages** di dashboard, pilih Worker, lalu tambahkan domain melalui pengaturan domain/route Worker. Domain harus menggunakan zona DNS yang tersedia di akun Cloudflare. Setelah deploy, uji `/`, `/gulir.html`, dan link seperti `/gulir?s=107&a=4`; periksa pula source HTML link ayat untuk memastikan metadata sosial berisi ayat yang benar.
+
+Rujukan: [Cloudflare — Static Assets](https://developers.cloudflare.com/workers/static-assets/) dan [Wrangler commands](https://developers.cloudflare.com/workers/wrangler/commands/).
+
+#### Alternatif: Cloudflare Pages (situs statis saja)
+
+Jika tidak memerlukan metadata share dinamis dari `worker.js`, Anda dapat memakai integrasi Git Pages:
+
+1. Di dashboard Cloudflare, buka **Workers & Pages > Create application > Pages > Connect to Git**, hubungkan GitHub, lalu pilih repository.
+2. Pilih `main` sebagai **Production branch**. Biarkan **Root directory** kosong (artinya root repository), pilih preset tanpa framework, biarkan **Build command** kosong, dan masukkan `.` sebagai **Build output directory**.
+3. Pilih **Save and Deploy**. Setelah itu push ke `main` akan menjalankan deployment otomatis. Tambahkan domain di pengaturan **Custom domains** proyek Pages bila diperlukan.
+
+Pages akan menayangkan aplikasi statis, tetapi konfigurasi Pages ini **tidak menjalankan `worker.js`** sehingga preview metadata khusus tiap ayat tidak dibuat. Dokumentasi Cloudflare juga menyatakan bahwa proyek Pages yang dibuat dengan Git integration tidak dapat dialihkan kemudian ke Direct Upload; bila ingin mencoba model deployment berbeda, buat proyek baru. Rujukan: [Cloudflare Pages — Git integration](https://developers.cloudflare.com/pages/get-started/git-integration/) dan [Build configuration](https://developers.cloudflare.com/pages/configuration/build-configuration/).
+
+### Netlify
+
+1. Di dashboard Netlify, pilih **Add new project > Import an existing project**, pilih GitHub, izinkan akses ke repository, lalu pilih `podsni/quran-oyen-site` atau fork Anda.
+2. Pilih branch produksi `main`. Biarkan **Base directory** kosong (root repository) dan **Build command** kosong. Isi **Publish directory** dengan `.`; jangan gunakan direktori `dist`, `build`, atau folder lain karena proyek ini tidak membuat output terpisah.
+3. Pilih **Deploy**. Push berikutnya ke branch produksi akan memicu deploy otomatis. Domain sendiri dapat ditambahkan melalui pengaturan **Domain management > Production domains**.
+
+Opsional: simpan pengaturan publikasi yang sama di file `netlify.toml` pada root repository:
+
+```toml
+[build]
+  publish = "."
+```
+
+Jangan menambahkan `command` build: tidak ada langkah build yang diperlukan. Rujukan: [Netlify — Deploy from your repository](https://docs.netlify.com/start/quickstarts/deploy-from-repository/) dan [Build configuration overview](https://docs.netlify.com/build/configure-builds/overview/).
+
+### Pemeriksaan setelah deploy
+
+- Buka halaman utama dan `/gulir.html`; pastikan file JavaScript, JSON, font, gambar, dan data di folder `data/` termuat tanpa 404. Nama file dan jalur harus tetap sama persis, termasuk kapitalisasi.
+- Pastikan HTTPS aktif. Setelah membuka situs di browser, coba pasang PWA dan muat ulang halaman saat offline. Untuk mencoba seluruh surah tanpa jaringan, unduh data lengkap dari pembaca utama terlebih dahulu.
+- Pada Cloudflare Workers, uji link share ayat dan metadata Open Graph/Twitter. Di hosting statis Vercel, Pages, atau Netlify, aplikasi baca tetap berfungsi, tetapi metadata khusus per ayat dari Worker tidak tersedia.
 
 ## Privasi dan layanan eksternal
 
