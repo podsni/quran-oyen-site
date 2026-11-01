@@ -12,3 +12,9 @@ main{height:calc(100% - var(--head) - var(--nav) - env(safe-area-inset-top) - en
 @media(prefers-reduced-motion:reduce){.stream{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
 
 .brand-mark svg{width:20px;height:20px}.study-content textarea{width:100%;min-height:35vh;padding:15px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:14px}
+
+.verse-tools{display:flex;align-items:center;gap:7px;flex:none}.latin-toggle{border:1px solid var(--line);border-radius:24px;padding:8px 11px;font-size:11px;font-weight:650;color:var(--accent);white-space:nowrap}.latin-toggle[aria-pressed=true]{background:var(--soft)}
+.verse-text .latin{direction:ltr;text-align:center;align-self:center;width:100%;max-width:640px;font-size:13px;line-height:1.75;color:var(--muted);margin:-8px auto 18px;overflow-wrap:anywhere}.verse.long .latin{font-size:12px}.verse.very-long .latin{font-size:11px}
+.mini-card .latin{direction:ltr;text-align:left;font-size:12px;line-height:1.65;color:var(--muted);margin:10px 0;overflow-wrap:anywhere}:root[data-latin=hide] .latin{display:none!important}
+.setting input[type=checkbox]{width:20px;height:20px;accent-color:var(--accent);flex:none}
+@media(max-width:480px){.verse-tools{gap:4px}.latin-toggle{padding:8px 9px;font-size:10px}.study-button{padding:8px 10px;font-size:11px}}

@@ -48,5 +48,6 @@ const retry = createGulirData(index, { fetcher: async url => {
 } });
 await assert.rejects(() => retry.surah(107));
 await retry.surah(107); assert.ok(attempts > 1, 'rejected cache entry is evicted');
-let total=0;for(const meta of index){const d=await api.surah(meta.n);total+=d.words.ayat.length;for(const words of d.words.ayat)assert.ok(joinWords(words).length>0);}assert.equal(total,6236);
+let total=0;for(const meta of index){const d=await api.surah(meta.n);total+=d.words.ayat.length;for(let a=1;a<=d.words.ayat.length;a++){const words=d.words.ayat[a-1],v=await api.verse({s:meta.n,a});assert.ok(joinWords(words).length>0);assert.ok(v.latin.trim(),`missing Latin for ${meta.n}:${a}`);}}assert.equal(total,6236);
+for(const ref of [{s:2,a:181},{s:8,a:6},{s:13,a:37},{s:37,a:130}])assert.equal((await api.verse(ref)).latinSource,'EQuran.id');
 console.log('gulir-data tests: ok · 114 surahs / 6236 verses / complete context units');

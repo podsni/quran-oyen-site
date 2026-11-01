@@ -36,6 +36,10 @@ assert.equal(store.setGoal(101), false);
 assert.equal(store.setPreference('theme', 'dark'), true);
 assert.equal(store.setPreference('size', 'large'), true);
 assert.equal(store.setPreference('size', 'giant'), false);
+assert.equal(store.preference('latin'), true);
+assert.equal(store.setPreference('latin', false), true);
+assert.equal(store.preference('latin'), false);
+assert.equal(store.setPreference('latin', 'off'), false);
 const snap = store.snapshot(); snap.preferences.theme = 'light'; assert.equal(store.preference('theme'), 'dark');
 
 // same day does not increase streak; yesterday joins the run; a gap resets current streak.
@@ -60,6 +64,12 @@ assert.equal(capStore.markRead({ s: 99, a: 1 }), false);
 const reload = createGulirStore(index, { storage: cap, now: clock('2024-01-01T00:00:00') });
 assert.equal(reload.summary().persistent, true);
 assert.ok(reload.saved().length <= 500);
+assert.equal(reload.preference('latin'), true);
+
+// Existing v1 preferences without the Latin flag keep the new default visible.
+const legacy = mem(cap.value());
+const legacyState = JSON.parse(legacy.value()); delete legacyState.prefs.latin; legacy.setItem('legacy', JSON.stringify(legacyState));
+assert.equal(createGulirStore(index, { storage: legacy }).preference('latin'), true);
 
 const quota = { getItem() { throw new Error('blocked'); }, setItem() { throw new Error('quota'); } };
 const fallback = createGulirStore(index, { storage: quota, now: clock('2024-01-01') });

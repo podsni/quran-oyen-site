@@ -1,4 +1,10 @@
 const ROOT = new URL('./data/', import.meta.url);
+const LATIN_EXCEPTIONS = new Map([
+  ['2:181', "Famam baddalahū ba‘da mā sami‘ahū fa innamā iṡmuhū ‘alal-lażīna yubaddilūnah(ū), innallāha samī‘un ‘alīm(un)."],
+  ['8:6', "Yujādilūnaka fil-ḥaqqi ba‘da mā tabayyana ka'annamā yusāqūna ilal-mauti wa hum yanẓurūn(a)."],
+  ['13:37', "Wa każālika anzalnāhu ḥukman ‘arabiyyā(n), wa la'inittaba‘ta ahwā'ahum ba‘da mā jā'aka minal-‘ilm(i), mā laka minallāhi miw waliyyiw wa lā wāq(in)."],
+  ['37:130', "Salāmun ‘alā ilyāsīn(a)."],
+]);
 const bad = (m) => { throw new TypeError(`Gulir Ayat: ${m}`); };
 export function joinWords(words) {
   if(!Array.isArray(words))bad('Data kata tidak valid.');
@@ -50,7 +56,8 @@ export function createGulirData(index,{fetcher=globalThis.fetch}={}){
   }
   async function verse(ref){
     const {s,a}=validateRef(ref),d=await surah(s),range=rangesCache.get(s).find(([f,l])=>f<=a&&a<=l);
-    return {s,a,name:d.meta.latin,arabic:joinWords(d.words.ayat[a-1]),translation:d.translations.ayat[a-1],words:d.words.ayat[a-1],part:a-range[0]+1,of:range[1]-range[0]+1,unitKey:`${s}:${range[0]}`};
+    const words=d.words.ayat[a-1],wordLatin=words.map(w=>typeof w[6]==='string'?w[6].trim():'').filter(Boolean).join(' '),latin=wordLatin||LATIN_EXCEPTIONS.get(`${s}:${a}`)||'';
+    return {s,a,name:d.meta.latin,arabic:joinWords(words),latin,latinSource:wordLatin?'Quranic Arabic Corpus':latin?'EQuran.id':'',translation:d.translations.ayat[a-1],words,part:a-range[0]+1,of:range[1]-range[0]+1,unitKey:`${s}:${range[0]}`};
   }
   async function context(ref){
     const {s,a}=validateRef(ref),v=await verse(ref),first=a-v.part+1,last=first+v.of-1,items=[];

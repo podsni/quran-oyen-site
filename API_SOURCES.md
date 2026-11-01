@@ -2,6 +2,16 @@
 
 Dokumen ini mencatat pilihan sumber untuk fitur Hadis/Tafsir Quran Oyen, endpoint yang dipakai, dan batas yang diketahui. Respons layanan dapat berubah; dokumentasi resmi tetap menjadi rujukan terbaru.
 
+## Transliterasi Latin Gulir Ayat
+
+Transliterasi ayat dirangkai secara lokal dari anotasi per kata Quranic Arabic Corpus yang sudah ada di paket Gulir Ayat. Empat ayat yang tidak memiliki anotasi kata (2:181, 8:6, 13:37, dan 37:130) dilengkapi dari field `teksLatin` EQuran.id API v2, lalu disimpan di aplikasi agar tetap tersedia offline.
+
+- Quranic Arabic Corpus: <https://corpus.quran.com>
+- EQuran.id API v2 dan contoh data: <https://equran.id/apidev/v2>
+- Ketentuan EQuran.id: <https://equran.id/terms>
+
+Transliterasi adalah bantuan baca; bukan teks Arab, tajwid, atau pengganti bimbingan guru. Pengguna bisa menampilkan atau menyembunyikannya dari tombol di kartu ayat atau Pengaturan.
+
 ## Tafsir Al-Qur'an: EQuran.id API v2
 
 Quran Oyen menggunakan endpoint `GET https://equran.id/api/v2/tafsir/{nomor-surat}` untuk mengambil kumpulan tafsir per ayat dalam satu surat. Endpoint ini melengkapi pembaca tafsir yang sudah ada; pintasan baru memungkinkan pengguna memilih dan membuka tafsir lengkap dari masing-masing 114 surat. Respons, termasuk tafsir yang pernah dibuka, disimpan di cache perangkat melalui IndexedDB.

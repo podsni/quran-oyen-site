@@ -2,7 +2,7 @@
 
 const TOTAL = 6236;
 const DEFAULT_KEY = 'quran-oyen.gulir.v1';
-const DEFAULT_PREFS = Object.freeze({ theme: 'light', size: 'medium' });
+const DEFAULT_PREFS = Object.freeze({ theme: 'light', size: 'medium', latin: true });
 
 export function localDay(date = new Date()) {
   const d = date instanceof Date ? date : new Date(date);
@@ -113,7 +113,7 @@ export function createGulirStore(index, options = {}) {
         savedItems = savedItems.slice(0, 500);
       }
       if (Number.isInteger(state.goal) && state.goal >= 1 && state.goal <= 100) goal = state.goal;
-      if (state.prefs && (state.prefs.theme === 'light' || state.prefs.theme === 'dark') && (state.prefs.size === 'small' || state.prefs.size === 'medium' || state.prefs.size === 'large')) prefs = { theme: state.prefs.theme, size: state.prefs.size };
+      if (state.prefs && (state.prefs.theme === 'light' || state.prefs.theme === 'dark') && (state.prefs.size === 'small' || state.prefs.size === 'medium' || state.prefs.size === 'large')) prefs = { theme: state.prefs.theme, size: state.prefs.size, latin: state.prefs.latin !== false };
       last = normalizeRef(state.last);
       persistent = true;
     } catch { /* malformed state is ignored and replaced by memory state */ }
@@ -157,6 +157,7 @@ export function createGulirStore(index, options = {}) {
     setPreference(keyName, value) {
       if (keyName === 'theme' && (value === 'light' || value === 'dark')) prefs.theme = value;
       else if (keyName === 'size' && (value === 'small' || value === 'medium' || value === 'large')) prefs.size = value;
+      else if (keyName === 'latin' && typeof value === 'boolean') prefs.latin = value;
       else return false;
       saveState(); return true;
     },

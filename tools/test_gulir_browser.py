@@ -20,6 +20,8 @@ with sync_playwright() as p:
     assert page.locator('#feed .verse').evaluate_all('(els)=>els.slice(0,4).map(e=>e.dataset.key)')==['107:4','107:5','107:6','107:7']
     page.wait_for_timeout(1900)
     first=page.locator('#feed .verse').first
+    assert first.locator('.latin').inner_text().strip()
+    assert first.locator('[data-action=latin]').get_attribute('aria-pressed')=='true'
     assert first.locator('.verse-context').inner_text().startswith('Rangkaian 1 dari 4')
     first.locator('[data-action=save]').click()
     assert first.locator('[data-action=save]').get_attribute('aria-pressed')=='true'
@@ -48,6 +50,16 @@ with sync_playwright() as p:
     page.locator('[data-view=library]').click()
     page.locator('#saved-list .mini-card').first.wait_for()
     assert page.locator('#saved-list').inner_text().find('Al-Ma')>=0
+    assert page.locator('#saved-list .latin').first.is_visible()
+    page.locator('[data-view=feed]').click()
+    page.locator('#feed .verse').first.locator('[data-action=latin]').click()
+    assert page.locator('html').get_attribute('data-latin')=='hide'
+    page.reload(wait_until='domcontentloaded')
+    page.locator('#feed .verse').first.wait_for()
+    assert page.locator('#feed .verse').first.locator('[data-action=latin]').get_attribute('aria-pressed')=='false'
+    assert not page.locator('#feed .verse').first.locator('.latin').is_visible()
+    page.locator('#feed .verse').first.locator('[data-action=latin]').click()
+    assert page.locator('html').get_attribute('data-latin')=='show'
     page.reload(wait_until='domcontentloaded')
     page.locator('#feed .verse').first.wait_for()
     assert page.locator('#feed .verse').first.locator('[data-action=save]').get_attribute('aria-pressed')=='true'
@@ -55,6 +67,13 @@ with sync_playwright() as p:
     page.locator('#foryou .verse').first.wait_for(timeout=30000)
     page.locator('[data-view=feed]').click()
     page.locator('#settings-open').click()
+    page.locator('.source-details summary').click()
+    assert page.locator('#source-notes').inner_text().find('EQuran.id')>=0
+    assert page.locator('#show-latin').is_checked()
+    page.locator('#show-latin').uncheck()
+    assert page.locator('html').get_attribute('data-latin')=='hide'
+    page.locator('#show-latin').check()
+    assert page.locator('html').get_attribute('data-latin')=='show'
     page.locator('#theme').select_option('dark')
     assert page.locator('html').get_attribute('data-theme')=='dark'
     page.locator('#theme').select_option('light')
